@@ -1,0 +1,55 @@
+footer { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    padding: 20px 50px; 
+    background-color: #282828;
+    color: #ebdfc5;  
+    box-sizing: content-box;
+}
+
+.logoFooter{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 35%; 
+}
+
+.logoFooter p{
+    margin: 0px;
+    padding: 0px 15px;
+}
+
+.redes{
+    display: flex;
+    flex-direction: row-reverse;
+    transform: scale(1.2);
+    width: 35%;    
+}
+
+.redes p{
+    margin: 0px;
+}
+
+@media (max-width: 1000px) {
+    footer{
+      flex-direction: column;
+    }
+    .logoFooter{
+        flex-direction: column;
+        width: 80%;
+        padding-bottom: 20px;
+    }
+    .redes{
+        gap: 15px;
+        justify-content: center;
+    }
+  }
+
+
+
+
+
+ 
