@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,4 +43,6 @@ public class Tour {
     private Day day; // MON, TUE, FRI, día de la semana en que se realiza el tour.
 
     private LocalTime schedule; // 12:00, 14:00, 06:00 Hora de salida.
+
+    private List<String> imageUrlList;
 }

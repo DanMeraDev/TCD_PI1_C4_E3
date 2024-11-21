@@ -14,11 +14,11 @@ public class TourMapper {
                 tour.getClimbingStyle(),
                 tour.getLevel(),
                 tour.getDay(),
-                tour.getSchedule()
+                tour.getSchedule(),
+                tour.getImageUrlList(),
+                null  // Tour DTO does not contain the multipart files.
         );
     }
-
-
 
     public static Tour mapToTour(TourDto tourDto, Category category) {
         return new Tour(
@@ -29,7 +29,8 @@ public class TourMapper {
                 tourDto.getClimbingStyle(),
                 tourDto.getLevel(),
                 tourDto.getDay(),
-                tourDto.getSchedule()
+                tourDto.getSchedule(),
+                tourDto.getImageUrlList()
         );
     }
 }

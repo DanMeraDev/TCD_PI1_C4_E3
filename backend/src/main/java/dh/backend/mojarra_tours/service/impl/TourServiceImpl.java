@@ -8,10 +8,12 @@ import dh.backend.mojarra_tours.mapper.TourMapper;
 import dh.backend.mojarra_tours.repository.CategoryRepository;
 import dh.backend.mojarra_tours.repository.TourRepository;
 import dh.backend.mojarra_tours.service.ITourService;
+import dh.backend.mojarra_tours.service.ImageStorageService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,30 @@ public class TourServiceImpl implements ITourService {
 
     private TourRepository tourRepository;
     private CategoryRepository categoryRepository;
+    private ImageStorageService imageStorageService;
     @Override
     public TourDto createTour(TourDto tourDto) {
+        // Initialize the imgUrlList if it does not exist yet.
+        List<String> imgUrlList = new ArrayList<>();
+        String imgUrl;
+        String uniqueIdentifier;
+        if (tourDto.getImageFileList() != null && !tourDto.getImageFileList().isEmpty()) {
+            try{
+                List<MultipartFile> images = tourDto.getImageFileList();
+                for (MultipartFile image: images) {
+                    uniqueIdentifier = tourDto.getId() + "-" + System.currentTimeMillis();
+                    imgUrl = imageStorageService.saveImage(image, "tours", uniqueIdentifier);
+                    imgUrlList.add(imgUrl);
+                }
+            }catch (Exception e){
+                LOGGER.error("Image upload failed for tour: " + tourDto.getId(), e);
+                imgUrl = "default.jpg"; // add default image.
+                imgUrlList.add(imgUrl);
+            }
+        }
+        // Associate the image URL list with the tour DTO
+        tourDto.setImageUrlList(imgUrlList);
+
         Category category = categoryRepository.findById(tourDto.getCategoryId())
                 .orElseThrow(()->
                         new ResourceNotFoundException("Category not found."));
