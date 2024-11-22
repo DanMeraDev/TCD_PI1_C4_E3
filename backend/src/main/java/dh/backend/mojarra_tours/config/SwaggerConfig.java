@@ -15,10 +15,13 @@ import org.springframework.http.HttpHeaders;
                 description = "Api para la consulta de endpoints para La Mojarra",
                 version = "1.0.0"
         ),
-        servers = {
+        servers = { @Server(
+                        description = "LOCALHOST SERVER",
+                        url = "localhost:8080"
+                ),
                 @Server(
                         description = "PROD SERVER",
-                        url = "https://la-ramoja-production.up.railway.app"
+                        url = "https://ramoja-tours.up.railway.app"
                 )
         },
         security = @SecurityRequirement(
