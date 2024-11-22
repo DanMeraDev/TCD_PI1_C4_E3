@@ -18,14 +18,19 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CategoryServiceImpl implements ICategoryService {
-    private static Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     private CategoryRepository categoryRepository;
     private ImageStorageService imageStorageService;
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
+        //If Dto contains an id, set it to null, and create a new register
+        if (categoryDto.getId() != null) {
+            throw new IllegalArgumentException("ID should not be provided when creating a new category.");
+        }
         // If there is an image, upload it and get the image URL
+
         String imgUrl = null;
         if (categoryDto.getImage() != null && !categoryDto.getImage().isEmpty()) {
             try{
@@ -40,6 +45,29 @@ public class CategoryServiceImpl implements ICategoryService {
         Category savedCategory = categoryRepository.save(category);
         LOGGER.info("Saved Category " + savedCategory);
         return CategoryMapper.mapToCategoryDto(savedCategory);
+    }
+
+    @Override
+    public CategoryDto editCategory(Long id, CategoryDto categoryDto) {
+        Category currentCategory = categoryRepository.findById(id)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("No category found with the given id: " + id));
+        //If a name comes update it
+        if(categoryDto.getName()!=null && !categoryDto.getName().isEmpty()){ // if is not null or empty
+            currentCategory.setName(categoryDto.getName());
+        }
+        // if an image comes, upload it and update the string URL
+        if(categoryDto.getImage()!=null && !categoryDto.getImage().isEmpty()){
+            try {
+                String imgUrl = imageStorageService.saveImage(categoryDto.getImage(), "categories", categoryDto.getName());
+                currentCategory.setImgUrl(imgUrl);
+            } catch (Exception e) {
+                LOGGER.error("Image upload failed for category: " + categoryDto.getName(), e);
+            }
+        }
+        Category updatedCategory = categoryRepository.save(currentCategory);
+        LOGGER.info("Updated Category " + updatedCategory);
+        return CategoryMapper.mapToCategoryDto(updatedCategory);
     }
 
     @Override
