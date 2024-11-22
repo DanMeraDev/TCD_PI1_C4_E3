@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements ICategoryService {
                 imgUrl = imageStorageService.saveImage(categoryDto.getImage(), "categories", categoryDto.getName());
             }catch (Exception e){
                 LOGGER.error("Image upload failed for category: " + categoryDto.getName(), e);
-                imgUrl = "images/categories/default.jpg"; // add default image.
+                imgUrl = "default.jpg"; // add default image.
             }
         }
         Category category = CategoryMapper.mapToCategory(categoryDto);
