@@ -1,0 +1,42 @@
+.container-tours {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que ocupe toda la altura */
+}
+
+.main-content {
+  flex: 1; /* Esto hace que el contenido principal ocupe el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.tours-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20%;
+}
+
+.tours-title {
+  font-size: 30px;
+  padding: 0 10%;
+}
+
+p {
+  padding: 0 10%;
+}
+
+.btn-primarySection {
+  width: 20%;
+  align-self: center;
+}
+
+
+@media (max-width: 768px) {
+  .btn-primarySection {
+    width: 50%;
+    margin-top: 10px;
+  }
+}
