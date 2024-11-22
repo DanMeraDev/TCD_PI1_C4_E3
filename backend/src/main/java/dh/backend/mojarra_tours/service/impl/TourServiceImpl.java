@@ -36,7 +36,7 @@ public class TourServiceImpl implements ITourService {
             try{
                 List<MultipartFile> images = tourDto.getImageFileList();
                 for (MultipartFile image: images) {
-                    uniqueIdentifier = tourDto.getId() + "-" + System.currentTimeMillis();
+                    uniqueIdentifier = tourDto.getDestination() + "-" + System.currentTimeMillis();
                     imgUrl = imageStorageService.saveImage(image, "tours", uniqueIdentifier);
                     imgUrlList.add(imgUrl);
                 }
