@@ -131,33 +131,26 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @GetMapping("/images/categories/{imageName}")
-    public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
-        File file = new File("/opt/images/categories/" + imageName);  // Adjusted path
-        if (file.exists()) {
-            Resource resource = new FileSystemResource(file);
-            return ResponseEntity.ok()
-                    .contentType(getMediaTypeForImage(imageName))  // Dynamically set content type based on file extension
-                    .body(resource);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDto> updateCategory(
+            @PathVariable("id") Long id,
+            @RequestParam(value="category") String categoryString,
+            @RequestParam(value="image", required = false) MultipartFile image){
 
-    // Helper method to determine the media type based on the file extension
-    private MediaType getMediaTypeForImage(String imageName) {
-        String extension = imageName.substring(imageName.lastIndexOf(".") + 1).toLowerCase();
-        switch (extension) {
-            case "jpg":
-            case "jpeg":
-                return MediaType.IMAGE_JPEG;
-            case "png":
-                return MediaType.IMAGE_PNG;
-            case "gif":
-                return MediaType.IMAGE_GIF;
-            default:
-                return MediaType.APPLICATION_OCTET_STREAM;  // Default to binary stream if unknown format
+        LOGGER.info("PUT REQUEST CATEGORY WITH ID " + id);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            CategoryDto categoryDto = objectMapper.readValue(categoryString, CategoryDto.class);
+            // If there's an image, set it in the DTO
+            if (image != null && !image.isEmpty()) {
+                categoryDto.setImage(image);
+            }
+            CategoryDto savedCategory = iCategoryService.editCategory(id, categoryDto);
+            LOGGER.info("PUT REQUEST CATEGORY UPDATED");
+            return ResponseEntity.status(HttpStatus.OK).body(savedCategory);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
         }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-
 }

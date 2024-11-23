@@ -78,6 +78,33 @@ class TourController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TourDto> updateTour(
+            @PathVariable("id") Long id,
+            @RequestParam(value="tour") String tourString,
+            @RequestParam(value="images", required = false) List<MultipartFile> images){
+        LOGGER.info("PUT REQUEST CATEGORY WITH ID " + id);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+            TourDto tourDto = objectMapper.readValue(tourString, TourDto.class);
+
+            if (images != null && !images.isEmpty()) {
+                // If there's an image, set it in the DTO
+                List<MultipartFile> imageList = new ArrayList<>(images);
+                tourDto.setImageFileList(imageList);
+            }
+            TourDto updatedTour = tourService.editTour(id, tourDto);
+            LOGGER.info("PUT REQUEST TOUR UPDATED");
+            return ResponseEntity.status(HttpStatus.OK).body(updatedTour);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
     @GetMapping
     @Operation(
             summary = "Obtener todos los tours",

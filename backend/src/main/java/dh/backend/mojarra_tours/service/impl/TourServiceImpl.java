@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TourServiceImpl implements ITourService {
-    private static Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
 
     private TourRepository tourRepository;
     private CategoryRepository categoryRepository;
@@ -36,7 +36,7 @@ public class TourServiceImpl implements ITourService {
             try{
                 List<MultipartFile> images = tourDto.getImageFileList();
                 for (MultipartFile image: images) {
-                    uniqueIdentifier = tourDto.getId() + "-" + System.currentTimeMillis();
+                    uniqueIdentifier = tourDto.getDestination() + "-" + System.currentTimeMillis();
                     imgUrl = imageStorageService.saveImage(image, "tours", uniqueIdentifier);
                     imgUrlList.add(imgUrl);
                 }
@@ -56,6 +56,63 @@ public class TourServiceImpl implements ITourService {
         Tour savedTour = tourRepository.save(tour);
         LOGGER.info("Saved Tour " + savedTour);
         return TourMapper.mapToTourDto(savedTour);
+    }
+
+    @Override
+    public TourDto editTour(Long id, TourDto tourDto) {
+        //Check if tour exists on database
+        Tour currentTour = tourRepository.findById(id)
+                .orElseThrow(()->
+                        new ResourceNotFoundException("No tour found with the given id: "+ id));
+        // Set destination
+        if(tourDto.getDestination()!=null){ //ENUM
+            currentTour.setDestination(tourDto.getDestination());
+        }
+        // Set Description
+        if(tourDto.getDescription()!=null && !tourDto.getDescription().isEmpty()){
+            currentTour.setDescription(tourDto.getDescription());
+        }
+        // Set category
+        if(tourDto.getCategoryId()!=null){
+            Category foundCategory = categoryRepository.findById(tourDto.getCategoryId())
+                    .orElseThrow(()->
+                            new ResourceNotFoundException("No category found with the given id: " +id));
+
+            currentTour.setCategory(foundCategory);
+        }
+        //Set Climbing Style
+        if(tourDto.getClimbingStyle()!=null){
+            currentTour.setClimbingStyle(tourDto.getClimbingStyle());
+        }
+        //Set Day
+        if(tourDto.getDay()!=null){
+            currentTour.setDay(tourDto.getDay());
+        }
+        //Set Schedule
+        if(tourDto.getSchedule()!=null){
+            currentTour.setSchedule(tourDto.getSchedule());
+        }
+        // Upload and set Images
+        if(tourDto.getImageFileList()!=null && !tourDto.getImageFileList().isEmpty()){
+            List<String> imgUrlList = new ArrayList<>();
+            String imgUrl;
+            try{
+                for (MultipartFile image: tourDto.getImageFileList()) {
+                    String uniqueIdentifier = tourDto.getDestination() + "-" + System.currentTimeMillis();
+                    imgUrl = imageStorageService.saveImage(image, "tours", uniqueIdentifier);
+                    imgUrlList.add(imgUrl);
+                }
+            } catch(Exception e){
+                LOGGER.error("Image upload failed for tour: " + tourDto.getId(), e);
+                imgUrl = "default.jpg"; // add default image.
+                imgUrlList.add(imgUrl);
+            }
+            currentTour.setImageUrlList(imgUrlList);
+        }
+
+        Tour updatedTour = tourRepository.save(currentTour);
+        LOGGER.info("TOUR UPDATED" + updatedTour);
+        return TourMapper.mapToTourDto(updatedTour);
     }
 
     @Override
