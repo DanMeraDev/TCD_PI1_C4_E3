@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 @Profile("local")
 public class LocalImageStorageServiceImpl implements ImageStorageService {
 
-    private static final String BASE_DIRECTORY = "src/main/resources/static/images";
+    private static final String BASE_DIRECTORY = "/opt/images";
     @Override
     public String saveImage(MultipartFile imageFile, String folder, String identifier) throws IOException {
         Path uploadPath = Paths.get(BASE_DIRECTORY, folder);

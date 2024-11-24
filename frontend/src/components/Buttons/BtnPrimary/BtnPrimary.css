@@ -1,31 +1,30 @@
 .btn-primary {
   height: 45px;
-  font-size: 16px;
-  padding: 0 20px;
-  text-align: center;
-  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #c36e29;
+  color: #fff;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #C36E29;
-  color: #fff;
   transition: background-color 0.3s, transform 0.3s;
+
 }
 
-
 .btn-primary:hover {
-  background-color: #653420;
+  background-color: #c36e29;
   transform: scale(1.05);
 }
 
 
 .btn-primary:focus {
   outline: none;
-  box-shadow: 0 0 5px #653420;
+  box-shadow: 0 0 5px #c36e29;
 }
 
 
 .btn-primary:active {
-  background-color: #653420;
+  background-color: #c36e29;
   transform: scale(1);
 }
 

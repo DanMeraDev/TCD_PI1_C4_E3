@@ -1,5 +1,9 @@
 package dh.backend.mojarra_tours.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dh.backend.mojarra_tours.dto.CategoryDto;
 import dh.backend.mojarra_tours.dto.TourDto;
 import dh.backend.mojarra_tours.service.ITourService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,10 +55,54 @@ class TourController {
                     )
             }
     )
-    public ResponseEntity<TourDto> createTour(@RequestBody TourDto tourDto) {
-        LOGGER.info("POST REQUEST TOUR");
-        TourDto savedTour = tourService.createTour(tourDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedTour);
+    public ResponseEntity<TourDto> createTour(
+            @RequestParam(value="tour") String tourString,
+            @RequestParam(value="images", required = true) List<MultipartFile> images){
+        try {
+            if (images == null || images.isEmpty()) {
+                throw new IllegalArgumentException("At least one image is required.");
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            TourDto tourDto = objectMapper.readValue(tourString, TourDto.class);
+            // If there's an image, set it in the DTO
+            List<MultipartFile> imageList = new ArrayList<>(images);
+            tourDto.setImageFileList(imageList);
+            TourDto savedTour = tourService.createTour(tourDto);
+            LOGGER.info("POST REQUEST TOUR CREATED");
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedTour);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TourDto> updateTour(
+            @PathVariable("id") Long id,
+            @RequestParam(value="tour") String tourString,
+            @RequestParam(value="images", required = false) List<MultipartFile> images){
+        LOGGER.info("PUT REQUEST CATEGORY WITH ID " + id);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+            TourDto tourDto = objectMapper.readValue(tourString, TourDto.class);
+
+            if (images != null && !images.isEmpty()) {
+                // If there's an image, set it in the DTO
+                List<MultipartFile> imageList = new ArrayList<>(images);
+                tourDto.setImageFileList(imageList);
+            }
+            TourDto updatedTour = tourService.editTour(id, tourDto);
+            LOGGER.info("PUT REQUEST TOUR UPDATED");
+            return ResponseEntity.status(HttpStatus.OK).body(updatedTour);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @GetMapping

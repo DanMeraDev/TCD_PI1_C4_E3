@@ -7,6 +7,8 @@ import java.util.List;
 public interface ITourService {
     TourDto createTour(TourDto tourDto);
 
+    TourDto editTour(Long id, TourDto tourDto);
+
     TourDto getTourById(Long id);
 
     List<TourDto> getTours();
