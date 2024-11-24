@@ -9,6 +9,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errores, setErrores] = useState({});
+  const [login, setLogin] =useState("");
   const apiUrl = "https://la-ramoja-production.up.railway.app/auth/login"; 
   const navigate = useNavigate();
 
@@ -36,7 +37,8 @@ const LoginForm = () => {
         .then((res) => {
           console.log(res.data);
           console.log(res.data.isAdmin);
-          alert("Login exitoso!");
+          setLogin("True");
+          //alert("Login exitoso!");
           sessionStorage.setItem("isAdmin", res.data.isAdmin);
           sessionStorage.setItem("isLoggedIn", "true");
           sessionStorage.setItem("user", res.data.name);
@@ -44,7 +46,8 @@ const LoginForm = () => {
         })
         .catch((error) => {
           console.error("Error al iniciar sesión:", error);
-          alert("Credenciales invalidas, porfavor revise sus datos.");
+          //alert("Credenciales invalidas, porfavor revise sus datos.");
+          setLogin("False");
         });
 
     } else {
@@ -58,7 +61,9 @@ const LoginForm = () => {
         <div className='seccion1'>
           <img src={loginImageResponsive} alt="loginImageResponsive" className='imagenResponsive' /> 
           <h2><i className="fi fi-ss-user"></i> User Login</h2>
-          <h6>Login to access your account</h6>   
+          <h6>Login to access your account</h6> 
+          {login === "True" && <h6 className='mensajeLogin'>Login exitoso!</h6>}
+          {login === "False" && <h6 className='mensajeLogin'>Credenciales invalidas, porfavor revise sus datos.</h6>}
         </div>
 
         <div className='seccion2'>
