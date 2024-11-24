@@ -9,18 +9,33 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card">
-      <div className="product-image-container">
-        <img src={product.image} alt={product.name} className="product-image" />
+    <div className="card-container-product">
+      <div className="image-section">
+        <img
+          src={product.imageUrlList[0]}
+          alt={product.destination}
+          className="tour-image"
+        />
+        <span className="image-count">{product.imageUrlList.length} Fotos</span>
       </div>
 
-      <h2 className="product-title">{product.name}</h2>
-      <p className="product-description">{product.description}</p>
-      <div className="button-container">
-        <button className="button more-info">Saber más</button>
-        <button className="button reserve" onClick={handleReserve}>
-          Reservar
-        </button>
+      <div className="content-section">
+        <div className="info-section">
+          <div className="header-product">
+            <h3 className="destination-title">{product.destination}</h3>
+            <span className="level-tag">{product.level}</span>
+          </div>
+          <p className="description-product">{product.description}</p>
+          <p className="climbing-style">
+            Estilo de escalada: {product.climbingStyle}
+          </p>
+        </div>
+        <div className="card-buttons">
+          <button className="btn-primarySection primary" onClick={handleReserve}>
+            Reservar
+          </button>
+          <button className="btn-primarySection secondary">Saber más</button>
+        </div>
       </div>
     </div>
   );

@@ -2,22 +2,88 @@ import "./recommendationSection.css";
 import RecommendationDetailCard from "../RecommendationDetailCard/RecommendationDetailCard";
 import { useNavigate } from "react-router-dom";
 import BtnPrimary from "../Buttons/BtnPrimary/BtnPrimary";
+import { useEffect, useState } from "react";
+import { getAllTours } from "../../utils/axios/getAllTours";
+import getRandomElements from "../../utils/functions/getRandomElements";
 
-const tour1 = {
-  id: 1,
-  name: "Tour Escalada en la Mojarra",
-  description:
-    "Disfruta de una emocionante aventura de escalada en uno de los destinos más hermosos.",
-  category: "Escalada",
-  image: "/assets/mojarra1.jpg",
-  images: [
-    "https://images.pexels.com/photos/2847362/pexels-photo-2847362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.unsplash.com/photo-1420393000485-4697383da9ec?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.pexels.com/photos/1543756/pexels-photo-1543756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/1574216/pexels-photo-1574216.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  ],
-};
 const RecommendationsSection = () => {
+  const [tours, setTours] = useState([]);
+  const [randomTours, setRandomTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const toursApi = [
+    {
+      id: 5,
+      destination: "LA_MOJARRA",
+      description: "Slack Line en la Mojarra",
+      categoryId: 3,
+      climbingStyle: "FERRATA",
+      level: "INTERMEDIATE",
+      day: "THU",
+      schedule: "15:00",
+      imageUrlList: [
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732229875/tours/tours/null-1732229874697-slack-line.jpeg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732229876/tours/tours/null-1732229875695-hcarne.jpg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732229877/tours/tours/null-1732229877026-mojarra2.jpg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732229878/tours/tours/null-1732229878198-chicamocha.jpeg.jpg",
+      ],
+      imageFileList: null,
+    },
+    {
+      id: 2,
+      destination: "LA_MOJARRA",
+      description:
+        "Tour de escalada deportiva en La Mojarra para escaladores de nivel intermedio, incluye almuerzo, alquiler de equipo, acompañamiento de un guía certificado y el valor de ingreso al parque. ",
+      categoryId: 1,
+      climbingStyle: "SPORT",
+      level: "INTERMEDIATE",
+      day: "MON",
+      schedule: "14:00",
+      imageUrlList: [
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732227803/tours/tours/null-1732227795666-mojarra2.jpg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732227804/tours/tours/null-1732227804070-mojarra1.jpg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732227806/tours/tours/null-1732227805160-climbing-gear.jpeg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732227807/tours/tours/null-1732227806690-hcarne.jpg.jpg",
+      ],
+      imageFileList: null,
+    },
+    {
+      id: 6,
+      destination: "CHICAMOCHA",
+      description:
+        "Visita al cañón del Chicamocha en teleférico. Incluye alimentación y entrada al parque.",
+      categoryId: 4,
+      climbingStyle: null,
+      level: null,
+      day: "FRI",
+      schedule: "08:00",
+      imageUrlList: [
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732322612/tours/tours/CHICAMOCHA-1732322611348-chicamocha.jpeg.jpg",
+        "https://res.cloudinary.com/duzex09zh/image/upload/v1732322614/tours/tours/CHICAMOCHA-1732322613800-shawarma.jpeg.jpg",
+      ],
+      imageFileList: null,
+    },
+  ];
+
+  // useEffect(() => {
+
+  //   const fetchTours = async () => {
+  //     try {
+  //       const data = await getAllTours();
+  //       setTours(data);
+  //       setError("Error al cargar los tours...");
+  //       setRandomTours(getRandomElements(data, 3));
+  //     } catch (error) {
+  //       setError("Error al cargar los tours...");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchTours();
+  // }, []);
+
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/tours");
@@ -25,39 +91,42 @@ const RecommendationsSection = () => {
   };
 
   return (
-    <div className="container">
+    <div className="recommendations-container">
       <div className="title-container">
-        <h2>Tours Recomendados</h2>
         <div className="description-container">
+          <h2 className="title">Tours Recomendados</h2>
           <p className="description-tours">
             Esta temporada, ya sea que regreses a casa o busques nuevos
             horizontes, nuestros tours de aventura recomendados te llevarán a
             destinos únicos para vivir experiencias emocionantes y llenas de
             adrenalina.
           </p>
-          <BtnPrimary children={"Ver Tours"} onClick={handleClick} className="btn-primarySection"/>
-          
         </div>
+        <BtnPrimary onClick={handleClick} className="btn-primarySection">
+          Ver Tours
+        </BtnPrimary>
       </div>
 
-      <div className="recommendations-section">
-        <RecommendationDetailCard
-          nameTour={tour1.name}
-          description={tour1.description}
-          key={tour1.id}
-          onClick={handleClick}
-        />
-        <div className="images-container">
-          {tour1.images.map((img, index) => (
-            <div key={index} className="image-item">
-              <img
-                src={img}
-                alt={`tour-image-${index}`}
-                className="tour-image"
-              />
-            </div>
-          ))}
-        </div>
+      <div className="recommendations-wrapper">
+        {/* {loading && <p className="loading-text">Cargando tours...</p>}
+
+        {!loading && error && <p className="error-text">{error}</p>}
+
+        {!loading && !error && randomTours.length === 0 && (
+          <p className="empty-text">No hay tours disponibles en este momento.</p>
+        )} */}
+
+        {/* {!loading && !error && randomTours.length > 0 && */}
+        {toursApi.map((tour) => (
+          <RecommendationDetailCard
+            key={tour.id}
+            nameTour={tour.destination}
+            description={tour.description}
+            urlSrc={tour.imageUrlList?.[0]}
+            onClick={handleClick}
+          />
+        ))}
+        {/* } */}
       </div>
     </div>
   );
