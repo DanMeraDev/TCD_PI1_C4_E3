@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
             <span className="level-tag">{product.level}</span>
           </div>
           <p className="description-product">{product.description}</p>
-          <p className="climbing-style">
+          <p className="cdimbing-style">
             Estilo de escalada: {product.climbingStyle}
           </p>
         </div>

@@ -15,7 +15,10 @@ import org.springframework.http.HttpHeaders;
                 description = "Api para la consulta de endpoints para La Mojarra",
                 version = "1.0.0"
         ),
-        servers = {
+        servers = { @Server(
+                        description = "LOCALHOST SERVER",
+                        url = "localhost:8080"
+                ),
                 @Server(
                         description = "LOCALHOST SERVER",
                         url = "localhost:8080"
