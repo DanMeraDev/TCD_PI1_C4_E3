@@ -42,12 +42,6 @@ const CategoryCarousel = () => {
               <li className="category-item" key={category.id} style={{ backgroundImage: `url(${category.imgUrl})` }}><p>{category.name}</p></li>
             ))
           }
-          {/* <li className="category-item" style={{ backgroundImage: `url(${imagen})` }}>Escalada</li>
-          <li className="category-item" style={{ backgroundImage: `url(${imagen})` }}>Senderismo</li>
-          <li className="category-item" style={{ backgroundImage: `url(${imagen})` }}>Camping</li>
-          <li className="category-item" style={{ backgroundImage: `url(${imagen})` }}>Camping</li>
-          <li className="category-item" style={{ backgroundImage: `url(${imagen})` }}>Exploración</li>
-          <li className="category-item" style={{ backgroundImage: `url(${imagen})` }}>Montañismo</li> */}
         </ul>
         <button className="carousel-button right" onClick={scrollRight}>
           &#8250;
