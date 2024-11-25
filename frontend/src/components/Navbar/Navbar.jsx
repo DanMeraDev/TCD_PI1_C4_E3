@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false); 
   const [userName, setUserName] = useState("");
   const [initials, setInitials] = useState("UK") 
-  const BASE_URL =   "https://ramoja-tours.up.railway.app"; 
+  const BASE_URL = "https://ramoja-tours.up.railway.app"; 
 
 
   const getInitials = (name) => {

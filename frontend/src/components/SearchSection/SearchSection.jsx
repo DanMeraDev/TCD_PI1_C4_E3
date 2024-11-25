@@ -4,10 +4,12 @@ import './searchSection.css';
 const SearchSection = () => {
     return (
         <div className="search-section">
-            <input type="text" placeholder="Que Aventura Buscas ?" className="search-input" />
-            <BtnPrimary children = "Buscar"/>
+            <div className='search-content'>
+                <input type="text" placeholder="Que Aventura Buscas ?" className="search-input" />
+                <BtnPrimary>Buscar</BtnPrimary>
+            </div>
         </div>
     );
-    };
+};
 
 export default SearchSection;

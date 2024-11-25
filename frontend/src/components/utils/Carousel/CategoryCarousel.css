@@ -136,22 +136,27 @@
 
 .categories-list li {
   flex: 0 0 auto;
-  color: #000; /* Color negro para el texto */
-  padding: 150px 35px;
+  color: #ebdfc5; /* Color negro para el texto */
+  padding: 180px 35px;
   border-radius: 8px;
-  font-weight: bold;
+  font-weight: bolder;
   text-align: center;
-  min-width: 180px;
+  min-width: 25%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: transform 0.3s ease;
 }
 .categories-list li:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 
 }
-/* Estilos para cada categoría con imagen */
+
+.categories-list p{
+  font-size: 1.8em;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Black shadow */
+}
+/* Estilos para cada categoría con imagen
 .categories-list li.escalada {
   background-image: url('D:/Digital House/Proyecto Integrador/Frontend/src/assets/equipo_escalada.jpg');
 }
@@ -169,7 +174,7 @@
 }
 .categories-list li.montanismo {
   background-image: url('ruta/a/imagen-montanismo.jpg');
-}
+} */
 
 .carousel-button {
   background-color: rgba(0, 0, 0, 0.5);
@@ -185,11 +190,11 @@
 }
 
 .carousel-button.left {
-  left: 10px;
+  left: 20px;
 }
 
 .carousel-button.right {
-  right: 10px;
+  right: 20px;
 }
 
 .carousel-button:hover {
