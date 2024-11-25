@@ -41,6 +41,7 @@ const LoginForm = () => {
             const userInfo = decodeToken(res.data.token)
             setLogin("True");
             //alert("Login exitoso!");
+            sessionStorage.setItem("token", res.data.token)
             sessionStorage.setItem("isAdmin", userInfo.isAdmin);
             sessionStorage.setItem("isLoggedIn", "true");
             sessionStorage.setItem("sub", userInfo.sub);
