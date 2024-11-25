@@ -4,13 +4,14 @@ import axios from "axios";
 import loginImage from '../../assets/Img/loginImage.jpg';
 import loginImageResponsive from '../../assets/Img/loginImageResponsive.jpg';
 import './LoginForm.css';
+import { decodeToken, isTokenExpired } from '../../utils/functions/jwt';
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errores, setErrores] = useState({});
   const [login, setLogin] =useState("");
-  const apiUrl = "https://la-ramoja-production.up.railway.app/auth/login"; 
+  const apiUrl = "https://ramoja-tours.up.railway.app/auth/login"; 
   const navigate = useNavigate();
 
   const validarFormulario = () => {
@@ -36,13 +37,15 @@ const LoginForm = () => {
       axios.post(apiUrl, dataToSend)
         .then((res) => {
           console.log(res.data);
-          console.log(res.data.isAdmin);
-          setLogin("True");
-          //alert("Login exitoso!");
-          sessionStorage.setItem("isAdmin", res.data.isAdmin);
-          sessionStorage.setItem("isLoggedIn", "true");
-          sessionStorage.setItem("user", res.data.name);
-          navigate('/home');
+          if(!isTokenExpired(res.data.token)){
+            const userInfo = decodeToken(res.data.token)
+            setLogin("True");
+            //alert("Login exitoso!");
+            sessionStorage.setItem("isAdmin", userInfo.isAdmin);
+            sessionStorage.setItem("isLoggedIn", "true");
+            sessionStorage.setItem("sub", userInfo.sub);
+            navigate('/home');
+          }
         })
         .catch((error) => {
           console.error("Error al iniciar sesión:", error);
