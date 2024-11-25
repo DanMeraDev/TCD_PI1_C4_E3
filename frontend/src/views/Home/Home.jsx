@@ -4,6 +4,8 @@ import CategoryCarousel from "../../components/utils/Carousel/CategoryCarousel";
 import RecommendationsSection from "../../components/RecommendationSection/RecommendationsSection";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css"
+import CalendarTours from "../CalendarTours/CalendarTours";
+import AvailabilityCalendar from "../../components/Calendar/AvailabilityCalendar";
 
 const Home = () => {
   return (
@@ -12,6 +14,8 @@ const Home = () => {
       <SearchSection/>
       <CategoryCarousel />
       <RecommendationsSection />
+      {/* <CalendarTours /> */}
+      <AvailabilityCalendar day={"MON"} title={"Tour: La Mojarra"}/>
       <Footer/>
     </div>
   );

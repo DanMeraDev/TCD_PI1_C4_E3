@@ -1,0 +1,19 @@
+.tour-card-calendar {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+
+.tour-card-calendar-title {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+.tour-card .availability-calendar {
+  margin-top: 20px;
+}
