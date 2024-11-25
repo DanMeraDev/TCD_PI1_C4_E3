@@ -1,101 +1,137 @@
-.recommendations-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 20px;
-}
-
-.images-container {
-  width: 50%;
-  height: 315px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
-.image-item {
-  width: 45%;
-  height: 45%;
-  gap: 5px;
-  border-radius: 8px;
-}
-
-.tour-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #C36E29;
-}
-
-.description-container {
-  display: flex;
-  flex-direction: row;
-  height: 100px;
-  padding: auto;
-  width: 80%;
-  gap: 10px
-}
-
-.container {
+.recommendations-container {
+  padding: 8% 10%;
   display: flex;
   flex-direction: column;
-  width: 80%;
-  gap: 40px;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  margin-bottom: 50px;
+  gap: 20px;
 }
 
 .title-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.title-container h2 {
-  align-self: flex-start;
-  margin-left: 90px;
+.description-container {
+  flex: 1;
+  text-align: left;
 }
 
+.description-container h2 {
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+}
 
-@media (max-width: 1024px) {
-  .recommendations-section {
-    margin: 10px;
+.description-tours {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #555;
+  text-align: center;
+}
+
+.recommendations-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.recommendations-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.btn-primarySection {
+  width: 120px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #c36e29;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-primarySection:hover {
+  background-color: #a55b20;
+}
+
+/* Mensajes de estado */
+.loading-text,
+.error-text,
+.empty-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+  .recommendations-wrapper {
+    flex-direction: row;
+    /* justify-content: space-between; */
   }
 
-  .images-container {
-    display: none;
-  }
-
-  .title-container h2 {
-    font-size: 20px;
-    margin: 0px;
-    align-self: center;
-  }
-
-  .description-container p {
-    font-size: 10px;
+  .recommendations-container {
+    width: 80%;
   }
 
   .description-container {
-    flex-direction: column;
+    padding: 0 10%;
   }
 
   .title-container {
-    margin: 10px;
-    margin-bottom: 5px;
-    height: 150px;
+    align-self: center;
   }
 
   .btn-primarySection {
-    height: 50px;
+    width: 150px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recommendations-container {
+    width: 80%;
+    align-self: center;
+  }
+
+  .title-container {
+    flex-direction: row;
+    align-self: center;
+    width: 95%;
+  }
+
+  .description-tours {
+    width: 80%;
+    text-align: left;
+    margin-right: 5%;
+  }
+
+  .description-container {
+    width: 45%;
+    padding: 0 2%;
+  }
+
+  .description-container h2 {
+
+    text-align: left;
+    width: 500px;
+  }
+
+  .recommendations-wrapper {
+    /* width: 85%; */
+    flex-direction: row;
+    align-self: center;
+    /* justify-content: space-between; */
+    gap: 50px;
+  }
+
+  .btn-primarySection {
+    width: 150px;
+    margin-right: 2%;
   }
 }
