@@ -116,7 +116,71 @@
   background-color: #f1f3f4;
 }
 
+/*  */
 
+.react-calendar__tile.occupied {
+  background-color: #e7655ce7; /* Rojo para ocupadas */
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.react-calendar__tile.occupied:hover {
+  background-color: #f44336;
+}
+
+/* Fecha disponible */
+.react-calendar__tile.available {
+  background-color: #7bd47ed5; /* Verde para disponibles */
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.react-calendar__tile.available:hover {
+  background-color: #4caf50;
+}
+
+/* Fecha resaltada */
+.react-calendar__tile.highlighted {
+  background-color: #ff9800; /* Naranja para días resaltados */
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.react-calendar__tile.highlighted:hover {
+  background-color: #ff9800;
+}
+
+/* Indicadores visuales */
+.date-indicators {
+  margin-top: 20px;
+}
+
+.occupied-indicator,
+.available-indicator,
+.highlighted-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.occupied-indicator {
+  background-color: #f44336;
+}
+
+.available-indicator {
+  background-color: #4caf50;
+}
+
+.highlighted-indicator {
+  background-color: #ff9800;
+}
+
+/*  */
 
 @media (min-width: 768px) {
   .availability-calendar-title {
