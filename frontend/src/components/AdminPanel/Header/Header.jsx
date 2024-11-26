@@ -23,9 +23,10 @@ const Header = ({ title, onSearch, selectedSection }) => {
     if (selectedSection === 'categories') {
       navigate('/admin/add-category');
     } else if (selectedSection === 'tours') {
-      navigate('/admin/add-tour');
+      navigate('/admin/addTour');
     }
   };
+
 
   return (
     <div className="header">
@@ -33,7 +34,7 @@ const Header = ({ title, onSearch, selectedSection }) => {
       <div className="right-container">
 
         {['categories', 'tours'].includes(selectedSection) && (
-          <button className="add-btn" onClick={handleAddClick}>
+          <button  className="add-btn" onClick={handleAddClick}>
             Agregar {title}
           </button>
         )}

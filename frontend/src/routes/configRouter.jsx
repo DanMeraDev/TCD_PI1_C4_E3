@@ -5,6 +5,7 @@ import Tours from "../views/Tours/Tours";
 import Register from "../views/Register/Register";
 import Login from "../views/login/Login";
 import AdminPanel from "../views/AdminPanel/AdminPanel";
+import AddTour from "../views/AddTour/AddTour";
 import TourInfo from "../components/TourInfo/TourInfo";
 
 const configRouter = [
@@ -39,6 +40,10 @@ const configRouter = [
   {
     path: "/admin",
     element: <AdminPanel />,
+  },
+  {
+    path: "/admin/addTour",
+    element: <AddTour />,
   },
   { 
     path: "*",
