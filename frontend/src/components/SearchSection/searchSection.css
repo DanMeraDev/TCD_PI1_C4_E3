@@ -1,44 +1,78 @@
 /* Search Section */
 .search-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 35vh;
-    background-image: url('../../assets/Img/44109efb32961724490d6f03de83b621eb8895fa.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    flex-direction: row;
-    gap: 30px
+  display: flex;
+  flex-direction: column; /* Cambiado a columna para alinear verticalmente */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 35vh;
+  background-image: url('../../assets/Img/44109efb32961724490d6f03de83b621eb8895fa.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  gap: 15px; /* Espaciado uniforme entre elementos */
+}
+
+.title {
+  color: #c36e39; /* Color secundario */
+  font-size: 28px; /* Tamaño ajustado */
+  font-weight: bold;
+  margin: 0;
+}
+
+.searcDescription {
+  color: #ebdfc5; /* Color de texto descriptivo */
+  font-size: 16px;
+  margin: 10px;
+  line-height: 1.5; /* Mejor espaciado entre líneas */
+  max-width: 80%; /* Limitar ancho en pantallas grandes */
+}
+
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input {
+  width: 60%; /* Ancho ajustado para que sea más responsivo */
+  height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid #282828;
+  background-color: #282828;
+  color: #ebdfc5;
+  border-radius: 10px;
+  box-sizing: border-box; /* Para evitar problemas con el padding */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #c36e39;
+  box-shadow: 0 0 5px rgba(195, 110, 57, 0.5);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .search-section {
+      height: 30vh; /* Reducir altura en pantallas pequeñas */
+      gap: 10px; /* Ajustar espaciado */
   }
-  
+
   .title {
-    color: #c36e39; /* Color secundario */
-    font-size: 24px;
-    margin: 0;
+      font-size: 24px; /* Reducir tamaño del título */
   }
-  
+
+  .description {
+      font-size: 14px; /* Reducir tamaño del texto descriptivo */
+  }
+
   .search-input {
-    width: 50%;
-    height: 45px;
-    padding: 0 5px;
-    margin: 5px;
-    font-size: 16px;
-    border: 1px solid #282828;
-    background-color: #282828;
-    color: #ebdfc5;
-    border-radius: 10px;
-
+      width: 80%; /* Más ancho en pantallas pequeñas */
+      height: 35px; /* Altura ajustada */
   }
-
-  @media (max-width: 768px) {
-   .search-section {
-    height: 25vh;
-   }
-
-   .search-input {
-    width: 50%;
-    height: 40px;
-   }
-  }
+}
