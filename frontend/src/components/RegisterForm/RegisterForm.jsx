@@ -35,7 +35,7 @@ const RegisterForm = () => {
 
     if (Object.keys(nuevosErrores).length === 0) {
       setRegistroExitoso(true); // Cambia el estado para mostrar el mensaje de éxito
-      const dataToSend = {name: nombre, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
+      const dataToSend = {name: `${nombre} ${apellido}`, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
   
         axios.post(apiUrl, dataToSend, { headers: { 'Content-Type': 'application/json' } })
         .then((res) => {

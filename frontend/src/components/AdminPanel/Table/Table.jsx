@@ -2,7 +2,7 @@
 import TableRow from './TableRow';
 import './Table.css';
 
-const Table = ({ data, onDelete }) => {
+const Table = ({ data, onDelete, onEdit }) => {
   const headers = Object.keys(data[0] || {});
   return (
     <div className="table-container">
@@ -22,7 +22,7 @@ const Table = ({ data, onDelete }) => {
         </thead>
         <tbody>
           {data.map((item) => (
-            <TableRow key={item.id} item={item} headers={headers} onDelete={onDelete} />
+            <TableRow key={item.id} item={item} headers={headers} onDelete={onDelete} onEdit={onEdit} />
           ))}
         </tbody>
       </table>
