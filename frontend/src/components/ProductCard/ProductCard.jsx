@@ -8,6 +8,10 @@ const ProductCard = ({ product }) => {
     navigate(`/tours/${product.id}`);
   };
 
+  const handleMoreInfo = () => {
+    navigate(`/tours/info/${product.id}`)
+  }
+
   return (
     <div className="card-container-product">
       <div className="image-section">
@@ -34,7 +38,7 @@ const ProductCard = ({ product }) => {
           <button className="btn-primarySection primary" onClick={handleReserve}>
             Reservar
           </button>
-          <button className="btn-primarySection secondary">Saber más</button>
+          <button className="btn-primarySection secondary" onClick={handleMoreInfo}>Saber más</button>
         </div>
       </div>
     </div>

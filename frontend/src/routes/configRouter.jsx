@@ -5,6 +5,7 @@ import Tours from "../views/Tours/Tours";
 import Register from "../views/Register/Register";
 import Login from "../views/login/Login";
 import AdminPanel from "../views/AdminPanel/AdminPanel";
+import TourInfo from "../components/TourInfo/TourInfo";
 
 const configRouter = [
   {
@@ -22,6 +23,10 @@ const configRouter = [
   {
     path: "/tours/:id",
     element: <TourDetail />,
+  },
+  {
+    path: "/tours/info/:id",
+    element: <TourInfo />,
   },
   {
     path: "/register",
