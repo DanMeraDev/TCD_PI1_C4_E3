@@ -10,6 +10,28 @@ function TourInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const dayMapping = {
+    MON: 'Lunes',
+    TUE: 'Martes',
+    WED: 'Miércoles',
+    THU: 'Jueves',
+    FRI: 'Viernes',
+    SAT: 'Sábado',
+    SUN: 'Domingo',
+  };
+
+  const levelStars = {
+    NOVICE: '⭐',
+    BEGINNER: '⭐',
+    INTERMEDIATE: '⭐⭐',
+    ADVANCED: '⭐⭐',
+    EXPERT: '⭐⭐⭐',
+    SUPER_EXPERT: '⭐⭐⭐',
+    ELITE: '⭐⭐⭐⭐',
+    SUPER_ELITE: '⭐⭐⭐⭐',
+    ALIENS: '⭐⭐⭐⭐⭐',
+  };
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -32,6 +54,17 @@ function TourInfo() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  const mappedDay = dayMapping[tour.day] || tour.day; 
+  const levelWithStars = levelStars[tour.level] || ''; 
+
+  // Datos quemados para las descripciones
+  const featureDescriptions = {
+    "Terreno montañoso": "El terreno es rocoso y desafiante, ideal para los amantes de la escalada de alta dificultad.",
+    "Equipo incluido": "Incluye casco, arnés, cuerdas y todo el equipo necesario para la actividad.",
+    "Duración: 6 horas": "El tour tiene una duración total de 6 horas, que incluye las actividades y descansos.",
+    "Almuerzo disponible": "El almuerzo consistirá en una comida energética: sándwiches, frutas, y bebidas."
+  };
+
   return (
     <div>
       <Navbar />
@@ -41,48 +74,40 @@ function TourInfo() {
         
         <div className="tour-info-details">
           <div className="tour-info-detail">
-            <strong>Climbing Style:</strong> {tour.climbingStyle}
+            <strong>Estilo de Escalada:</strong> {tour.climbingStyle}
           </div>
           <div className="tour-info-detail">
-            <strong>Level:</strong> {tour.level}
+            <strong>Nivel:</strong> {tour.level} {levelWithStars}
           </div>
           <div className="tour-info-detail">
-            <strong>Day:</strong> {tour.day}
+            <strong>Día:</strong> {mappedDay}
           </div>
           <div className="tour-info-detail">
-            <strong>Schedule:</strong> {tour.schedule}
+            <strong>Horario:</strong> {tour.schedule}
           </div>
         </div>
         
-        {/* Bloque de características */}
         <div className="tour-info-features">
-            <h2 className="tour-info-features-title">Características</h2>
-            <ul className="tour-info-features-list">
-            <li className="tour-info-feature">
-                <span className="feature-icon">⛰️</span>
-                <span className="feature-text">Terreno montañoso</span>
-            </li>
-            <li className="tour-info-feature">
-                <span className="feature-icon">🎒</span>
-                <span className="feature-text">Equipo incluido</span>
-            </li>
-            <li className="tour-info-feature">
-                <span className="feature-icon">🕒</span>
-                <span className="feature-text">Duración: 6 horas</span>
-            </li>
-            <li className="tour-info-feature">
-                <span className="feature-icon">🍽️</span>
-                <span className="feature-text">Almuerzo disponible</span>
-            </li>
-            </ul>
+          <h2 className="tour-info-features-title">Características</h2>
+          <ul className="tour-info-features-list">
+            {Object.keys(featureDescriptions).map((feature, index) => (
+              <li key={index} className="tour-info-feature">
+                <span className="feature-icon">{feature === "Terreno montañoso" ? "⛰️" : feature === "Equipo incluido" ? "🎒" : feature === "Duración: 6 horas" ? "🕒" : "🍽️"}</span>
+                <span className="feature-text">{feature}</span>
+                <div className="tooltip">
+                  {featureDescriptions[feature]}
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
         
         <div className="tour-info-images">
-            {tour.imageUrlList.map((url, index) => (
+          {tour.imageUrlList.map((url, index) => (
             <img key={index} src={url} alt={`Tour image ${index + 1}`} className="tour-info-image" />
-            ))}
+          ))}
         </div>
-        </div>
+      </div>
       <Footer />
     </div>
   );
