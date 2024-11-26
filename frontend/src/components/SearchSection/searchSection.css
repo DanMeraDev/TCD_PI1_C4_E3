@@ -1,6 +1,7 @@
 /* Search Section */
 .search-section {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -10,7 +11,7 @@
     background-size: cover;
     background-position: center;
     flex-direction: row;
-    gap: 30px
+    /* gap: 30px */
   }
   
   .title {
@@ -20,10 +21,10 @@
   }
   
   .search-input {
-    width: 50%;
-    height: 45px;
+    width: 500px;
+    height: 50px;
     padding: 0 5px;
-    margin: 5px;
+    margin: 10px;
     font-size: 16px;
     border: 1px solid #282828;
     background-color: #282828;
@@ -32,13 +33,27 @@
 
   }
 
+  .search-section .search-content {
+    position: absolute; /* Positions the content relative to .search-section */
+    bottom: 0px; /* Distance from the bottom of the banner */
+    left: 50%; /* Centers the content horizontally */
+    transform: translateX(-50%); /* Fine-tunes horizontal centering */
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Adds spacing between the input and button */
+}
+
   @media (max-width: 768px) {
    .search-section {
     height: 25vh;
    }
 
    .search-input {
-    width: 50%;
+    width: 200px;
     height: 40px;
    }
+
+   .search-section .search-content {
+    gap: 20px; /* Reduce spacing between input and button on smaller screens */
+}
   }
