@@ -85,19 +85,20 @@
 .tooltip {
   visibility: hidden;
   position: absolute;
-  top: 50%;
-  left: 25%; /* Más cercano al texto */
+  top: 150%;
+  left: 10%;
   transform: translateY(-50%);
   margin-left: 10px;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 10px 15px; /* Mayor tamaño */
   border-radius: 8px; /* Bordes redondeados */
-  max-width: auto; /* Ancho ajustado */
-  font-size: 16px; /* Aumentar el tamaño de la fuente */
+  width: auto; /* Ancho ajustado */
+  font-size: 1em; /* Aumentar el tamaño de la fuente */
   opacity: 0;
   transition: opacity 0.3s ease;
-  white-space: nowrap;
+  white-space: normal; /* Permite que el texto se envuelva */
+  word-wrap: break-word; /* Ajusta el texto largo que se sale del área */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
 }
 
@@ -118,4 +119,34 @@
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .tour-info-card {
+    padding: 15px; /* Reducir el padding de la tarjeta */
+  }
+
+  .tooltip {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%); /* Centrar el tooltip */
+    margin-left: 0;
+    width: 80%; /* Asegurarse de que el tooltip no se desborde */
+    font-size: 0.9em; /* Ajustar el tamaño de la fuente */
+    padding: 8px 12px; /* Ajustar el padding */
+  }
+
+  .tour-info-feature:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .tooltip {
+    font-size: 0.85em; /* Ajustar aún más el tamaño en pantallas muy pequeñas */
+    padding: 6px 10px;
+  }
 }
