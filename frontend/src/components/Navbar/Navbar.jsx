@@ -6,24 +6,43 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false); 
-  const [userName, setUserName] = useState(""); 
+  const [userName, setUserName] = useState("");
+  const [initials, setInitials] = useState("UK") 
+  const BASE_URL = "https://ramoja-tours.up.railway.app"; 
+
 
   const getInitials = (name) => {
-    if (!name) return "U"; // Valor por defecto si no hay usuario
+    if (!name) return "UK"; //Un-Known - Valor por defecto si no hay usuario
     const words = name.split(" ");
     return words.map(word => word.charAt(0).toUpperCase()).join("");
   };
 
-  const initials = getInitials(userName);
-
+  
   useEffect(() => {
     const loggedInStatus = sessionStorage.getItem("isLoggedIn");
     const adminStatus = sessionStorage.getItem("isAdmin");
-    const loggedUser = sessionStorage.getItem("user");
+    const userId = sessionStorage.getItem("sub")
 
     setIsLoggedIn(loggedInStatus === "true");
     setIsAdmin(adminStatus === "true");
-    setUserName(loggedUser);
+    if(loggedInStatus==="true" && userId){
+      const fetchUserData = async () => {
+        try {
+          const response = await fetch(`${BASE_URL}/api/user/${userId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch user details');
+          }
+          const data = await response.json();
+          setUserName(data.name); // Assuming the API returns { name: "User Name" }
+          setInitials(getInitials(data.name)) 
+          sessionStorage.setItem("user", JSON.stringify({"name": data.name, "email": data.email, "YDS": data.grade}))
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+          setUserName("Unknown");
+        }
+      };
+    fetchUserData();
+    }
   }, []);
 
   const handleLoginClick = () => navigate('/login');
@@ -35,6 +54,8 @@ const Navbar = () => {
     sessionStorage.setItem("isLoggedIn", "false");
     sessionStorage.removeItem("isAdmin");
     sessionStorage.removeItem("user");
+    sessionStorage.removeItem("sub");
+
     location.reload();
   };
 

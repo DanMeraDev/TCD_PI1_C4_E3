@@ -20,6 +20,10 @@ import org.springframework.http.HttpHeaders;
                         url = "localhost:8080"
                 ),
                 @Server(
+                        description = "LOCALHOST SERVER",
+                        url = "localhost:8080"
+                ),
+                @Server(
                         description = "PROD SERVER",
                         url = "https://ramoja-tours.up.railway.app"
                 )

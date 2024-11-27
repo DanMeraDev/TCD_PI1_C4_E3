@@ -10,9 +10,8 @@ const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [errores, setErrores] = useState({});
-  //const [registroExitoso, setRegistroExitoso] = useState(false); 
-  const [registro, setRegistro] = useState("");
-  const apiUrl = "https://la-ramoja-production.up.railway.app/api/user"; 
+  const [registroExitoso, setRegistroExitoso] = useState(false); 
+  const apiUrl = "https://ramoja-tours.up.railway.app/api/user"; 
   const navigate = useNavigate();
 
   // Función para validar el formulario
