@@ -14,8 +14,8 @@
 }
 
 
-.title {
-  color: #c36e39; /* Color secundario */
+.searchTitle {
+  color:  #ebdfc5; /* Color secundario */
   font-size: 28px; /* Tamaño ajustado */
   font-weight: bold;
   margin: 0;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import Fuse from 'fuse.js'; // Importamos Fuse.js
+import Fuse from 'fuse.js'; 
 import 'react-datepicker/dist/react-datepicker.css';
 import BtnPrimary from '../Buttons/BtnPrimary/BtnPrimary';
 import './searchSection.css';
@@ -10,11 +10,10 @@ import RecommendationDetailCard from '../RecommendationDetailCard/Recommendation
 const SearchSection = () => {
     const apiUrl = "https://ramoja-tours.up.railway.app/api/tours";
     const [results, setResults] = useState([]);
-
     const [keyword, setKeyword] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
-
     const [error, setError] = useState(null);
+    const [hasSearched, setHasSearched] = useState(false); 
 
     const handleClick = () => {
         navigate("/tours");
@@ -28,6 +27,7 @@ const SearchSection = () => {
         }
 
         setError(null);
+        setHasSearched(true); 
 
         try {
             const response = await axios.get(apiUrl);
@@ -35,7 +35,6 @@ const SearchSection = () => {
 
             const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
 
-            
             const fuse = new Fuse(tours, {
                 keys: ['description'], 
                 threshold: 0.6, 
@@ -53,10 +52,12 @@ const SearchSection = () => {
         }
     };
 
+
+
     return (
         <div>
             <div className="search-section">
-                <h2 className="title">Explora La Mojarra</h2>
+                <h2 className="searchTitle">Explora La Mojarra</h2>
                 <p className="searcDescription">
                     Descubre increíbles tours de escalada. Usa el buscador para encontrar
                     la aventura que se adapte a tus necesidades.
@@ -82,10 +83,13 @@ const SearchSection = () => {
                 </div>
             </div>
 
+
+
             <div className="result-section">
                 {error && <p className="error">{error}</p>}
-                {keyword && results.length === 0 && (
-                    <p>No se encontraron resultados para la búsqueda.</p>
+               
+                {hasSearched && results.length === 0 && (
+                    <p></p>
                 )}
                 {results.length > 0 && (
                     results.map((tour) => (
