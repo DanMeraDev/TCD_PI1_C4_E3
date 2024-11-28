@@ -15,14 +15,14 @@
 
 
 .searchTitle {
-  color:  #ebdfc5; /* Color secundario */
+  color:  #ebdfc500; /* Color secundario */
   font-size: 28px; /* Tamaño ajustado */
   font-weight: bold;
   margin: 0;
 }
 
 .searcDescription {
-  color: #ebdfc5; /* Color de texto descriptivo */
+  color: #ebdfc500; /* Color de texto descriptivo */
   font-size: 16px;
   margin: 10px;
   line-height: 1.5; /* Mejor espaciado entre líneas */

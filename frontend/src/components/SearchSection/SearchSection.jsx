@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import BtnPrimary from '../Buttons/BtnPrimary/BtnPrimary';
 import './searchSection.css';
 import RecommendationDetailCard from '../RecommendationDetailCard/RecommendationDetailCard';
+import { useNavigate } from 'react-router-dom';
 
 const SearchSection = () => {
     const apiUrl = "https://ramoja-tours.up.railway.app/api/tours";
@@ -14,6 +15,7 @@ const SearchSection = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [error, setError] = useState(null);
     const [hasSearched, setHasSearched] = useState(false); 
+    const navigate = useNavigate();
 
     const handleClick = () => {
         navigate("/tours");
