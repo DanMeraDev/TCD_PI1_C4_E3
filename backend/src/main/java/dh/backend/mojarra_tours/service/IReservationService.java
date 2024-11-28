@@ -1,7 +1,6 @@
 package dh.backend.mojarra_tours.service;
 
 import dh.backend.mojarra_tours.dto.ReservationDto;
-import dh.backend.mojarra_tours.dto.TourDto;
 
 import java.util.List;
 
@@ -10,10 +9,12 @@ public interface IReservationService {
 
     ReservationDto editReservation(Long id, ReservationDto reservationDto);
 
-    ReservationDto getReservationById(Long id);
+    List<ReservationDto> getReservationByTourId(Long id);
 
     List<ReservationDto> getReservations();
 
     void deleteReservation(Long id);
+
+
 
 }
