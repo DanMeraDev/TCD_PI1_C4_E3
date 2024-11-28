@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/**", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
                 // Rutas accesibles para usuarios autenticados (solo lectura)
-                .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
 
                 // Rutas restringidas solo para administradores
                 .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
