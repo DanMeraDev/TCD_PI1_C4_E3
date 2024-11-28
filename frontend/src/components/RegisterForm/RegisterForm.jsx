@@ -34,19 +34,21 @@ const RegisterForm = () => {
     const nuevosErrores = validarFormulario();
 
     if (Object.keys(nuevosErrores).length === 0) {
-      setRegistroExitoso(true); // Cambia el estado para mostrar el mensaje de éxito
+      //setRegistro("True"); // Cambia el estado para mostrar el mensaje de éxito
       const dataToSend = {name: nombre, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
   
         axios.post(apiUrl, dataToSend, { headers: { 'Content-Type': 'application/json' } })
         .then((res) => {
           console.log(res.data);
           console.log(res.data.isAdmin);
-          alert("Registro exitoso!");
+          //alert("Registro exitoso!");
+          setRegistro("True");
           navigate('/login');
         })
         .catch((error) => {
           console.error("Error al iniciar sesión:", error);
-          alert("Hubo un error en el inicio de sesión.");
+          setRegistro("False");
+          //alert("Hubo un error en el inicio de sesión.");
         });
     } else {
       setErrores(nuevosErrores);
@@ -63,9 +65,16 @@ const RegisterForm = () => {
       <div className="columna2-registro">
         <h2>Crear Cuenta</h2>
         {/* Mensaje de éxito */}
-        {registroExitoso && (
-          <div className="success-message">
+        {registro === "True" && (
+          <div style={{ color: "green", fontWeight: "bold",
+            marginBottom: "1rem" }}>
             ¡Registro exitoso! Bienvenido/a, {nombre}.
+          </div>
+        )}
+         {registro === "False" && (
+          <div style={{ color: "red", fontWeight: "bold",
+            marginBottom: "1rem" }}>
+            Hubo un error al realizar el registro, porfavor revise sus datos.
           </div>
         )}
         <form onSubmit={handleSubmit} className="register-form">
