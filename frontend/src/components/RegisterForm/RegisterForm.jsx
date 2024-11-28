@@ -32,21 +32,28 @@ const RegisterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const nuevosErrores = validarFormulario();
+    const token = sessionStorage.getItem("token");
 
     if (Object.keys(nuevosErrores).length === 0) {
-      setRegistroExitoso(true); // Cambia el estado para mostrar el mensaje de éxito
       const dataToSend = {name: `${nombre} ${apellido}`, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
   
-        axios.post(apiUrl, dataToSend, { headers: { 'Content-Type': 'application/json' } })
+        axios.post(apiUrl, dataToSend, { 
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, //DELETE TOKEN WHEN BACKEND IS FIXED
+          }
+        })
         .then((res) => {
           console.log(res.data);
           console.log(res.data.isAdmin);
-          alert("Registro exitoso!");
+          //alert("Registro exitoso!");
+          setRegistroExitoso("True");
           navigate('/login');
         })
         .catch((error) => {
           console.error("Error al iniciar sesión:", error);
-          alert("Hubo un error en el inicio de sesión.");
+          setRegistroExitoso("False");
+          //alert("Hubo un error en el inicio de sesión.");
         });
     } else {
       setErrores(nuevosErrores);
@@ -63,9 +70,16 @@ const RegisterForm = () => {
       <div className="columna2-registro">
         <h2>Crear Cuenta</h2>
         {/* Mensaje de éxito */}
-        {registroExitoso && (
-          <div className="success-message">
+        {registroExitoso === "True" && (
+          <div style={{ color: "green", fontWeight: "bold",
+            marginBottom: "1rem" }}>
             ¡Registro exitoso! Bienvenido/a, {nombre}.
+          </div>
+        )}
+         {registroExitoso === "False" && (
+          <div style={{ color: "red", fontWeight: "bold",
+            marginBottom: "1rem" }}>
+            Hubo un error al realizar el registro, porfavor revise sus datos.
           </div>
         )}
         <form onSubmit={handleSubmit} className="register-form">

@@ -26,12 +26,22 @@ footer {
     display: flex;
     flex-direction: row-reverse;
     transform: scale(1.2);
-    width: 35%;    
+    gap: 25px;
+    padding-right:15px ;   
 }
 
 .redes p{
     margin: 0px;
 }
+
+a {
+    text-decoration: none; 
+    color: inherit;        
+  }
+  
+  a img {
+    border: none;          
+  }
 
 @media (max-width: 1000px) {
     footer{

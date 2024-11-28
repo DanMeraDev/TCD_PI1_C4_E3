@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from '../../components/AdminPanel/Sidebar/Sidebar'
 import Header from '../../components/AdminPanel/Header/Header'
 import Table from '../../components/AdminPanel/Table/Table'
-import { decodeToken, isTokenExpired } from '../../utils/functions/jwt'
+import { decodeToken, isTokenExpired, isUserAdmin } from '../../utils/functions/jwt'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -13,6 +13,7 @@ const AdminPanel = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [title, setTitle] = useState("Tours");
   const navigate = useNavigate();
+
   const BASE_URL = "https://ramoja-tours.up.railway.app"
 
 
@@ -48,9 +49,21 @@ const AdminPanel = () => {
       const confirmDelete = confirm("¿Está seguro que desea eliminar este registro?");
 
       if(confirmDelete){
+        const token = sessionStorage.getItem("token")
+        console.log("TOKEN IS EXPIRED: "+ isTokenExpired(token))
+        console.log("LOGGED USER IS ADMIN : "+ isUserAdmin(token))
+        if(!isUserAdmin(token) || isTokenExpired(token)){
+          alert("Token invalid or expired")
+          return;
+        }
         try {
           const endpoint = `${BASE_URL}/api/${selectedSection}/${row.id}`
-          const response = await fetch(endpoint, {method: "DELETE"})
+          const response = await fetch(endpoint, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`, // Añadir el token en el encabezado
+            },
+          })
           if (response.ok) {
             setData((prevData) => prevData.filter((item) => item.id !== row.id));
             setFilteredData((prevFilteredData) =>
@@ -77,7 +90,7 @@ const AdminPanel = () => {
       navigate("/auth/login"); // Redirect to login page
       return;
     }
-    const endpoint = `${BASE_URL}/api/${selectedSection}/${row.id}`
+    // const endpoint = `${BASE_URL}/api/${selectedSection}/${row.id}`
     const userPutEndpoint =`${BASE_URL}/api/${selectedSection}`
     const userId = decodeToken(token).sub;
     try {
