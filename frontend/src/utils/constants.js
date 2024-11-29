@@ -40,8 +40,8 @@ export const niveles = [
   ];
 
   export const categoria = [
-    { value: 1, label: "Escalada" },
-    { value: 2, label: "Senderismo" },
-    { value: 3, label: "Slack Line" },
-    { value: 4, label: "Turismo" },
+    { value: 1, label: "Escalada", imageSrc: "src/assets/Img/Icono-Escalada.svg" },
+    { value: 2, label: "Senderismo", imageSrc: "src/assets/Img/icono-Senderismo.svg" },
+    { value: 3, label: "Slack Line", imageSrc: "src/assets/Img/icono-slack.svg" },
+    { value: 4, label: "Turismo", imageSrc: "src/assets/Img/icono-turismo.svg" },
   ];

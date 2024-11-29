@@ -12,7 +12,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 
 const Tours = () => {
   const [tours, setTours] = useState([]);
-  const [visibleTours, setVisibleTours] = useState(10);
+  const [visibleTours, setVisibleTours] = useState(6);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();

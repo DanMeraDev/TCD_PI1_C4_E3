@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 import { destinos, dias, climbingStyles, categoria } from "../../utils/constants";
 
+
+
   // Utility functions to find the corresponding label
   const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
   const getDayLabel = (value) => dias.find((d) => d.value === value)?.label || value;
   const getClimbingStyleLabel = (value) => climbingStyles.find((c) => c.value === value)?.label || value;
   const getCategoryLabel = (value) => categoria.find((c)=> c.value === value)?.label || value;
+  const getCategoryImgSrc = (value) => categoria.find((c)=> c.value === value)?.imageSrc || value;
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
@@ -19,6 +22,9 @@ const ProductCard = ({ product }) => {
   const handleMoreInfo = () => {
     navigate(`/tours/info/${product.id}`)
   }
+
+  const categoryImageSrc = getCategoryImgSrc(product.categoryId);
+  console.log(categoryImageSrc)
 
   return (
     <div className="card-container-product">
@@ -34,7 +40,15 @@ const ProductCard = ({ product }) => {
       <div className="content-section">
         <div className="info-section">
           <div className="header-product">
-            <h3 className="destination-title">{getCategoryLabel(product.categoryId)} en {getDestinationLabel(product.destination)}</h3>
+            <h3 className="destination-title">
+            {categoryImageSrc && (
+                <img
+                  src={categoryImageSrc}
+                  alt="icon"
+                  className="category-icon"
+                />
+              )}
+              {getCategoryLabel(product.categoryId)} en {getDestinationLabel(product.destination)}</h3>
             <span className="level-tag">{product.level}</span>
           </div>
           <p className="description-product">{product.description}</p>
