@@ -1,6 +1,6 @@
 import TourDetail from "../components/TourDetail/TourDetail";
 import Home from "../views/Home/Home";
-import NotFound from "../views/NotFount/NotFount";
+import NotFound from "../views/NotFound/NotFound";
 import Tours from "../views/Tours/Tours";
 import Register from "../views/Register/Register";
 import Login from "../views/login/Login";

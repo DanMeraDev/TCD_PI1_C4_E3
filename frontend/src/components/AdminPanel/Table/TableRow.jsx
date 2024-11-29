@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-const TableRow = ({ item, headers, onDelete }) => {
+const TableRow = ({ item, headers, onDelete, onEdit }) => {
 
     return (
         <tr>
@@ -42,7 +42,7 @@ const TableRow = ({ item, headers, onDelete }) => {
                 </span>
             </td> */}
             <td>
-                <button className="action-button"><span title="Editar">✏️</span></button>
+                <button className="action-button"><span title="Editar" onClick={() => onEdit(item)}>✏️</span></button>
                 <button className="action-button"><span title="Eliminar" onClick={() => onDelete(item)}>❌</span></button>
             </td>
         </tr>
