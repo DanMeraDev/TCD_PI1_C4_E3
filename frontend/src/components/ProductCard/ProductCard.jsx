@@ -21,17 +21,30 @@ const ProductCard = ({ product }) => {
   const shareOnSocialMedia = (platform) => {
     const shareUrl = `${window.location.origin}/tours/${product.id}`;
     const text = `¡Mira este increíble producto: ${product.name}! ${product.description}`;
-
+    const image = product.image;
+  
     if (platform === "facebook") {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
     } else if (platform === "twitter") {
       window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`);
     } else if (platform === "whatsapp") {
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)} ${encodeURIComponent(shareUrl)}`);
+    } else if (platform === "instagram") {
+      alert("Copia el contenido para compartir en Instagram.");
+      navigator.clipboard.writeText(`${text} ${shareUrl}`);
+    } else if (navigator.share) {
+      
+      navigator
+        .share({
+          title: product.name,
+          text: text,
+          url: shareUrl,
+        })
+        .catch((err) => console.error("Error al compartir:", err));
     }
     closePopup();
   };
-
+  
   return (
     <div className="product-card">
       <div className="product-image-container">
