@@ -42,7 +42,6 @@ const climbingStyles = [
   { value: "TOP_ROPE", label: "Top-Rope Climbing" },
 ];
 
-// TODO: ADD CLIMBING CATEGORY ENUM; INPUT AND USESTATE.
 const AddTourForm = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -112,7 +111,7 @@ const AddTourForm = () => {
     setError("");
     setSuccess("");
 
-    if (!nombre || !descripcion || !categoria || !climbingStyle || !destino || !dia || !hora || imagenes.length === 0) {
+    if (!nombre || !descripcion || !categoria || !destino || !dia || !hora || imagenes.length === 0) {
       setError("Todos los campos son obligatorios.");
       return;
     }
@@ -120,12 +119,12 @@ const AddTourForm = () => {
     const formData = new FormData();
         
     const tour = {
-      name: nombre,
+      // name: nombre,
       destination: destino,
       description: descripcion,
       categoryId: categoria,
-      climbingStyle: climbingStyle,
-      level: nivel || null, //REVISAR
+      climbingStyle: climbingStyle || null,
+      level: nivel || null,
       day: dia,
       schedule: hora,
     };
@@ -135,6 +134,7 @@ const AddTourForm = () => {
     Array.from(imagenes).forEach((imagen)=>{
       formData.append("images", imagen);
     })
+
 
     try {
       const token = sessionStorage.getItem("token");
@@ -207,8 +207,11 @@ const AddTourForm = () => {
                 )}
               </select>
             </div>
-            <div className="form-group">
-              <label htmlFor="climbingStyle">Estilo de escalada</label>
+            <div 
+            className="form-group"
+            style={categoria != 1 ? { display: "none" } : {}}
+            >
+              <label htmlFor="climbingStyle" >Estilo de escalada</label>
               <select
                 id="climbingStyle"
                 value={climbingStyle}

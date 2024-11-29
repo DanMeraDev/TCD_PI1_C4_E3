@@ -21,15 +21,15 @@ function TourInfo() {
   };
 
   const levelStars = {
-    NOVICE: '⭐',
+    NOVICE: '🌱',
     BEGINNER: '⭐',
     INTERMEDIATE: '⭐⭐',
-    ADVANCED: '⭐⭐',
-    EXPERT: '⭐⭐⭐',
-    SUPER_EXPERT: '⭐⭐⭐',
-    ELITE: '⭐⭐⭐⭐',
-    SUPER_ELITE: '⭐⭐⭐⭐',
-    ALIENS: '⭐⭐⭐⭐⭐',
+    ADVANCED: '⭐⭐⭐⭐',
+    EXPERT: '⭐⭐⭐⭐⭐',
+    SUPER_EXPERT: '⭐⭐⭐⭐⭐',
+    ELITE: '🤖',
+    SUPER_ELITE: '👾',
+    ALIENS: '👽',
   };
 
   useEffect(() => {
