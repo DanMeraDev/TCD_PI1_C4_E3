@@ -11,7 +11,7 @@ const RegisterForm = () => {
   const [contraseña, setContraseña] = useState("");
   const [errores, setErrores] = useState({});
   const [registroExitoso, setRegistroExitoso] = useState(false); 
-  const apiUrl = "https://ramoja-tours.up.railway.app/api/user"; 
+  const apiUrl = "https://ramoja-tours.up.railway.app/auth/register"; 
   const navigate = useNavigate();
 
   // Función para validar el formulario
@@ -32,17 +32,11 @@ const RegisterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const nuevosErrores = validarFormulario();
-    const token = sessionStorage.getItem("token");
 
     if (Object.keys(nuevosErrores).length === 0) {
       const dataToSend = {name: `${nombre} ${apellido}`, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
-  
-        axios.post(apiUrl, dataToSend, { 
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, //DELETE TOKEN WHEN BACKEND IS FIXED
-          }
-        })
+      console.log(dataToSend)
+        axios.post(apiUrl, JSON.stringify(dataToSend), { headers: { 'Content-Type': 'application/json' } })
         .then((res) => {
           console.log(res.data);
           console.log(res.data.isAdmin);
