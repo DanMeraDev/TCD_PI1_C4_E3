@@ -58,8 +58,12 @@
 }
 
 .tour-info-features-list {
+  display: flex;
+  flex-direction: row;
   list-style: none;
   padding: 0;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
 .tour-info-feature {
