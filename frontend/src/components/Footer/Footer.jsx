@@ -12,9 +12,9 @@ const Footer = () => {
           </div>
 
           <div className="redes">
-                  <p className='instagram'><i className="fi fi-brands-instagram"></i></p>
-                  <p className='facebook'><i className="fi fi-brands-facebook"></i></p>
-                  <p className='whatsapp'><i className="fi fi-brands-whatsapp"></i></p>
+                  <p className='instagram'><a href="https://www.instagram.com"><i className="fi fi-brands-instagram"></i></a></p>
+                  <p className='facebook'><a href="https://www.facebook.com"><i className="fi fi-brands-facebook"></i></a></p>
+                  <p className='whatsapp'><a href="https://wa.me/0002223344"><i className="fi fi-brands-whatsapp"></i></a></p>
           </div>
         
     </footer>

@@ -34,6 +34,7 @@ const dias = [
   { value: "SUN", label: "Sunday" },
 ];
 
+// TODO: ADD CLIMBING CATEGORY ENUM; INPUT AND USESTATE.
 const AddTourForm = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -93,7 +94,7 @@ const AddTourForm = () => {
     setError("");
     setSuccess("");
 
-    if (!nombre || !descripcion || !categoria || !nivel || !destino || !dia || !hora || imagenes.length === 0) {
+    if (!nombre || !descripcion || !categoria || !destino || !dia || !hora || imagenes.length === 0) {
       setError("Todos los campos son obligatorios.");
       return;
     }
@@ -101,20 +102,21 @@ const AddTourForm = () => {
     const formData = new FormData();
         
     const tour = {
-      name: nombre,
-      description: descripcion,
-      category: categoria,
-      level: nivel,
+      // name: nombre,
       destination: destino,
+      description: descripcion,
+      categoryId: categoria,
+      // climbingStyle: null, //REVISAR
+      // level: nivel || null, //REVISAR
       day: dia,
       schedule: hora,
     };
 
     formData.append("tour", JSON.stringify(tour));
 
-    imagenes.forEach((imagen) => {
+    Array.from(imagenes).forEach((imagen)=>{
       formData.append("images", imagen);
-    });
+    })
 
     try {
       const token = sessionStorage.getItem("token");

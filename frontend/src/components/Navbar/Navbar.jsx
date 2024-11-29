@@ -73,7 +73,7 @@ const Navbar = () => {
   };
 
   const handleSignUpClick = () => {
-    navigate('/signup');
+    navigate('/register');
   };
 
   useEffect(() => {
