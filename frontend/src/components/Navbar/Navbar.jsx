@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOutAlt, faImage, faCogs, faCog, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignOutAlt, faImage, faCogs, faCog, faCamera, faGear } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -97,12 +97,19 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <div className="logo-container">
+        <div className="logo-container" onClick={()=>navigate("/home")}>
           <img src="/src/assets/Img/Logo_nav.png" alt="nav-logo" className="logo-image" />
         </div>
         <ul className="link-container">
           {isLoggedIn ? (
             <>
+              {isAdmin &&  
+                     <li>
+                     <button className="nav-button" onClick={()=>navigate("/admin")}> 
+                       <FontAwesomeIcon icon={faGear}  /> Dashboard
+                     </button>
+                     </li>  
+              }
               <li>
                 <button className="nav-button"> 
                   <FontAwesomeIcon icon={faUser} /> {userName}

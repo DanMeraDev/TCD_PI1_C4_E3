@@ -1,6 +1,6 @@
 .navbar {
     height: 15vh;
-    padding: 10px 50px;
+    padding: 10px 10px;
     background-color: #282828;
     color: #ebdfc5;
     overflow: hidden;
@@ -15,14 +15,12 @@
 
 .logo-image {
     max-height: 90px;
+    transition: 0.2s ease;
 }
 
 .logo-image:hover{
-    border-radius: 10px;
-    border: 3px solid #c36e39;
+    filter: grayscale(1) brightness(0.6);
 }
-
-  
 
 /* Links de la navbar */
 .link-container {
@@ -42,10 +40,11 @@
     padding: 0;            /* Quita el padding para que se vea como texto */
     text-decoration: none; /* Sin subrayado */
     font-weight: bold;     /* Hace que el texto resalte un poco más */
+    transition: 0.3s ease;
 }
 
 .nav-button:hover {
-    text-decoration: underline; /* Subrayado en hover para parecer un enlace */
+    text-decoration: none; /* Subrayado en hover para parecer un enlace */
     color: #c36e39;             /* Color diferente en hover */
 }
 
