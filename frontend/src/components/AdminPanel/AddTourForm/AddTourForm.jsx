@@ -1,46 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AddTourForm.css";
-
-const niveles = [
-  "NOVICE",
-  "BEGINNER",
-  "INTERMEDIATE",
-  "ADVANCED",
-  "EXPERT",
-  "SUPER_EXPERT",
-  "ELITE",
-  "SUPER_ELITE",
-  "ALIENS",
-];
-
-const destinos = [
-  { value: "LA_MOJARRA", label: "La Mojarra" },
-  { value: "MOJARRA_SALVAJE", label: "Mojarra Salvaje" },
-  { value: "MACAGUATO", label: "Macaguato" },
-  { value: "LA_PENIA", label: "La Peña" },
-  { value: "CHICAMOCHA", label: "Cañón del Chicamocha" },
-  { value: "BARICHARA", label: "Barichara" },
-  { value: "MESA_DE_LOS_SANTOS", label: "Mesa de los Santos" },
-];
-
-
-const dias = [
-  { value: "MON", label: "Monday" },
-  { value: "TUE", label: "Tuesday" },
-  { value: "WED", label: "Wednesday" },
-  { value: "THU", label: "Thursday" },
-  { value: "FRI", label: "Friday" },
-  { value: "SAT", label: "Saturday" },
-  { value: "SUN", label: "Sunday" },
-];
-
-const climbingStyles = [
-  { value: "SPORT", label: "Sport Climbing" },
-  { value: "TRAD", label: "Traditional Climbing" },
-  { value: "BOULDER", label: "Bouldering" },
-  { value: "FERRATA", label: "Via Ferrata" },
-  { value: "TOP_ROPE", label: "Top-Rope Climbing" },
-];
+import { niveles, destinos, dias, climbingStyles } from "../../../utils/constants";
 
 const AddTourForm = () => {
   const [nombre, setNombre] = useState("");
