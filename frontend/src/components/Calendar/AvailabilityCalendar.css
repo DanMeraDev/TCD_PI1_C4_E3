@@ -169,11 +169,11 @@
 }
 
 .occupied-indicator {
-  background-color: #f44336;
+  background-color: #f7594e;
 }
 
 .available-indicator {
-  background-color: #4caf50;
+  background-color: #ff9800;
 }
 
 .highlighted-indicator {

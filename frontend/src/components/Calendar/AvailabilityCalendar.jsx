@@ -5,30 +5,39 @@ import { useEffect, useState } from "react";
 const AvailabilityCalendar = ({
   day,
   title,
-  availableDates,
+  availableDates = [],
   occupiedDates,
+  onDateSelected,
 }) => {
+  const [selectedDate, setSelectedDate] = useState("");
 
   if (!availableDates || !occupiedDates || !day) {
     return (
       <div className="availability-calendar error">
         <h3 className="availability-calendar-title">{title || "Error"}</h3>
         <p className="error-message">
-          Faltan datos necesarios para cargar el calendario. Verifica los parámetros.
+          Faltan datos necesarios para cargar el calendario. Verifica los
+          parámetros.
         </p>
       </div>
     );
   }
-  
+
   const getHighlightedDays = () => {
-    const targetDay = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].indexOf(day);
+    const targetDay = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].indexOf(
+      day
+    );
     if (targetDay === -1) return [];
 
     const dates = [];
     const today = new Date();
 
     for (let i = 0; i < 60; i++) {
-      const tempDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+      const tempDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate() + i
+      );
       if (tempDate.getDay() === targetDay) {
         dates.push(tempDate.toISOString().split("T")[0]);
       }
@@ -49,18 +58,49 @@ const AvailabilityCalendar = ({
     return "";
   };
 
+  const tileDisabled = ({ date }) => {
+    const today = new Date();
+    // Deshabilitar fechas anteriores a la actual
+    return date < today.setHours(0, 0, 0, 0);
+  };
+
+  const handleDateClick = (date) => {
+    const dateString = date.toISOString().split("T")[0];
+
+    if (highlightedDays.includes(dateString)) {
+      if (occupiedDates.includes(dateString)) {
+        alert(`La fecha ${dateString} está ocupada para el tour.`);
+      } else {
+        alert(`La fecha ${dateString} está disponible para el tour.`);
+        setSelectedDate(dateString);
+        if (onDateSelected) onDateSelected(dateString);
+      }
+    } else {
+      alert(`La fecha ${dateString} no es un día de tour.`);
+    }
+  };
+
   return (
     <div className="availability-calendar">
       <h3 className="availability-calendar-title">{title}</h3>
 
-      <Calendar tileClassName={tileClassName} />
+      <Calendar
+        tileClassName={tileClassName}
+        tileDisabled={tileDisabled}
+        onClickDay={handleDateClick}
+      />
 
       <div className="date-indicators">
-        <p><span className="occupied-indicator"></span> Fecha ocupada</p>
-        <p><span className="available-indicator"></span> Fecha disponible</p>
-        <p><span className="highlighted-indicator"></span> Fecha del Tour</p>
+        <p>
+          <span className="occupied-indicator"></span> Fechas ocupadas
+        </p>
+        <p>
+          <span className="available-indicator"></span> Fechas disponibles
+        </p>
+        {/* <p>
+          <span className="highlighted-indicator"></span> Fecha del Tour
+        </p> */}
       </div>
-
     </div>
   );
 };
