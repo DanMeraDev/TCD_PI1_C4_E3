@@ -64,8 +64,8 @@ const LoginForm = () => {
       <div className='columna1'>
         <div className='seccion1'>
           <img src={loginImageResponsive} alt="loginImageResponsive" className='imagenResponsive' /> 
-          <h2><i className="fi fi-ss-user"></i> User Login</h2>
-          <h6>Login to access your account</h6> 
+          <h2>Inicio de Sesión</h2>
+          <h6>Ingrese sus datos para iniciar sesión</h6> 
           {login === "True" && <h6 className='mensajeLogin'>Login exitoso!</h6>}
           {login === "False" && <h6 className='mensajeLogin'>Credenciales invalidas, porfavor revise sus datos.</h6>}
         </div>
