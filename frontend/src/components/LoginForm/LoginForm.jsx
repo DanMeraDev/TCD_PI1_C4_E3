@@ -4,13 +4,14 @@ import axios from "axios";
 import loginImage from '../../assets/Img/loginImage.jpg';
 import loginImageResponsive from '../../assets/Img/loginImageResponsive.jpg';
 import './LoginForm.css';
+import { decodeToken, isTokenExpired } from '../../utils/functions/jwt';
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errores, setErrores] = useState({});
   const [login, setLogin] =useState("");
-  const apiUrl = "https://la-ramoja-production.up.railway.app/auth/login"; 
+  const apiUrl = "https://ramoja-tours.up.railway.app/auth/login"; 
   const navigate = useNavigate();
 
   const validarFormulario = () => {
@@ -36,13 +37,16 @@ const LoginForm = () => {
       axios.post(apiUrl, dataToSend)
         .then((res) => {
           console.log(res.data);
-          console.log(res.data.isAdmin);
-          setLogin("True");
-          //alert("Login exitoso!");
-          sessionStorage.setItem("isAdmin", res.data.isAdmin);
-          sessionStorage.setItem("isLoggedIn", "true");
-          sessionStorage.setItem("user", res.data.name);
-          navigate('/home');
+          if(!isTokenExpired(res.data.token)){
+            const userInfo = decodeToken(res.data.token)
+            setLogin("True");
+            //alert("Login exitoso!");
+            sessionStorage.setItem("token", res.data.token)
+            sessionStorage.setItem("isAdmin", userInfo.isAdmin);
+            sessionStorage.setItem("isLoggedIn", "true");
+            sessionStorage.setItem("sub", userInfo.sub);
+            navigate('/home');
+          }
         })
         .catch((error) => {
           console.error("Error al iniciar sesión:", error);
@@ -60,8 +64,8 @@ const LoginForm = () => {
       <div className='columna1'>
         <div className='seccion1'>
           <img src={loginImageResponsive} alt="loginImageResponsive" className='imagenResponsive' /> 
-          <h2><i className="fi fi-ss-user"></i> User Login</h2>
-          <h6>Login to access your account</h6> 
+          <h2>Inicio de Sesión</h2>
+          <h6>Ingrese sus datos para iniciar sesión</h6> 
           {login === "True" && <h6 className='mensajeLogin'>Login exitoso!</h6>}
           {login === "False" && <h6 className='mensajeLogin'>Credenciales invalidas, porfavor revise sus datos.</h6>}
         </div>

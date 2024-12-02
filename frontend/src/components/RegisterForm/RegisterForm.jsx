@@ -11,7 +11,7 @@ const RegisterForm = () => {
   const [contraseña, setContraseña] = useState("");
   const [errores, setErrores] = useState({});
   const [registroExitoso, setRegistroExitoso] = useState(false); 
-  const apiUrl = "https://la-ramoja-production.up.railway.app/api/user"; 
+  const apiUrl = "https://ramoja-tours.up.railway.app/auth/register"; 
   const navigate = useNavigate();
 
   // Función para validar el formulario
@@ -34,19 +34,20 @@ const RegisterForm = () => {
     const nuevosErrores = validarFormulario();
 
     if (Object.keys(nuevosErrores).length === 0) {
-      setRegistroExitoso(true); // Cambia el estado para mostrar el mensaje de éxito
-      const dataToSend = {name: nombre, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
-  
-        axios.post(apiUrl, dataToSend, { headers: { 'Content-Type': 'application/json' } })
+      const dataToSend = {name: `${nombre} ${apellido}`, email: email, password: contraseña, phone: "0000000", grade: "YDS_5_6", isAdmin: false}
+      console.log(dataToSend)
+        axios.post(apiUrl, JSON.stringify(dataToSend), { headers: { 'Content-Type': 'application/json' } })
         .then((res) => {
           console.log(res.data);
           console.log(res.data.isAdmin);
-          alert("Registro exitoso!");
+          //alert("Registro exitoso!");
+          setRegistroExitoso("True");
           navigate('/login');
         })
         .catch((error) => {
           console.error("Error al iniciar sesión:", error);
-          alert("Hubo un error en el inicio de sesión.");
+          setRegistroExitoso("False");
+          //alert("Hubo un error en el inicio de sesión.");
         });
     } else {
       setErrores(nuevosErrores);
@@ -63,9 +64,16 @@ const RegisterForm = () => {
       <div className="columna2-registro">
         <h2>Crear Cuenta</h2>
         {/* Mensaje de éxito */}
-        {registroExitoso && (
-          <div className="success-message">
+        {registroExitoso === "True" && (
+          <div style={{ color: "green", fontWeight: "bold",
+            marginBottom: "1rem" }}>
             ¡Registro exitoso! Bienvenido/a, {nombre}.
+          </div>
+        )}
+         {registroExitoso === "False" && (
+          <div style={{ color: "red", fontWeight: "bold",
+            marginBottom: "1rem" }}>
+            Hubo un error al realizar el registro, porfavor revise sus datos.
           </div>
         )}
         <form onSubmit={handleSubmit} className="register-form">
