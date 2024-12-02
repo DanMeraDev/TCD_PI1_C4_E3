@@ -15,3 +15,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.icon-logo{
+  filter: invert(1) grayscale(1) brightness(0.9);
+  width: 100px; /* Adjust size as needed */
+  height: auto;;
+}
