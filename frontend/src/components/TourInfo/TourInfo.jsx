@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import './TourInfo.css';
+import { destinos, climbingStyles, categoria } from "../../utils/constants";
+
+
+const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
+const getCategoryLabel = (value) => categoria.find((c)=> c.value === value)?.label || value;
+const getClimbingStyleLabel = (value) => climbingStyles.find((c) => c.value === value)?.label || value;
 
 function TourInfo() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentImage, setCurrentImage] = useState(null);
+  const navigate = useNavigate();
+
 
   const dayMapping = {
     MON: 'Lunes',
@@ -32,6 +41,7 @@ function TourInfo() {
     ALIENS: '👽',
   };
 
+
   useEffect(() => {
     const fetchTour = async () => {
       try {
@@ -41,6 +51,7 @@ function TourInfo() {
         }
         const data = await response.json();
         setTour(data);
+        setCurrentImage(data.imageUrlList[0]); // set default image as the first image.
       } catch (err) {
         setError(err.message);
       } finally {
@@ -54,8 +65,9 @@ function TourInfo() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  const mappedDay = dayMapping[tour.day] || tour.day; 
-  const levelWithStars = levelStars[tour.level] || ''; 
+  const mappedDay = dayMapping[tour.day] || tour.day;
+  const levelWithStars = levelStars[tour.level] || '';
+
 
   // Datos quemados para las descripciones
   const featureDescriptions = {
@@ -65,47 +77,80 @@ function TourInfo() {
     "Almuerzo disponible": "El almuerzo consistirá en una comida energética: sándwiches, frutas, y bebidas."
   };
 
+  const handleImageClick = (image) => {
+    setCurrentImage(image);
+  };
+
   return (
     <div>
       <Navbar />
+
       <div className="tour-info-card">
-        <h1 className="tour-info-destination">{tour.destination}</h1>
-        <p className="tour-info-description">{tour.description}</p>
-        
-        <div className="tour-info-details">
-          <div className="tour-info-detail">
-            <strong>Estilo de Escalada:</strong> {tour.climbingStyle}
+        <div className="info-upper">
+          <div className="tour-image-container">
+            {/* Left section with the main image */}
+            <div className="main-image-container">
+              <img
+                src={currentImage}
+                alt="Tour Main"
+                className="main-image"
+              />
+            </div>
+            {/* Carousel below the main image */}
+            <div className="image-carousel">
+              {tour.imageUrlList.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`thumbnail ${currentImage === image ? "active" : ""}`}
+                  onClick={() => handleImageClick(image)}
+                />
+              ))}
+            </div>
+
           </div>
-          <div className="tour-info-detail">
-            <strong>Nivel:</strong> {tour.level} {levelWithStars}
-          </div>
-          <div className="tour-info-detail">
-            <strong>Día:</strong> {mappedDay}
-          </div>
-          <div className="tour-info-detail">
-            <strong>Horario:</strong> {tour.schedule}
+
+
+          <div className="tour-info-container">
+            <h2 className="tour-info-destination">{getCategoryLabel(tour.categoryId)} en {getDestinationLabel(tour.destination)}</h2>
+            <p className="tour-info-description">{tour.description}</p>
+
+            <div className="tour-info-details">
+
+              {tour.categoryId && <div className="tour-info-detail">
+                <strong>Estilo:</strong> {getClimbingStyleLabel(tour.climbingStyle)}
+              </div>}
+              {tour.level && <div className="tour-info-detail">
+                <strong>Nivel:</strong> {tour.level} {levelWithStars}
+              </div>}
+              <div className="tour-info-detail">
+                <strong>Día:</strong> {mappedDay}
+              </div>
+              <div className="tour-info-detail">
+                <strong>Horario:</strong> {tour.schedule}
+              </div>
+            </div>
           </div>
         </div>
-        
-        <div className="tour-info-features">
-          <h2 className="tour-info-features-title">Características</h2>
-          <ul className="tour-info-features-list">
-            {Object.keys(featureDescriptions).map((feature, index) => (
-              <li key={index} className="tour-info-feature">
-                <span className="feature-icon">{feature === "Terreno montañoso" ? "⛰️" : feature === "Equipo incluido" ? "🎒" : feature === "Duración: 6 horas" ? "🕒" : "🍽️"}</span>
-                <span className="feature-text">{feature}</span>
-                <div className="tooltip">
-                  {featureDescriptions[feature]}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        
-        <div className="tour-info-images">
-          {tour.imageUrlList.map((url, index) => (
-            <img key={index} src={url} alt={`Tour image ${index + 1}`} className="tour-info-image" />
-          ))}
+        <div className="info-lower">
+          <div className="tour-info-features">
+            <h2 className="tour-info-features-title">Características</h2>
+            <ul className="tour-info-features-list">
+              {Object.keys(featureDescriptions).map((feature, index) => (
+                <li key={index} className="tour-info-feature">
+                  <span className="feature-icon">{feature === "Terreno montañoso" ? "⛰️" : feature === "Equipo incluido" ? "🎒" : feature === "Duración: 6 horas" ? "🕒" : "🍽️"}</span>
+                  <span className="feature-text">{feature}</span>
+                  <div className="tooltip">
+                    {featureDescriptions[feature]}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button className="btn-primarySection primary" onClick={()=>navigate("/reservation")}>
+            Reservar
+          </button>
         </div>
       </div>
       <Footer />

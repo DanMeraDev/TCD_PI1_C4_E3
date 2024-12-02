@@ -1,24 +1,28 @@
-.tour-info-container {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f9f9f9;
-  padding: 20px 0;
-}
-
 .tour-info-card {
-  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
   margin: 40px auto; 
-  background-color: #ffffff;
+  background-color: #f9f9f9;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 40px 25px 0px 25px;
+}
+.info-upper{
+  display: flex;
+  flex-direction: row;
+  border-bottom: #28282822 solid 3px;
+}
+
+.tour-info-container {
+  width: 40%;
+  background-color: #f9f9f9;
 }
 
 .tour-info-destination {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  text-transform: uppercase;
   color: #2c3e50;
-  text-align: center;
   margin-bottom: 15px;
 }
 
@@ -27,7 +31,6 @@
   color: #555;
   line-height: 1.6;
   margin-bottom: 20px;
-  text-align: justify;
 }
 
 .tour-info-details {
@@ -63,13 +66,12 @@
   list-style: none;
   padding: 0;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 20px;
 }
 
 .tour-info-feature {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
   position: relative; /* Necesario para el tooltip */
 }
 
@@ -111,19 +113,64 @@
   opacity: 1;
 }
 
-.tour-info-images {
+
+.tour-image-container {
+  width: 60%;
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 }
 
-.tour-info-image {
-  width: 48%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.main-image-container{
+  width: 90%;
+  height: 400px; /* Fixed height for consistent layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent content overflow */
 }
+
+
+.main-image {
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-carousel {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover; /* Ensures the image is cropped to fit the square */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail.active {
+  border: 2px solid #ffb400;
+  transform: scale(1.1);
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.info-lower {
+  display: flex;
+  justify-content: space-between; /* Space between features and the button */
+  align-items: center; /* Align items vertically */
+  padding: 0 10px;
+}
+
 
 /* Media Query para pantallas pequeñas */
 @media (max-width: 768px) {
