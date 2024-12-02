@@ -1,5 +1,16 @@
+/* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
+import { destinos, dias, climbingStyles, categoria } from "../../utils/constants";
+
+
+
+  // Utility functions to find the corresponding label
+  const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
+  const getDayLabel = (value) => dias.find((d) => d.value === value)?.label || value;
+  const getClimbingStyleLabel = (value) => climbingStyles.find((c) => c.value === value)?.label || value;
+  const getCategoryLabel = (value) => categoria.find((c)=> c.value === value)?.label || value;
+  const getCategoryImgSrc = (value) => categoria.find((c)=> c.value === value)?.imageSrc || value;
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
@@ -8,19 +19,55 @@ const ProductCard = ({ product }) => {
     navigate(`/tours/${product.id}`);
   };
 
+  const handleMoreInfo = () => {
+    navigate(`/tours/info/${product.id}`)
+  }
+
+  const categoryImageSrc = getCategoryImgSrc(product.categoryId);
+  console.log(categoryImageSrc)
+
   return (
-    <div className="product-card">
-      <div className="product-image-container">
-        <img src={product.image} alt={product.name} className="product-image" />
+    <div className="card-container-product">
+      <div className="image-section">
+        <img
+          src={product.imageUrlList[0]}
+          alt={product.destination}
+          className="tour-image"
+        />
+        <span className="image-count">{product.imageUrlList.length} Fotos</span>
       </div>
 
-      <h2 className="product-title">{product.name}</h2>
-      <p className="product-description">{product.description}</p>
-      <div className="button-container">
-        <button className="button more-info">Saber más</button>
-        <button className="button reserve" onClick={handleReserve}>
-          Reservar
-        </button>
+      <div className="content-section">
+        <div className="info-section">
+          <div className="header-product">
+            <h3 className="destination-title">
+            {categoryImageSrc && (
+                <img
+                  src={categoryImageSrc}
+                  alt="icon"
+                  className="category-icon"
+                />
+              )}
+              {getCategoryLabel(product.categoryId)} en {getDestinationLabel(product.destination)}</h3>
+            <span className="level-tag">{product.level}</span>
+          </div>
+          <p className="description-product">{product.description}</p>
+          { product.climbingStyle && <p className="card-data">
+            Estilo de escalada: <strong>{getClimbingStyleLabel(product.climbingStyle)}</strong>
+          </p>}
+          <p className="card-data">
+            Dia: <strong>{getDayLabel(product.day)}</strong>
+          </p>
+          <p className="card-data">
+            Salida: <strong>{product.schedule}</strong>
+          </p>
+        </div>
+        <div className="card-buttons">
+          <button className="btn-primarySection primary" onClick={handleReserve}>
+            Reservar
+          </button>
+          <button className="btn-primarySection secondary" onClick={handleMoreInfo}>Saber más</button>
+        </div>
       </div>
     </div>
   );
