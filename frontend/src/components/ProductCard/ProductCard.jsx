@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
   };
 
   const closePopup = () => {
-    setShowSharePopup(false);
+    setShowSharePopup(false); 
   };
 
   const shareOnSocialMedia = (platform) => {
