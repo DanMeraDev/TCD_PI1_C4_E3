@@ -71,6 +71,21 @@ public class ReservationServiceImpl implements IReservationService {
     }
 
     @Override
+    public List<ReservationDto> getReservationByUserId(Long userId) {
+        LOGGER.info("Searching for Reservations from User with id "+userId);
+        List<Reservation> reservations = reservationRepository.findByUserId(userId);
+        if (reservations.isEmpty()) {
+            LOGGER.warn("No reservations found from User with id " + userId);
+            throw new ResourceNotFoundException("No reservations found from User with id: " + userId);
+        }
+        List<ReservationDto> reservationDtoResponse = new ArrayList<>();
+        for (Reservation reservation: reservations) {
+            reservationDtoResponse.add(ReservationMapper.mapToReservationDto(reservation));
+        }
+        return reservationDtoResponse;
+    }
+
+    @Override
     public List<ReservationDto> getReservations() {
         LOGGER.info("Getting Reservations");
         List<Reservation> reservations = reservationRepository.findAll();

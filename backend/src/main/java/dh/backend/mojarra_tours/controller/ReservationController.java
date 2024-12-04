@@ -55,18 +55,39 @@ public class ReservationController {
         try{
             List<ReservationDto> response = reservationService.getReservationByTourId(id);
             return ResponseEntity.ok(response);
-        }catch(Exception e){
+        }catch (ResourceNotFoundException e){
+            LOGGER.error("Error Getting Reservations: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch(Exception e){
+            LOGGER.error("Error getting reservations: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ReservationDto>> getReservationsByUser(@PathVariable Long id){
+        LOGGER.info("GET REQUEST RESERVATIONS BY USER ID");
+        try{
+            List<ReservationDto> response = reservationService.getReservationByUserId(id);
+            return ResponseEntity.ok(response);
+        }catch (ResourceNotFoundException e){
+            LOGGER.error("Error Getting Reservations: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch(Exception e){
             LOGGER.error("Error getting reservations: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTourById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteTourById(@PathVariable("id") Long id) {
         LOGGER.info("DELETE REQUEST: RESERVATION WITH ID " + id);
         try{
             reservationService.deleteReservation(id);
-        }catch(Exception e){
+        }catch (ResourceNotFoundException e){
+            LOGGER.error("Error deleting Reservation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch(Exception e){
             LOGGER.error("Error deleting Reservation: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

@@ -10,6 +10,9 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByTourId(Long tourId);
 
+    List<Reservation> findByUserId(Long userId);
+
+
     Optional<Reservation> findByTourIdAndDate(Long tourId, LocalDate date);
 
 }

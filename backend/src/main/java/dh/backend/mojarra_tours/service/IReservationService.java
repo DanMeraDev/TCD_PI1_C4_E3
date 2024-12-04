@@ -11,6 +11,9 @@ public interface IReservationService {
 
     List<ReservationDto> getReservationByTourId(Long id);
 
+    List<ReservationDto> getReservationByUserId(Long id);
+
+
     List<ReservationDto> getReservations();
 
     void deleteReservation(Long id);
