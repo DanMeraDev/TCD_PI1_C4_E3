@@ -164,6 +164,10 @@ const AdminPanel = () => {
           endpoint = `${BASE_URL}/api/categories`;
           setTitle("Categorias");
           break;
+        case 'reservations':
+            endpoint = `${BASE_URL}/api/reservations`;
+            setTitle("Reservas");
+            break;
         default:
           endpoint = `${BASE_URL}/api/tours`;
           setTitle("Tours");
