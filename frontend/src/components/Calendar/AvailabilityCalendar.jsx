@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const AvailabilityCalendar = ({
   day,
   title,
-  availableDates = [],
+  availableDates,
   occupiedDates,
   onDateSelected,
 }) => {
@@ -94,12 +94,12 @@ const AvailabilityCalendar = ({
         <p>
           <span className="occupied-indicator"></span> Fechas ocupadas
         </p>
-        <p>
-          <span className="available-indicator"></span> Fechas disponibles
-        </p>
         {/* <p>
-          <span className="highlighted-indicator"></span> Fecha del Tour
+          <span className="available-indicator"></span> Fechas disponibles
         </p> */}
+        <p>
+          <span className="highlighted-indicator"></span> Fechas disponibles
+        </p>
       </div>
     </div>
   );

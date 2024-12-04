@@ -150,7 +150,7 @@
 }
 
 .react-calendar__tile.highlighted:hover {
-  background-color: #ff9800;
+  background-color: #fcb448;
 }
 
 /* Indicadores visuales */
@@ -173,7 +173,7 @@
 }
 
 .available-indicator {
-  background-color: #ff9800;
+  background-color: #7bd47ed5;
 }
 
 .highlighted-indicator {
