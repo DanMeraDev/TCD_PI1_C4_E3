@@ -4,7 +4,6 @@ import dh.backend.mojarra_tours.exception.ResourceNotFoundException;
 import dh.backend.mojarra_tours.service.IReservationService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.aspectj.apache.bcel.classfile.ExceptionTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
