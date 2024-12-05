@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from '../../components/AdminPanel/Sidebar/Sidebar'
 import Header from '../../components/AdminPanel/Header/Header'
 import Table from '../../components/AdminPanel/Table/Table'
+import { decodeToken, isTokenExpired, isUserAdmin } from '../../utils/functions/jwt'
+import { useNavigate } from 'react-router-dom'
+
 
 
 const AdminPanel = () => {
@@ -9,6 +12,7 @@ const AdminPanel = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [title, setTitle] = useState("Tours");
+  const navigate = useNavigate();
 
   const BASE_URL = "https://ramoja-tours.up.railway.app"
 
@@ -45,9 +49,21 @@ const AdminPanel = () => {
       const confirmDelete = confirm("¿Está seguro que desea eliminar este registro?");
 
       if(confirmDelete){
+        const token = sessionStorage.getItem("token")
+        console.log("TOKEN IS EXPIRED: "+ isTokenExpired(token))
+        console.log("LOGGED USER IS ADMIN : "+ isUserAdmin(token))
+        if(!isUserAdmin(token) || isTokenExpired(token)){
+          alert("Token invalid or expired")
+          return;
+        }
         try {
           const endpoint = `${BASE_URL}/api/${selectedSection}/${row.id}`
-          const response = await fetch(endpoint, {method: "DELETE"})
+          const response = await fetch(endpoint, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`, // Añadir el token en el encabezado
+            },
+          })
           if (response.ok) {
             setData((prevData) => prevData.filter((item) => item.id !== row.id));
             setFilteredData((prevFilteredData) =>
@@ -62,6 +78,71 @@ const AdminPanel = () => {
           alert("Ha ocurrido un error al tratar de eliminar el item.");
         }
       }
+  }
+
+  const handleEdit = async (row) => {
+    const token = sessionStorage.getItem("token");
+    const decodedToken = decodeToken(token);
+    console.log(decodedToken)
+
+    if(!token || isTokenExpired(token)){
+      alert("El token ha expirado, por favor inicie sesión de nuevo");
+      navigate("/auth/login"); // Redirect to login page
+      return;
+    }
+    // const endpoint = `${BASE_URL}/api/${selectedSection}/${row.id}`
+    const userPutEndpoint =`${BASE_URL}/api/${selectedSection}`
+    const userId = decodeToken(token).sub;
+    try {
+      switch (selectedSection) {
+        case "user":
+          
+          if(userId == row.id){
+            alert("No puedes cambiar tu propio rol, el sistema debe tener un Administrador.");
+            return;
+          } else {
+            const response = await fetch(userPutEndpoint, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`, // Include token in headers
+              },
+              body: JSON.stringify({ 
+                id: row.id,
+                name: row.name,
+                email: row.email,
+                password: row.password,
+                phone: row.phone,
+                grade: row.grade, 
+                isAdmin: !row.isAdmin }), // Toggle `isAdmin` attribute
+            });
+
+            if (response.ok) {
+              setData((prevData) =>
+                prevData.map((item) =>
+                  item.id === row.id ? { ...item, isAdmin: !row.isAdmin } : item
+                )
+              );
+              setFilteredData((prevFilteredData) =>
+                prevFilteredData.map((item) =>
+                  item.id === row.id ? { ...item, isAdmin: !row.isAdmin } : item
+                )
+              );
+              alert("Rol de usuario modificado correctamente.");
+            } else {
+              throw new Error("Error al modificar el rol del usuario.");
+            }
+    
+          }
+          break;
+        default:
+          alert("Editando registro con id "+ row.id)
+          break;
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Ha ocurrido un error al tratar de editar el item.");
+    }
   }
 
 
@@ -83,6 +164,10 @@ const AdminPanel = () => {
           endpoint = `${BASE_URL}/api/categories`;
           setTitle("Categorias");
           break;
+        case 'reservations':
+            endpoint = `${BASE_URL}/api/reservations`;
+            setTitle("Reservas");
+            break;
         default:
           endpoint = `${BASE_URL}/api/tours`;
           setTitle("Tours");
@@ -104,14 +189,12 @@ const AdminPanel = () => {
     fetchData();
   }, [selectedSection]);
 
-
-
   return (
     <div className='admin-panel'>
       <Sidebar onSectionChange={setSelectedSection} />
       <div className="content">
         <Header title={title} onSearch={handleSearch} selectedSection={selectedSection}/>
-        <Table data={filteredData} onDelete={handleDelete}/>
+        <Table data={filteredData} onDelete={handleDelete} onEdit={handleEdit}/>
       </div>
     </div>
   )

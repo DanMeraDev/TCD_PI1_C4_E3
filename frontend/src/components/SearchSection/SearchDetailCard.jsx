@@ -1,18 +1,28 @@
 import "./SearchDetailCard.css";
-import BtnPrimary from "../Buttons/BtnPrimary/BtnPrimary";
+import { useNavigate } from "react-router-dom";
 
 const SearchDetailCard = ({
+  id, 
   nameTour,
   description,
-  onClick,
   urlSrc,
 }) => {
+  const navigate = useNavigate(); 
+
+  const handleCardClick = () => {
+    navigate(`/tours/info/${id}`); 
+  };
+
   return (
-    <div className="card-container">
+    <div
+      className="card-container"
+      onClick={handleCardClick} 
+      style={{ cursor: "pointer" }} 
+    >
       <div className="card-detail">
         <div className="card-info">
           <h3 className="title">{nameTour}</h3>
-          <p className="description">{description}</p>          
+          <p className="description">{description}</p>
         </div>
         <img className="card-image" src={urlSrc} alt={nameTour} />
       </div>
@@ -21,3 +31,4 @@ const SearchDetailCard = ({
 };
 
 export default SearchDetailCard;
+

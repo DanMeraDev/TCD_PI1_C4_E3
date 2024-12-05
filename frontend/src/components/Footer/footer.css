@@ -30,22 +30,33 @@ footer {
     padding-right:15px ;   
 }
 
-.redes p{
-    margin: 0px;
+.redes p {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+.redes a {
+  color: inherit; 
+  text-decoration: none; 
+}
+
+.redes i {
+  font-size: 24px; 
+  transition: transform 0.3s ease;
 }
 
 a {
     text-decoration: none; 
     color: inherit;        
-  }
-  
-  a img {
+}
+
+a img {
     border: none;          
-  }
+}
 
 @media (max-width: 1000px) {
     footer{
-      flex-direction: column;
+    flex-direction: column;
     }
     .logoFooter{
         flex-direction: column;
@@ -56,10 +67,10 @@ a {
         gap: 15px;
         justify-content: center;
     }
-  }
+}
 
 
 
 
 
- 
+

@@ -9,22 +9,22 @@ import SearchDetailCard from './SearchDetailCard';
 
 const SearchSection = () => {
     const apiUrl = "https://ramoja-tours.up.railway.app/api/tours";
+    const [allTours, setAllTours] = useState([]); 
     const [results, setResults] = useState([]);
     const [keyword, setKeyword] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [error, setError] = useState(null);
-    const [tours, setTours] = useState([]);
 
     useEffect(() => {
-        // Obtener todos los tours al montar el componente
         const fetchTours = async () => {
             try {
                 const response = await axios.get(apiUrl);
-                setTours(response.data);
+                setAllTours(response.data); 
             } catch (err) {
                 setError("Ocurrió un error al obtener los datos. Inténtalo de nuevo más tarde.");
             }
         };
+
         fetchTours();
     }, []);
 
@@ -38,12 +38,12 @@ const SearchSection = () => {
             ? selectedDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
             : null;
 
-        const fuse = new Fuse(tours, {
+        const fuse = new Fuse(allTours, {
             keys: ['description', 'destination'],
             threshold: 0.6,
         });
 
-        const fuseResults = keyword ? fuse.search(keyword).map(result => result.item) : tours;
+        const fuseResults = keyword ? fuse.search(keyword).map(result => result.item) : allTours;
 
         const matchingTours = fuseResults.filter(tour =>
             selectedDay ? tour.day === selectedDay : true
@@ -53,7 +53,7 @@ const SearchSection = () => {
     };
 
     useEffect(() => {
-        filterResults(); // Filtrar resultados cada vez que keyword o selectedDate cambien
+        filterResults();
     }, [keyword, selectedDate]);
 
     const clearResults = () => {
@@ -65,7 +65,7 @@ const SearchSection = () => {
     return (
         <div>
             <div className="search-section">
-                <h2 className="searchTitle">Explora La Mojarra</h2>
+                <h2 className="titulo">Explora La Mojarra</h2>
                 <p className="searchDescription">
                     Descubre increíbles tours de escalada. Usa el buscador para encontrar
                     la aventura que se adapte a tus necesidades.
@@ -97,12 +97,12 @@ const SearchSection = () => {
                     {results.length > 0 && (
                         results.map((tour) => (
                             <SearchDetailCard
-                                key={tour.id}
-                                nameTour={tour.destination}
-                                description={tour.description}
-                                urlSrc={tour.imageUrlList?.[0]}
+                              id={tour.id} 
+                              nameTour={tour.destination}
+                              description={tour.description}
+                              urlSrc={tour.imageUrlList?.[0]}
                             />
-                        ))
+                          ))
                     )}
                 </div>
                 {results.length > 0 && (

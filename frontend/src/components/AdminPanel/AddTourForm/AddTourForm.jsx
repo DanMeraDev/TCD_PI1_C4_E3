@@ -1,40 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AddTourForm.css";
+import { niveles, destinos, dias, climbingStyles } from "../../../utils/constants";
 
-const niveles = [
-  "NOVICE",
-  "BEGINNER",
-  "INTERMEDIATE",
-  "ADVANCED",
-  "EXPERT",
-  "SUPER_EXPERT",
-  "ELITE",
-  "SUPER_ELITE",
-  "ALIENS",
-];
-
-const destinos = [
-  { value: "LA_MOJARRA", label: "La Mojarra" },
-  { value: "MOJARRA_SALVAJE", label: "Mojarra Salvaje" },
-  { value: "MACAGUATO", label: "Macaguato" },
-  { value: "LA_PENIA", label: "La Peña" },
-  { value: "CHICAMOCHA", label: "Cañón del Chicamocha" },
-  { value: "BARICHARA", label: "Barichara" },
-  { value: "MESA_DE_LOS_SANTOS", label: "Mesa de los Santos" },
-];
-
-
-const dias = [
-  { value: "MON", label: "Monday" },
-  { value: "TUE", label: "Tuesday" },
-  { value: "WED", label: "Wednesday" },
-  { value: "THU", label: "Thursday" },
-  { value: "FRI", label: "Friday" },
-  { value: "SAT", label: "Saturday" },
-  { value: "SUN", label: "Sunday" },
-];
-
-// TODO: ADD CLIMBING CATEGORY ENUM; INPUT AND USESTATE.
 const AddTourForm = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -48,6 +15,8 @@ const AddTourForm = () => {
   const [success, setSuccess] = useState("");
   const [categorias, setCategorias] = useState([]);
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(false);
+  const [previewImages, setPreviewImages] = useState([]);
+  const [climbingStyle, setClimbingStyle] = useState("");
 
 
   const BASE_URL = "https://ramoja-tours.up.railway.app";
@@ -58,7 +27,7 @@ const AddTourForm = () => {
       try {
         const response = await fetch(`${BASE_URL}/api/categories`);
         const result = await response.json();
-        console.log(result)
+        console.log(result);
         setCategorias(result);
       } catch (error) {
         console.error("Error al cargar categorías:", error);
@@ -67,13 +36,21 @@ const AddTourForm = () => {
         setIsCategoriesLoading(false);
       }
     };
-
+  
     fetchCategorias();
-  }, []);
+
+    return () => {
+      previewImages.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previewImages]);
+  
 
   // Manejar la carga de imágenes
   const handleImageUpload = (e) => {
-    setImagenes([...e.target.files]);
+    const files = Array.from(e.target.files);
+    setImagenes(files); 
+    const previewUrls = files.map((file) => URL.createObjectURL(file));
+    setPreviewImages(previewUrls);
   };
 
 
@@ -106,8 +83,8 @@ const AddTourForm = () => {
       destination: destino,
       description: descripcion,
       categoryId: categoria,
-      // climbingStyle: null, //REVISAR
-      // level: nivel || null, //REVISAR
+      climbingStyle: climbingStyle || null,
+      level: nivel || null,
       day: dia,
       schedule: hora,
     };
@@ -117,6 +94,7 @@ const AddTourForm = () => {
     Array.from(imagenes).forEach((imagen)=>{
       formData.append("images", imagen);
     })
+
 
     try {
       const token = sessionStorage.getItem("token");
@@ -137,6 +115,7 @@ const AddTourForm = () => {
         setNombre("");
         setDescripcion("");
         setCategoria("");
+        setClimbingStyle("");
         setNivel("");
         setDestino("");
         setDia("");
@@ -155,78 +134,112 @@ const AddTourForm = () => {
       {success && <div className="success-message">{success}</div>}
       <form onSubmit={handleSubmit}>
         <div className="form">
-          <div className="form-group">
-            <label htmlFor="nombre">Nombre del producto</label>
-            <input
-              type="text"
-              id="nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="descripcion">Descripción</label>
-            <textarea
-              id="descripcion"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <label htmlFor="categoria">Categoría</label>
-            <select
-              id="categoria"
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value)}
+          <div className="column1">
+            <div className="form-group">
+              <label htmlFor="nombre">Nombre del producto</label>
+              <input
+                type="text"
+                id="nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="descripcion">Descripción</label>
+              <textarea
+                id="descripcion"
+                value={descripcion}
+                onChange={(e) => setDescripcion(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label htmlFor="categoria">Categoría</label>
+              <select
+                id="categoria"
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+              >
+                <option value="">Seleccione una categoría</option>
+                {isCategoriesLoading ? (
+                  <option>Cargando...</option>
+                ) : (
+                  renderOptions(categorias, "id", "name")
+                )}
+              </select>
+            </div>
+            <div 
+            className="form-group"
+            style={categoria != 1 ? { display: "none" } : {}}
             >
-              <option value="">Seleccione una categoría</option>
-              {isCategoriesLoading ? (
-                <option>Cargando...</option>
-              ) : (
-                renderOptions(categorias, "id", "name")
-              )}
-            </select>
+              <label htmlFor="climbingStyle" >Estilo de escalada</label>
+              <select
+                id="climbingStyle"
+                value={climbingStyle}
+                onChange={(e) => setClimbingStyle(e.target.value)}
+              >
+                <option value="">Seleccione un estilo</option>
+                {renderOptions(climbingStyles)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="nivel">Nivel</label>
+              <select id="nivel" value={nivel} onChange={(e) => setNivel(e.target.value)}>
+                <option value="">Seleccione un nivel</option>
+                {renderOptions(niveles)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="destino">Destino</label>
+              <select id="destino" value={destino} onChange={(e) => setDestino(e.target.value)}>
+                <option value="">Seleccione un destino</option>
+                {renderOptions(destinos)}
+              </select>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="nivel">Nivel</label>
-            <select id="nivel" value={nivel} onChange={(e) => setNivel(e.target.value)}>
-              <option value="">Seleccione un nivel</option>
-              {renderOptions(niveles)}
-            </select>
+          <div className="column2">
+            <div className="form-group">
+              <label htmlFor="dia">Día</label>
+              <select id="dia" value={dia} onChange={(e) => setDia(e.target.value)}>
+                <option value="">Seleccione un día</option>
+                {renderOptions(dias)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="imagenes">Imágenes</label>
+              <input
+                type="file"
+                id="imagenes"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+              />
+            </div>
+            {previewImages.length > 0 && ( 
+            <div className="form-group">
+              <label>Previsualización de imágenes:</label>
+              <div className="image-preview-container">
+                {previewImages.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt={`Preview ${index + 1}`}
+                    className="image-preview"
+                  />
+            ))}
           </div>
-          <div className="form-group">
-            <label htmlFor="destino">Destino</label>
-            <select id="destino" value={destino} onChange={(e) => setDestino(e.target.value)}>
-              <option value="">Seleccione un destino</option>
-              {renderOptions(destinos)}
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="dia">Día</label>
-            <select id="dia" value={dia} onChange={(e) => setDia(e.target.value)}>
-              <option value="">Seleccione un día</option>
-              {renderOptions(dias)}
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="imagenes">Imágenes</label>
-            <input
-              type="file"
-              id="imagenes"
-              accept="image/*"
-              multiple
-              onChange={handleImageUpload}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="hora">Hora del tour</label>
-            <input
-              type="time"
-              id="hora"
-              value={hora}
-              onChange={(e) => setHora(e.target.value)}
-            />
-            <p>{hora}</p>
+        </div>
+        )}
+
+            <div className="form-group">
+              <label htmlFor="hora">Hora del tour</label>
+              <input
+                type="time"
+                id="hora"
+                value={hora}
+                onChange={(e) => setHora(e.target.value)}
+              />
+              <p>{hora}</p>
+            </div>
           </div>
           <button type="submit" className="submit-button">Guardar Producto</button>
         </div>
