@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Fuse from 'fuse.js';
 import DatePicker from 'react-datepicker';
-import Fuse from 'fuse.js'; 
 import 'react-datepicker/dist/react-datepicker.css';
 import BtnPrimary from '../Buttons/BtnPrimary/BtnPrimary';
 import './searchSection.css';
-import RecommendationDetailCard from '../RecommendationDetailCard/RecommendationDetailCard';
+import SearchDetailCard from './SearchDetailCard';
 
 const SearchSection = () => {
     const apiUrl = "https://ramoja-tours.up.railway.app/api/tours";
@@ -13,52 +13,60 @@ const SearchSection = () => {
     const [keyword, setKeyword] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [error, setError] = useState(null);
-    const [hasSearched, setHasSearched] = useState(false); 
+    const [tours, setTours] = useState([]);
 
-    const handleClick = () => {
-        navigate("/tours");
-        window.scrollTo(0, 0);
-    };
+    useEffect(() => {
+        // Obtener todos los tours al montar el componente
+        const fetchTours = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                setTours(response.data);
+            } catch (err) {
+                setError("Ocurrió un error al obtener los datos. Inténtalo de nuevo más tarde.");
+            }
+        };
+        fetchTours();
+    }, []);
 
-    const handleSearch = async () => {
-        if (!keyword || !selectedDate) {
-            alert("Por favor, completa la palabra clave y selecciona una fecha.");
+    const filterResults = () => {
+        if (!keyword && !selectedDate) {
+            setResults([]);
             return;
         }
 
-        setError(null);
-        setHasSearched(true); 
+        const selectedDay = selectedDate
+            ? selectedDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
+            : null;
 
-        try {
-            const response = await axios.get(apiUrl);
-            const tours = response.data;
+        const fuse = new Fuse(tours, {
+            keys: ['description', 'destination'],
+            threshold: 0.6,
+        });
 
-            const selectedDay = selectedDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+        const fuseResults = keyword ? fuse.search(keyword).map(result => result.item) : tours;
 
-            const fuse = new Fuse(tours, {
-                keys: ['description'], 
-                threshold: 0.6, 
-            });
+        const matchingTours = fuseResults.filter(tour =>
+            selectedDay ? tour.day === selectedDay : true
+        );
 
-            const fuseResults = fuse.search(keyword);
-
-            const matchingTours = fuseResults
-                .map(result => result.item) 
-                .filter(tour => tour.day === selectedDay); 
-
-            setResults(matchingTours);
-        } catch (err) {
-            setError("Ocurrió un error al obtener los datos. Inténtalo de nuevo más tarde.");
-        }
+        setResults(matchingTours);
     };
 
+    useEffect(() => {
+        filterResults(); // Filtrar resultados cada vez que keyword o selectedDate cambien
+    }, [keyword, selectedDate]);
 
+    const clearResults = () => {
+        setResults([]);
+        setKeyword('');
+        setSelectedDate(null);
+    };
 
     return (
         <div>
             <div className="search-section">
                 <h2 className="searchTitle">Explora La Mojarra</h2>
-                <p className="searcDescription">
+                <p className="searchDescription">
                     Descubre increíbles tours de escalada. Usa el buscador para encontrar
                     la aventura que se adapte a tus necesidades.
                 </p>
@@ -77,29 +85,36 @@ const SearchSection = () => {
                         placeholderText="Selecciona una fecha"
                         className="search-input"
                         dateFormat="dd/MM/yyyy"
-                        minDate={new Date()} 
+                        minDate={new Date()}
                     />
-                    <BtnPrimary onClick={handleSearch}>Buscar</BtnPrimary>
+                    <BtnPrimary onClick={clearResults}>Limpiar</BtnPrimary>
                 </div>
             </div>
 
-
-
-            <div className="result-section">
-                {error && <p className="error">{error}</p>}
-               
-                {hasSearched && results.length === 0 && (
-                    <p></p>
-                )}
+            <div className="results">
+                <div className="result-section">
+                    {error && <p className="error">{error}</p>}
+                    {results.length > 0 && (
+                        results.map((tour) => (
+                            <SearchDetailCard
+                                key={tour.id}
+                                nameTour={tour.destination}
+                                description={tour.description}
+                                urlSrc={tour.imageUrlList?.[0]}
+                            />
+                        ))
+                    )}
+                </div>
                 {results.length > 0 && (
-                    results.map((tour) => (
-                        <RecommendationDetailCard
-                            key={tour.id}
-                            nameTour={tour.destination}
-                            description={tour.description}
-                            urlSrc={tour.imageUrlList?.[0]}
-                            onClick={handleClick} />
-                    ))
+                    <button
+                        className="clear-button"
+                        onClick={() => {
+                            clearResults();
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                    >
+                        &#x2715;
+                    </button>
                 )}
             </div>
         </div>
