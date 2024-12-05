@@ -118,19 +118,12 @@ public class UserControllerRL {
     )
     public ResponseEntity<UserResponseDTO> loginUser(@RequestBody UserLoginDTO userLoginDTO) {
         // Buscar usuario por email
-        User user = userRepository.findByEmail(userLoginDTO.getEmail());
-
-        if (user == null || !user.getPassword().equals(userLoginDTO.getPassword())) { // Verificar password sin hashing solo para pruebas
+        UserResponseDTO userResponseDTO = userService.login(userLoginDTO);
+        LOGGER.info("TRYING TO LOGIN USER " + userLoginDTO.getEmail());
+        if (userResponseDTO == null) {
             return ResponseEntity.status(401).body(null);  // Error en login
         }
-
-        // Generar el token JWT
-        String token = jwtUtil.generateToken(user.getId().toString(), user.getIsAdmin(), user.getGrade());
-
-        // Mapea el usuario autenticado a UserResponseDTO
-        UserResponseDTO responseDTO = userRLMapper.toResponseDTO(user);
-        responseDTO.setToken(token); // Asigna el token generado
-
-        return ResponseEntity.ok(responseDTO);
+        LOGGER.info("LOGIN SUCCESSFUL");
+        return ResponseEntity.ok(userResponseDTO);
     }
 }

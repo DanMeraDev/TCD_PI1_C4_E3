@@ -8,6 +8,7 @@ import dh.backend.mojarra_tours.mapper.UserMapper;
 import dh.backend.mojarra_tours.repository.UserRepository;
 import dh.backend.mojarra_tours.service.UserService;
 import dh.backend.mojarra_tours.mapper.UserMapperRL;
+import dh.backend.mojarra_tours.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class UserServiceImplRL implements UserService {
     private UserMapperRL userMapper;
 
     @Autowired UserMapper userEntityMapper;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -69,7 +73,13 @@ public class UserServiceImplRL implements UserService {
             return null; // Usuario no encontrado o contraseña incorrecta
         }
 
+        String token = jwtUtil.generateToken(user.getId().toString(), user.getIsAdmin(), user.getGrade());
+
+        // Mapea el usuario autenticado a UserResponseDTO
+        UserResponseDTO responseDTO = userMapper.toResponseDTO(user);
+        responseDTO.setToken(token); // Asigna el token generado
+
         // Mapear el usuario a UserResponseDTO
-        return userMapper.toResponseDTO(user);
+        return responseDTO;
     }
 }
