@@ -2,7 +2,9 @@ package dh.backend.mojarra_tours.mapper;
 
 import dh.backend.mojarra_tours.dto.UserDto;
 import dh.backend.mojarra_tours.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public static UserDto mapToDto(User user) {

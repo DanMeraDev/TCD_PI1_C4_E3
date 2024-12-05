@@ -3,11 +3,13 @@ import dh.backend.mojarra_tours.dto.ReservationDto;
 import dh.backend.mojarra_tours.entity.Reservation;
 import dh.backend.mojarra_tours.entity.Tour;
 import dh.backend.mojarra_tours.entity.User;
+import dh.backend.mojarra_tours.enums.EmailType;
 import dh.backend.mojarra_tours.exception.ResourceNotFoundException;
 import dh.backend.mojarra_tours.mapper.ReservationMapper;
 import dh.backend.mojarra_tours.repository.ReservationRepository;
 import dh.backend.mojarra_tours.repository.TourRepository;
 import dh.backend.mojarra_tours.repository.UserRepository;
+import dh.backend.mojarra_tours.service.IMailService;
 import dh.backend.mojarra_tours.service.IReservationService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -26,6 +28,7 @@ public class ReservationServiceImpl implements IReservationService {
     private ReservationRepository reservationRepository;
     private UserRepository userRepository;
     private TourRepository tourRepository;
+    private IMailService mailService;
 
     @Override
     public ReservationDto createReservation(ReservationDto reservationDto) {
@@ -46,8 +49,9 @@ public class ReservationServiceImpl implements IReservationService {
         Reservation reservation = ReservationMapper.mapToReservation(reservationDto, tour, user);
         Reservation savedReservation = reservationRepository.save(reservation);
         LOGGER.info("Saved Reservation " + savedReservation);
+        LOGGER.info("Sending confirmation of reservation email to "+user.getEmail());
+        mailService.sendEmail(EmailType.RESERVATION_CONFIRMATION, savedReservation);
         return ReservationMapper.mapToReservationDto(savedReservation);
-
     }
 
     @Override
