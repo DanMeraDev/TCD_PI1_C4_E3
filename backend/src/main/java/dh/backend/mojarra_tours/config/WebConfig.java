@@ -12,7 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // Allow CORS for all paths
                 .allowedOrigins(
                     "https://la-ramoja-production.up.railway.app", 
-                    "http://localhost:5173"
+                    "http://localhost:5173",
+                    "https://ramoja-tours.vercel.app"
                 ) // Allow specific origins
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific methods
                 .allowedHeaders("*") // Allow all headers
