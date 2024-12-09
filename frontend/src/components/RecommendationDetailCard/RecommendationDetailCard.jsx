@@ -4,9 +4,11 @@ import "./RecommendationDetailCard.css";
 import BtnPrimary from "../Buttons/BtnPrimary/BtnPrimary";
 
 const RecommendationDetailCard = ({
+  tourId,
   nameTour,
   description,
-  onClick,
+  onReservation,
+  onDetail,
   urlSrc,
 }) => {
   return (
@@ -20,12 +22,12 @@ const RecommendationDetailCard = ({
             <FaStar size={16} color="#FFD700" />
           </div>
           <p className="description">{description}</p>
-          <BtnSecondary className="btn-see-more" >Ver más</BtnSecondary>
+          <BtnSecondary className="btn-see-more" onClick={()=> onDetail(tourId)} >Ver más</BtnSecondary>
           
         </div>
         <img className="card-image" src={urlSrc} alt={nameTour} />
       </div>
-      <BtnPrimary onClick={onClick} className="btn-reserve">Reservar</BtnPrimary>
+      <BtnPrimary onClick={()=>onReservation(tourId)} className="btn-reserve">Reservar</BtnPrimary>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import Login from "../views/login/Login";
 import AdminPanel from "../views/AdminPanel/AdminPanel";
 import AddTour from "../views/AddTour/AddTour";
 import TourInfo from "../components/TourInfo/TourInfo";
+import AddCategory from "../views/AddCategory/AddCategory";
 
 const configRouter = [
   {
@@ -44,6 +45,10 @@ const configRouter = [
   {
     path: "/admin/addTour",
     element: <AddTour />,
+  },
+  {
+    path: "/admin/addCategory",
+    element: <AddCategory />,
   },
   { 
     path: "*",

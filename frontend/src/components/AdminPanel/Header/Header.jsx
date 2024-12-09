@@ -21,7 +21,7 @@ const Header = ({ title, onSearch, selectedSection }) => {
 
   const handleAddClick = () => {
     if (selectedSection === 'categories') {
-      navigate('/admin/add-category');
+      navigate('/admin/addCategory');
     } else if (selectedSection === 'tours') {
       navigate('/admin/addTour');
     }

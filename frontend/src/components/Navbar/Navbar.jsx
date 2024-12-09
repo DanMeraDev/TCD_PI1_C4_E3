@@ -53,6 +53,7 @@ const Navbar = () => {
     sessionStorage.removeItem('isAdmin');
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('sub');
+    sessionStorage.removeItem("token")
     location.reload();
   };
 
@@ -97,7 +98,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <div className="logo-container" onClick={()=>navigate("/home")}>
+        <div className="logo-container" onClick={()=>navigate("/")}>
           <img src="/src/assets/Img/Logo_nav.png" alt="nav-logo" className="logo-image" />
         </div>
         <ul className="link-container">
