@@ -5,7 +5,6 @@ import BtnPrimary from "../Buttons/BtnPrimary/BtnPrimary";
 import { useEffect, useState } from "react";
 import { getAllTours } from "../../utils/axios/getAllTours";
 import getRandomElements from "../../utils/functions/getRandomElements";
-import { decodeToken, isTokenExpired } from "../../utils/functions/jwt";
 
 const RecommendationsSection = () => {
   const [tours, setTours] = useState([]);
@@ -33,25 +32,11 @@ const RecommendationsSection = () => {
   // console.log(randomTours);
 
   const navigate = useNavigate();
-  const handleTours = () => {
+  const handleClick = () => {
     navigate("/tours");
     window.scrollTo(0, 0); // volver a la parte de arriba de la página.
   };
 
-
-  const handleReservation = (tourId) => {
-    const token = sessionStorage.getItem("token")
-    if(token && !isTokenExpired(token)){
-      navigate(`/reservations/tour/${tourId}`);
-    } else {
-      alert("Necesitas iniciar sesión para realizar una reserva")
-      navigate("/login")
-    }
-  };
-
-  const handleDetail = (tourId) => {
-    navigate(`tours/info/${tourId}`)
-  };
   return (
     <div className="recommendations-container">
       <div className="title-container">
@@ -64,7 +49,7 @@ const RecommendationsSection = () => {
             adrenalina.
           </p>
         </div>
-        <BtnPrimary onClick={handleTours} className="btn-primarySection">
+        <BtnPrimary onClick={handleClick} className="btn-primarySection">
           Ver Tours
         </BtnPrimary>
       </div>
@@ -86,13 +71,10 @@ const RecommendationsSection = () => {
           randomTours.map((tour) => (
             <RecommendationDetailCard
               key={tour.id}
-              tourId={tour.id}
               nameTour={tour.destination}
               description={tour.description}
               urlSrc={tour.imageUrlList?.[0]}
-              onReservation={handleReservation}
-              onDetail={handleDetail}
-
+              onClick={handleClick}
             />
           ))}
       </div>

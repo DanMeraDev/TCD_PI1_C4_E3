@@ -4,11 +4,10 @@ import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import './TourInfo.css';
 import { destinos, climbingStyles, categoria } from "../../utils/constants";
-import Modal from 'react-modal';
-import AvailabilityCalendar from '../Calendar/AvailabilityCalendar';
+
 
 const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
-const getCategoryLabel = (value) => categoria.find((c) => c.value === value)?.label || value;
+const getCategoryLabel = (value) => categoria.find((c)=> c.value === value)?.label || value;
 const getClimbingStyleLabel = (value) => climbingStyles.find((c) => c.value === value)?.label || value;
 
 function TourInfo() {
@@ -17,24 +16,8 @@ function TourInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [occupiedDates, setOccupiedDates] = useState([]);
   const navigate = useNavigate();
 
-  const customModalStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      padding: '20px',
-      borderRadius: '10px',
-      maxWidth: '350px',
-      width: '50%',
-    }
-  };
 
   const dayMapping = {
     MON: 'Lunes',
@@ -79,33 +62,12 @@ function TourInfo() {
     fetchTour();
   }, [id]);
 
-  const fetchOccupiedDates = async () => {
-    try {
-      const response = await fetch(`https://ramoja-tours.up.railway.app/api/reservations/tours/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch occupied dates');
-      }
-      const data = await response.json();
-      const dates = data.map(reservation => reservation.date); // Extract dates
-      setOccupiedDates(dates);
-    } catch (err) {
-      console.error('Error fetching occupied dates:', err);
-    }
-  };
-
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   const mappedDay = dayMapping[tour.day] || tour.day;
   const levelWithStars = levelStars[tour.level] || '';
 
-  const openModal = async () => {
-    await fetchOccupiedDates(); // Fetch occupied dates before opening the modal
-    setIsModalOpen(true);
-  }
-  
-  const closeModal = () => setIsModalOpen(false);
 
   // Datos quemados para las descripciones
   const featureDescriptions = {
@@ -157,19 +119,16 @@ function TourInfo() {
             <div className="tour-info-details">
 
               {tour.categoryId && <div className="tour-info-detail">
-                <span><strong>Estilo:</strong> {getClimbingStyleLabel(tour.climbingStyle)}</span> 
+                <strong>Estilo:</strong> {getClimbingStyleLabel(tour.climbingStyle)}
               </div>}
               {tour.level && <div className="tour-info-detail">
-                <span><strong>Nivel:</strong> {tour.level} {levelWithStars}</span> 
+                <strong>Nivel:</strong> {tour.level} {levelWithStars}
               </div>}
               <div className="tour-info-detail">
-                <span><strong>Día:</strong> {mappedDay}</span> 
-                <div className="calendar" onClick={openModal}>
-                  <span > 📅Ver fechas</span>
-                </div>
+                <strong>Día:</strong> {mappedDay}
               </div>
               <div className="tour-info-detail">
-                <span><strong>Horario:</strong> {tour.schedule}</span>
+                <strong>Horario:</strong> {tour.schedule}
               </div>
             </div>
           </div>
@@ -189,31 +148,12 @@ function TourInfo() {
               ))}
             </ul>
           </div>
-          <button className="btn-primarySection primary" onClick={() => navigate("/reservation")}>
+          <button className="btn-primarySection primary" onClick={()=>navigate("/reservation")}>
             Reservar
           </button>
         </div>
       </div>
       <Footer />
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        style={customModalStyles}
-        contentLabel="Availability Calendar"
-        ariaHideApp={false}
-      >
-        <AvailabilityCalendar
-          day={tour.day}
-          title="Seleccione una fecha"
-          availableDates={tour.availableDates || []}
-          occupiedDates={occupiedDates}
-          onDateSelected={(date) => {
-            console.log("Selected Date:", date);
-            closeModal();
-          }}
-        />
-        <p onClick={closeModal} className="modal-close-button">Cerrar</p>
-      </Modal>
     </div>
   );
 }

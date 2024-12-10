@@ -15,15 +15,6 @@ const TableRow = ({ item, headers, onDelete, onEdit }) => {
                     );
                 }
 
-                if (header === "includeLunch" || header === "includeEquipment" ) {
-                    // Special styling for "ADMIN"
-                    return (
-                        <td key={index}>
-                            <span className="option-label">{fieldContent?"✔":"-"}</span>
-                        </td>
-                    );
-                }
-
                 if (Array.isArray(fieldContent)) {
                     // Render arrays (like imgUrlList) as anchor tags
                     return (

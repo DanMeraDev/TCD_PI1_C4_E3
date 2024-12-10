@@ -16,9 +16,8 @@ const Sidebar = ({ onSectionChange }) => {
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("isAdmin");
     sessionStorage.removeItem("user");
-    sessionStorage.removeItem("sub");
-    sessionStorage.removeItem("token")
-    navigate('/');
+    sessionStorage.removeItem("sub")
+    navigate('/home');
   };
 
   return (
@@ -26,7 +25,7 @@ const Sidebar = ({ onSectionChange }) => {
       <LogoHeader />
       <UserProfile name={name} email={email} />
       <NavLinks onSectionChange={onSectionChange}/>
-      <Footer onLogoutClick={handleLogoutClick} onGoBackHome={()=> navigate('/')}/> 
+      <Footer onLogoutClick={handleLogoutClick} onGoBackHome={()=> navigate('/home')}/> 
     </aside>
   );
 };

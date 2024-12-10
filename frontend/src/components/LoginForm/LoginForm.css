@@ -95,7 +95,7 @@
     align-items: center;
 }
 
-.instruction{
+.seccion1 h6 {
     font-size: 1rem;
     color: #888;
     margin-bottom: 20px;
@@ -103,7 +103,11 @@
 
 .mensajeLogin {
     font-size: 1rem;
-    color: tomato;
+    color: #ffffff;
+    background-color: #c36e39;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 .seccion2 {

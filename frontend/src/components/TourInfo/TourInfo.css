@@ -41,9 +41,6 @@
 }
 
 .tour-info-detail {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   background-color: #ecf0f1;
   padding: 15px;
   border-radius: 8px;
@@ -173,26 +170,6 @@
   align-items: center; /* Align items vertically */
   padding: 0 10px;
 }
-
-.modal-close-button:hover{
-  color:#c36e29;
-}
-
-.modal-close-button{
-  transition: 0.3s ease;
-}
-
-.calendar:hover{
-  color:#c36e29;
-  font-size: 1.02em;
-  cursor: pointer;
-}
-
-.calendar{
-  transition: 0.3s ease;
-}
-
-
 
 
 /* Media Query para pantallas pequeñas */
