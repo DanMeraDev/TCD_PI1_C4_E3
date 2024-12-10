@@ -1,11 +1,14 @@
 package dh.backend.mojarra_tours.service.impl;
+import dh.backend.mojarra_tours.dto.UserDto;
 import dh.backend.mojarra_tours.dto.UserRegisterDTO;
 import dh.backend.mojarra_tours.dto.UserLoginDTO;
 import dh.backend.mojarra_tours.dto.UserResponseDTO;
 import dh.backend.mojarra_tours.entity.User;
+import dh.backend.mojarra_tours.mapper.UserMapper;
 import dh.backend.mojarra_tours.repository.UserRepository;
 import dh.backend.mojarra_tours.service.UserService;
 import dh.backend.mojarra_tours.mapper.UserMapperRL;
+import dh.backend.mojarra_tours.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,12 +23,17 @@ public class UserServiceImplRL implements UserService {
     @Autowired
     private UserMapperRL userMapper;
 
+    @Autowired UserMapper userEntityMapper;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // Método para registrar un usuario
     @Override
-    public String register(UserRegisterDTO userRegisterDTO) {
+    public UserDto register(UserRegisterDTO userRegisterDTO) {
         // Validar que el email tenga el formato correcto
         if (!EMAIL_PATTERN.matcher(userRegisterDTO.getEmail()).matches()) {
             throw new IllegalArgumentException("Email inválido");
@@ -42,7 +50,9 @@ public class UserServiceImplRL implements UserService {
         }
 
         // Mapear el DTO a la entidad User
+
         User user = userMapper.toEntity(userRegisterDTO);
+        user.setLevel(userRegisterDTO.getGrade().getLevel());
 
         // Encriptar la contraseña antes de guardar
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
@@ -50,7 +60,7 @@ public class UserServiceImplRL implements UserService {
         // Guardar el usuario
         userRepository.save(user);
 
-        return "Usuario registrado exitosamente";
+        return UserMapper.mapToDto(user);
     }
 
     // Método para login de un usuario
@@ -63,7 +73,13 @@ public class UserServiceImplRL implements UserService {
             return null; // Usuario no encontrado o contraseña incorrecta
         }
 
+        String token = jwtUtil.generateToken(user.getId().toString(), user.getIsAdmin(), user.getGrade());
+
+        // Mapea el usuario autenticado a UserResponseDTO
+        UserResponseDTO responseDTO = userMapper.toResponseDTO(user);
+        responseDTO.setToken(token); // Asigna el token generado
+
         // Mapear el usuario a UserResponseDTO
-        return userMapper.toResponseDTO(user);
+        return responseDTO;
     }
 }
