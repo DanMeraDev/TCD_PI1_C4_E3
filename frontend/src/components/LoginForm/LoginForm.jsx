@@ -45,7 +45,7 @@ const LoginForm = () => {
             sessionStorage.setItem("isAdmin", userInfo.isAdmin);
             sessionStorage.setItem("isLoggedIn", "true");
             sessionStorage.setItem("sub", userInfo.sub);
-            navigate('/home');
+            navigate('/');
           }
         })
         .catch((error) => {
@@ -65,7 +65,7 @@ const LoginForm = () => {
         <div className='seccion1'>
           <img src={loginImageResponsive} alt="loginImageResponsive" className='imagenResponsive' /> 
           <h2>Inicio de Sesión</h2>
-          <h6>Ingrese sus datos para iniciar sesión</h6> 
+          <h6 className='instruction'>Ingrese sus datos para iniciar sesión</h6> 
           {login === "True" && <h6 className='mensajeLogin'>Login exitoso!</h6>}
           {login === "False" && <h6 className='mensajeLogin'>Credenciales invalidas, porfavor revise sus datos.</h6>}
         </div>
