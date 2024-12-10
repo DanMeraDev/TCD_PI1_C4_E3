@@ -106,6 +106,13 @@
 
 }
 
+.btn-primarySection.secondary:nth-child(2) {
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+
 .btn-primarySection {
   padding: 8px 12px; /* Botones más pequeños */
   font-size: 14px; /* Texto más compacto */
@@ -287,26 +294,62 @@
   border-radius: 8px;
 }
 
-@media (min-width: 768px) {
+/* Ajuste general para pantallas pequeñas */
+@media (max-width: 768px) {
   .card-container-product {
-    width: 60%;
+    flex-direction: column; /* Apila las secciones de la tarjeta verticalmente */
+    height: auto; /* Permite que la altura sea dinámica */
   }
-}
 
-@media (min-width: 1024px) {
+  .image-section {
+    width: 100%; /* Imagen ocupa el 100% del ancho */
+    height: 200px; /* Ajusta la altura de la imagen */
+  }
 
-  .card-container-product {
-    width: 520px;
-    margin-bottom: 50px;
+  .content-section {
+    width: 100%; /* Contenido ocupa el 100% */
+    padding: 10px;
+  }
+
+  .info-section {
+    height: auto; /* Permite que el contenido crezca dinámicamente */
+    margin-bottom: 10px; /* Espacio entre el contenido y los botones */
   }
 
   .description-product {
-    margin: 0;
     font-size: 14px;
+    margin-bottom: 10px; /* Espaciado entre la descripción y los botones */
   }
 
-  .climbing-style {
-    font-size: 14px;
+  .card-buttons {
+    flex-direction: column; /* Apila los botones verticalmente */
+    align-items: stretch; /* Los botones ocupan el ancho completo */
+    gap: 10px; /* Espaciado entre botones */
   }
 
+  .btn-primarySection {
+    width: 100%; /* Botones de ancho completo */
+    font-size: 14px; /* Texto más compacto */
+    padding: 10px; /* Espaciado adicional para usabilidad */
+  }
+}
+
+/* Ajuste para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .card-container-product {
+    width: 90%; /* Asegura que no se desborde horizontalmente */
+  }
+
+  .tour-image {
+    height: 150px; /* Imagen más pequeña en dispositivos pequeños */
+  }
+
+  .description-product {
+    font-size: 13px; /* Texto más pequeño */
+  }
+
+  .btn-primarySection {
+    padding: 8px; /* Reducir el padding para pantallas muy pequeñas */
+    font-size: 12px; /* Texto más pequeño para los botones */
+  }
 }

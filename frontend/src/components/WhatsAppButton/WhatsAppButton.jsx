@@ -10,7 +10,7 @@ const WhatsAppButton = ({ phoneNumber, message }) => {
 
   return (
     <button className="whatsapp-button" onClick={handleWhatsAppClick} aria-label="Contactar por WhatsApp">
-      <img src="src/assets/Img/WA_icon.png" alt="WhatsApp" className="whatsapp-icon" />
+      <img src="src/assets/WA_icon.png" alt="WhatsApp" className="whatsapp-icon" />
     </button>
   );
 };
