@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Fuse from 'fuse.js';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import BtnPrimary from '../Buttons/BtnPrimary/BtnPrimary';
@@ -38,16 +37,16 @@ const SearchSection = () => {
             ? selectedDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
             : null;
 
-        const fuse = new Fuse(allTours, {
-            keys: ['description', 'destination'],
-            threshold: 0.6,
+        const matchingTours = allTours.filter(tour => {
+            const matchesKeyword = keyword
+                ? tour.description.toLowerCase().includes(keyword.toLowerCase()) ||
+                  tour.destination.toLowerCase().includes(keyword.toLowerCase())
+                : true;
+
+            const matchesDay = selectedDay ? tour.day === selectedDay : true;
+
+            return matchesKeyword && matchesDay;
         });
-
-        const fuseResults = keyword ? fuse.search(keyword).map(result => result.item) : allTours;
-
-        const matchingTours = fuseResults.filter(tour =>
-            selectedDay ? tour.day === selectedDay : true
-        );
 
         setResults(matchingTours);
     };
