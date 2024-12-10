@@ -35,7 +35,8 @@ public enum Grade {
     YDS_5_15A(Level.SUPER_ELITE),
     YDS_5_15B(Level.SUPER_ELITE),
     YDS_5_15C(Level.SUPER_ELITE),
-    YDS_5_15D(Level.ALIENS);
+    YDS_5_15D(Level.ALIENS),
+    DEFAULT(Level.NOVICE);
 
     // Field to hold the level
     private final Level level;

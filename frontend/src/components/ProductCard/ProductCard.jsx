@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Modal from "react-modal"; // Instala react-modal: npm install react-modal
 import "./ProductCard.css";
 import { destinos, dias, climbingStyles, categoria } from "../../utils/constants";
 
@@ -12,36 +14,10 @@ const getClimbingStyleLabel = (value) => climbingStyles.find((c) => c.value === 
 const getCategoryLabel = (value) => categoria.find((c) => c.value === value)?.label || value;
 const getCategoryImgSrc = (value) => categoria.find((c) => c.value === value)?.imageSrc || value;
 
-const SharePopup = ({ onClose, product, shareOnSocialMedia }) => {
-  return ReactDOM.createPortal(
-    <div className="share-popup" onClick={onClose}>
-      <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-        <h3>Compartir tour</h3>
-        <p>{product.name}</p>
-        <img src={product.imageUrlList[0]} alt={product.name} className="popup-image" />
-        <textarea
-          defaultValue={`¡Mira este increíble tour: ${product.name}! ${product.description}`}
-          rows="3"
-          className="share-message"
-        />
-        <div className="social-buttons">
-          <button onClick={() => shareOnSocialMedia("facebook")}>Facebook</button>
-          <button onClick={() => shareOnSocialMedia("twitter")}>Twitter</button>
-          <button onClick={() => shareOnSocialMedia("whatsapp")}>WhatsApp</button>
-          <button onClick={() => shareOnSocialMedia("instagram")}>Instagram</button>
-        </div>
-        <button className="close-popup" onClick={onClose}>
-          Cerrar
-        </button>
-      </div>
-    </div>,
-    document.body // Renderiza el popup en el body
-  );
-};
-
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const [showSharePopup, setShowSharePopup] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [customMessage, setCustomMessage] = useState(""); // Default empty message
 
   const handleReserve = () => {
     navigate(`/tours/${product.id}`);
@@ -51,37 +27,32 @@ const ProductCard = ({ product }) => {
     navigate(`/tours/info/${product.id}`);
   };
 
-  const handleShare = () => {
-    setShowSharePopup(true);
+  const handleOpenShareModal = () => {
+    setIsModalOpen(true);
   };
 
-  const closePopup = () => {
-    setShowSharePopup(false);
+  const handleCloseShareModal = () => {
+    setIsModalOpen(false);
   };
 
-  const shareOnSocialMedia = (platform) => {
-    const shareUrl = `${window.location.origin}/tours/${product.id}`;
-    const text = `¡Mira este increíble producto: ${product.name}! ${product.description}`;
-    if (platform === "facebook") {
-      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
-    } else if (platform === "twitter") {
-      window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`);
-    } else if (platform === "whatsapp") {
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)} ${encodeURIComponent(shareUrl)}`);
-    } else if (platform === "instagram") {
-      alert("Copia el contenido para compartir en Instagram.");
-      navigator.clipboard.writeText(`${text} ${shareUrl}`);
-    } else if (navigator.share) {
-      navigator
-        .share({
-          title: product.name,
-          text: text,
-          url: shareUrl,
-        })
-        .catch((err) => console.error("Error al compartir:", err));
+  // Share URL
+  const shareUrl = `https://mi-sitio.com/tours/${product.id}`;
+  
+  // Default message when the modal is opened
+  const defaultMessage = `¡Mira este increíble tour: ${product.description}!`;
+  
+  // Update customMessage when modal opens (to set default message)
+  useEffect(() => {
+    if (isModalOpen) {
+      setCustomMessage(defaultMessage); // Set default message on modal open
     }
-    closePopup();
-  };
+  }, [isModalOpen]); // Run only when modal state changes
+
+  const socialOptions = [
+    { name: "Facebook", url: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}` },
+    { name: "Twitter", url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(customMessage)}&url=${shareUrl}` },
+    { name: "WhatsApp", url: `https://api.whatsapp.com/send?text=${encodeURIComponent(customMessage)}%20${shareUrl}` },
+  ];
 
   const categoryImageSrc = getCategoryImgSrc(product.categoryId);
 
@@ -131,19 +102,42 @@ const ProductCard = ({ product }) => {
           <button className="btn-primarySection secondary" onClick={handleMoreInfo}>
             Saber más
           </button>
-          <button className="btn-primarySection share" onClick={handleShare}>
+          <button className="btn-primarySection secondary" onClick={handleOpenShareModal}>
             Compartir
           </button>
         </div>
       </div>
 
-      {showSharePopup && (
-        <SharePopup
-          onClose={closePopup}
-          product={product}
-          shareOnSocialMedia={shareOnSocialMedia}
+      {/* Modal for Sharing */}
+      <Modal isOpen={isModalOpen} onRequestClose={handleCloseShareModal} contentLabel="Compartir">
+        <h3>Compartir este producto</h3>
+
+        {/* Mostrar imagen del producto */}
+        <div className="modal-image">
+          <img 
+            src={product.imageUrlList[0]} 
+            alt={product.destination} 
+            className="modal-product-image"
+          />
+        </div>
+
+        <p>Añade un mensaje personalizado:</p>
+        <textarea
+          value={customMessage}
+          onChange={(e) => setCustomMessage(e.target.value)} // Update the message when the user changes it
+          placeholder="Agrega tu mensaje personalizado..."
         />
-      )}
+        <div className="social-options">
+          {socialOptions.map((option) => (
+            <a key={option.name} href={option.url} target="_blank" rel="noopener noreferrer" className="social-link">
+              {option.name}
+            </a>
+          ))}
+        </div>
+        <button onClick={handleCloseShareModal} className="btn-close">
+          Cerrar
+        </button>
+      </Modal>
     </div>
   );
 };
