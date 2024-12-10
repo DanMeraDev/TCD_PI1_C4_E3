@@ -6,6 +6,7 @@ import './TourInfo.css';
 import { destinos, climbingStyles, categoria } from "../../utils/constants";
 import Modal from 'react-modal';
 import AvailabilityCalendar from '../Calendar/AvailabilityCalendar';
+import { isTokenExpired } from '../../utils/functions/jwt';
 
 const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
 const getCategoryLabel = (value) => categoria.find((c) => c.value === value)?.label || value;
@@ -119,6 +120,16 @@ function TourInfo() {
     setCurrentImage(image);
   };
 
+  const handleReservation = (tourId) => {
+    const token = sessionStorage.getItem("token")
+    if(token && !isTokenExpired(token)){
+      navigate(`/reservation/tour/${tourId}`)
+    } else {
+      alert("Para realizar una reserva primero debes iniciar sesión")
+      navigate("/login")
+    }
+  }
+
   return (
     <div>
       <Navbar />
@@ -189,7 +200,7 @@ function TourInfo() {
               ))}
             </ul>
           </div>
-          <button className="btn-primarySection primary" onClick={() => navigate("/reservation")}>
+          <button className="btn-primarySection primary" onClick={() => handleReservation(id) }>
             Reservar
           </button>
         </div>

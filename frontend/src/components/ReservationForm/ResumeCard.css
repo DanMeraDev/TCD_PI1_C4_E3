@@ -1,0 +1,148 @@
+.card-container-product {
+  width: 80%;
+  height: 350px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.card-container-product:hover {
+  transform: translateY(-10px);
+}
+
+.image-section {
+  position: relative;
+  width: 45%;
+  height: 100%;
+}
+
+.tour-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 0 0 8px;
+  object-fit: cover;
+}
+
+.image-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.content-section {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 250px;
+}
+
+.header-product {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.destination-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  padding-left: 10px;
+  text-align:left;
+}
+
+.level-tag {
+  font-size: 10px;
+  color: #555;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.description-product {
+  font-size: 14px;
+  height: 150px;
+  color: #777;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.card-data {
+  height: 20px;
+  font-size: 14px;
+  color: #777;
+  text-align: left;
+  margin: 0;
+  padding-left: 5px;
+}
+
+.card-buttons {
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap:10px;
+
+}
+
+.secondary {
+  background-color: #f5f5f5;
+  color: #333;
+
+}
+
+.secondary:hover {
+  background-color: #eaeaea;
+}
+
+.category-icon {
+  width: 25px; /* adjust size */
+  height: 25px; /* adjust size */
+  margin-right: 8px; /* space between icon and text */
+}
+
+@media (min-width: 768px) {
+  .card-container-product {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .card-container-product {
+    width: 520px;
+    margin-bottom: 50px;
+  }
+
+  .description-product {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .climbing-style {
+    font-size: 14px;
+  }
+
+
+
+}

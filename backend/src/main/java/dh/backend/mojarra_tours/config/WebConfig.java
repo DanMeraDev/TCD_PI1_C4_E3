@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://ramoja-tours.vercel.app"
                 ) // Allow specific origins
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific methods
-                .allowedHeaders("*") // Allow all headers
+                .allowedHeaders("*")// Allow all headers
                 .allowCredentials(true);
     }
 }
