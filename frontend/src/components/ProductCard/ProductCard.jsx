@@ -128,7 +128,7 @@ const ProductCard = ({ product }) => {
         <div className="social-options">
           {socialOptions.map((option) => (
             <a key={option.name} href={option.url} target="_blank" rel="noopener noreferrer" className="social-link">
-              Compartir en {option.name}
+              {option.name}
             </a>
           ))}
         </div>

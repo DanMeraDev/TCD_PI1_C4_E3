@@ -100,25 +100,21 @@
 
 .card-buttons {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-start; /* Alinea los botones a la izquierda */
+  gap: 5px; /* Espaciado entre botones */
+  margin-top: 5px; /* Margen superior reducido */
 }
 
-.button {
-  padding: 10px 15px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
+.btn-primarySection {
+  width: 100px;
+  padding: 8px; 
+  font-size: 16px; 
   border: none;
-  border-radius: 8px;
+  border-radius: 4px; /* Bordes ligeramente redondeados */
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.secondary {
-  background-color: #f5f5f5;
-  color: #333;
-
+  text-align: center;
+  box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
+  transition: background-color 0.3s ease; /* Transición suave para hover */
 }
 
 .secondary:hover {
@@ -135,6 +131,7 @@
 .card-buttons .btn-primarySection.primary {
   background-color: #ff6600;
   color: white;
+  width: 80px;
 }
 
 .card-buttons .btn-primarySection.primary:hover {
@@ -155,6 +152,7 @@
 .card-buttons .btn-primarySection.secondary:last-child {
   background-color: #fcd792;
   color: #333;
+  width: 80px;
 }
 
 .card-buttons .btn-primarySection.secondary:last-child:hover {
@@ -164,22 +162,19 @@
 /* Para pantallas más grandes */
 @media (min-width: 768px) {
   .card-buttons button {
-    width: auto; /* En pantallas más grandes los botones pueden tener su tamaño natural */
+    width: auto; 
   }
 }
 
 /* Modal Overlay */
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
-  position: fixed; /* Fijo para que se superponga sobre el contenido */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: fixed;
   display: flex;
   justify-content: center; /* Centrado horizontal */
   align-items: center; /* Centrado vertical */
   z-index: 1000;
+  overflow: hidden; /* Evita el desplazamiento si es necesario */
 }
 
 /* Modal Content */
@@ -187,12 +182,25 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  width: 90%; /* 90% del ancho de la pantalla */
-  max-width: 500px; /* Ancho máximo */
+  width: 90%;
+  max-width: 300px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1001;
-  position: relative; /* Necesario para asegurar que se ubique correctamente */
-  transform: none; /* Eliminamos la transformación anterior */
+  position: relative; /* Asegura que se ubique correctamente en el overlay */
+  transform: translate(0, 0); 
+  animation: fadeIn 0.3s ease-in-out; 
+}
+
+/* Animación opcional */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .ReactModal__Content h3 {
@@ -215,7 +223,7 @@
 
 .social-options {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
 }
 
