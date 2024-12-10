@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Modal from "react-modal"; // Instala react-modal: npm install react-modal
 import "./ProductCard.css";
 import { destinos, dias, climbingStyles, categoria } from "../../utils/constants";
+import { decodeToken, isTokenExpired } from "../../utils/functions/jwt";
 
 // Utility functions to find the corresponding label
 const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
@@ -18,7 +19,14 @@ const ProductCard = ({ product }) => {
   const [customMessage, setCustomMessage] = useState(""); // Default empty message
 
   const handleReserve = () => {
-    navigate(`/tours/${product.id}`);
+    
+    const token = sessionStorage.getItem("token");
+    if(token && !isTokenExpired(token)){
+      navigate(`/reservation/tour/${product.id}`);
+    } else {
+      alert("Debes iniciar sesión para realizar una reserva")
+      navigate("/login")
+    }
   };
 
   const handleMoreInfo = () => {

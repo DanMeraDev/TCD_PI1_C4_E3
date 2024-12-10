@@ -189,7 +189,7 @@ function TourInfo() {
               ))}
             </ul>
           </div>
-          <button className="btn-primarySection primary" onClick={() => navigate("/reservation")}>
+          <button className="btn-primarySection primary" onClick={() => navigate(`/reservation/tour/${id}`)}>
             Reservar
           </button>
         </div>
