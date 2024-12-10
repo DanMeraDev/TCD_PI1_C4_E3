@@ -9,11 +9,11 @@ import { destinos, dias, climbingStyles, categoria } from "../../utils/constants
   const getDayLabel = (value) => dias.find((d) => d.value === value)?.label || value;
   const getClimbingStyleLabel = (value) => climbingStyles.find((c) => c.value === value)?.label || value;
   const getCategoryLabel = (value) => categoria.find((c)=> c.value === value)?.label || value;
-//   const getCategoryImgSrc = (value) => categoria.find((c)=> c.value === value)?.imageSrc || value;
+  const getCategoryImgSrc = (value) => categoria.find((c)=> c.value === value)?.imageSrc || value;
 
 const ResumeCard = ({ product }) => {
 
-//   const categoryImageSrc = getCategoryImgSrc(product.categoryId);
+  const categoryImageSrc = getCategoryImgSrc(product.categoryId);
 
   return (
     <div className="card-container-product">
@@ -30,13 +30,13 @@ const ResumeCard = ({ product }) => {
         <div className="info-section">
           <div className="header-product">
             <h3 className="destination-title">
-            {/* {categoryImageSrc && (
+            {categoryImageSrc && (
                 <img
                   src={categoryImageSrc}
                   alt="icon"
                   className="category-icon"
                 />
-              )} */}
+              )}
               {getCategoryLabel(product.categoryId)} en {getDestinationLabel(product.destination)}</h3>
             <span className="level-tag">{product.level}</span>
           </div>
