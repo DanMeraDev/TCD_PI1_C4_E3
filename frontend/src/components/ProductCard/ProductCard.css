@@ -348,3 +348,27 @@
     font-size: 12px; /* Texto más pequeño para los botones */
   }
 }
+
+@media (min-width: 768px) {
+  .card-container-product {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .card-container-product {
+    width: 520px;
+    margin-bottom: 50px;
+  }
+
+  .description-product {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .climbing-style {
+    font-size: 14px;
+  }
+
+}
