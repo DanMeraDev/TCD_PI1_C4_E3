@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 import { destinos, dias, climbingStyles, categoria } from "../../utils/constants";
+import { decodeToken, isTokenExpired } from "../../utils/functions/jwt";
 
 
 
@@ -16,7 +17,14 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   const handleReserve = () => {
-    navigate(`/tours/${product.id}`);
+    
+    const token = sessionStorage.getItem("token");
+    if(token && !isTokenExpired(token)){
+      navigate(`/reservation/tour/${product.id}`);
+    } else {
+      alert("Debes iniciar sesión para realizar una reserva")
+      navigate("/login")
+    }
   };
 
   const handleMoreInfo = () => {
