@@ -22,7 +22,7 @@ const ReservationForm = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [totalCost, setTotalCost] = useState(0);
   const [currentImage, setCurrentImage] = useState("");
-
+  const [userData, setUserData] = useState({});
 
   //DATE MODAL
   const customModalStyles = {
@@ -47,6 +47,7 @@ const ReservationForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
 
   const BASE_URL = "https://ramoja-tours.up.railway.app";
 
@@ -94,7 +95,11 @@ const ReservationForm = () => {
 
   // Obtener el userId al cargar el componente
   useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("user"))
     getUserIdFromToken();
+    if(user){
+        setUserData(user)
+    }
   }, []);
 
 
@@ -181,7 +186,7 @@ const ReservationForm = () => {
           {/* Detalles del Tour y Formulario */}
           <div className="reservation-detail-info">
             <h1>Reserva para {getCategoryLabel(tour.categoryId)} en {getDestinationLabel(tour.destination)}</h1>
-            <h2>Detalles de la reserva</h2>
+            <span className="greeting-data">{userData && `Hola, ${userData.name} (${userData.email}) aquí están los `}detalles de tu reserva</span>
             <ResumeCard product={tour} />
             <form onSubmit={handleSubmit} className="reservation-options">
 
