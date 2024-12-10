@@ -106,7 +106,7 @@ const ProductCard = ({ product }) => {
             Reservar
           </button>
           <button className="btn-primarySection secondary" onClick={handleMoreInfo}>
-            Saber más
+            Ver más
           </button>
           <button className="btn-primarySection secondary" onClick={handleOpenShareModal}>
             Compartir

@@ -40,8 +40,8 @@ export const niveles = [
   ];
 
   export const categoria = [
-    { value: 1, label: "Escalada", imageSrc: "src/assets/Icono-Escalada.svg" },
-    { value: 2, label: "Senderismo", imageSrc: "src/assets/icono-Senderismo.svg" },
-    { value: 3, label: "Slack Line", imageSrc: "src/assets/icono-slack.svg" },
-    { value: 4, label: "Turismo", imageSrc: "src/assets/icono-turismo.svg" },
+    { value: 1, label: "Escalada", imageSrc: "/assets/Icono-Escalada.svg" },
+    { value: 2, label: "Senderismo", imageSrc: "/assets/icono-Senderismo.svg" },
+    { value: 3, label: "Slack Line", imageSrc: "/assets/icono-slack.svg" },
+    { value: 4, label: "Turismo", imageSrc: "/assets/icono-turismo.svg" },
   ];

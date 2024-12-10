@@ -10,12 +10,12 @@
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease;
   margin-bottom: 20px;
 }
 
 .card-container-product:hover {
-  transform: translateY(-10px);
+  transform: translateY(-4px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -146,13 +146,13 @@
 
 /* Estilo del botón "Reservar" */
 .card-buttons .btn-primarySection.primary {
-  background-color: #ff6600;
+  background-color: #C36E29;
   color: white;
   width: 80px;
 }
 
 .card-buttons .btn-primarySection.primary:hover {
-  background-color: #e65c00;
+  background-color: #eea161;
 }
 
 /* Estilo del botón "Saber más" */

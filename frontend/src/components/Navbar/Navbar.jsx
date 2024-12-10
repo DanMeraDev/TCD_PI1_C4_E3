@@ -99,7 +99,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-content">
         <div className="logo-container" onClick={()=>navigate("/")}>
-          <img src="/src/assets/Img/Logo_nav.png" alt="nav-logo" className="logo-image" />
+          <img src="/assets/Logo_nav.png" alt="nav-logo" className="logo-image" />
         </div>
         <ul className="link-container">
           {isLoggedIn ? (

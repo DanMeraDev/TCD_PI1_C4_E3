@@ -42,7 +42,7 @@ const RecommendationsSection = () => {
   const handleReservation = (tourId) => {
     const token = sessionStorage.getItem("token")
     if(token && !isTokenExpired(token)){
-      navigate(`/reservations/tour/${tourId}`);
+      navigate(`/reservation/tour/${tourId}`);
     } else {
       alert("Necesitas iniciar sesión para realizar una reserva")
       navigate("/login")
