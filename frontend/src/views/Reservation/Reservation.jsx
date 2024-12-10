@@ -6,9 +6,7 @@ const Reservation = () => {
     return (
       <>
         <Navbar />
-        <main style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <ReservationForm />
-        </main>
+        <ReservationForm />
         <Footer />
       </>
     );

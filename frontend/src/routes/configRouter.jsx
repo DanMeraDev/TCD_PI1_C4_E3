@@ -47,7 +47,7 @@ const configRouter = [
     element: <AddTour />,
   },
   {
-    path: "/reservation",
+    path: "/reservation/tour/:tourId",
     element: <Reservation/>,
   },
   { 

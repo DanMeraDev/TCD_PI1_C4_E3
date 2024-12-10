@@ -1,50 +1,118 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import "./ReservationForm.css";
-import tourImage from "../../assets/Img/mojarra1.jpg";
+import { useParams } from "react-router-dom";
+import { decodeToken, isTokenExpired } from "../../utils/functions/jwt";
+import { destinos, categoria } from "../../utils/constants";
+import ResumeCard from "./ResumeCard";
+import Modal from 'react-modal';
+import AvailabilityCalendar from '../Calendar/AvailabilityCalendar';
 
-const ReservationForm = ({ tourId, tourName, description, basePrice = 100 }) => {
+
+const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
+const getCategoryLabel = (value) => categoria.find((c) => c.value === value)?.label || value;
+
+const ReservationForm = () => {
+  //TOUR DATA
+  const { tourId } = useParams();
+  const [tour, setTour] = useState(null);
+  //FORM
   const [diet, setDiet] = useState("NORMAL");
   const [includeLunch, setIncludeLunch] = useState(false);
   const [includeEquipment, setIncludeEquipment] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
-  const [difficulty, setDifficulty] = useState("");
-  const [schedule, setSchedule] = useState("");
-  const [totalCost, setTotalCost] = useState(basePrice);
+  const [totalCost, setTotalCost] = useState(0);
+  const [currentImage, setCurrentImage] = useState("");
+
+
+  //DATE MODAL
+  const customModalStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '20px',
+      borderRadius: '10px',
+      maxWidth: '350px',
+      width: '50%',
+    }
+  };
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [occupiedDates, setOccupiedDates] = useState(null);
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const BASE_URL = "https://ramoja-tours.up.railway.app";
 
   // Obtener el ID del usuario del token
   const getUserIdFromToken = () => {
     const token = sessionStorage.getItem("token");
-    if (token) {
+    if (token && !isTokenExpired(token)) {
       try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        return payload.sub; // Obtener el ID del usuario
+        const userId = decodeToken(token).sub;
+        setUserId(userId)// Obtener el ID del usuario
       } catch (error) {
-        console.error("Error al parsear el token:", error);
+        console.error("Error obtener información del token:", error);
       }
     }
-    return null;
   };
+
+  useEffect(() => {
+    const fetchTour = async () => {
+      try {
+        const response = await fetch(`https://ramoja-tours.up.railway.app/api/tours/${tourId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch tour data');
+        }
+        const data = await response.json();
+        setTour(data);
+        setCurrentImage(data.imageUrlList[0]); // set default image as the first image.
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTour();
+  }, [tourId]);
 
   // Calcular el costo total
   useEffect(() => {
+    const basePrice = 120.0;
     let cost = basePrice;
-    if (includeLunch) cost += 20;
-    if (includeEquipment) cost += 30;
+    if (includeLunch) cost += 25;
+    if (includeEquipment) cost += 40;
     setTotalCost(cost);
-  }, [includeLunch, includeEquipment, basePrice]);
+  }, [includeLunch, includeEquipment]);
 
   // Obtener el userId al cargar el componente
   useEffect(() => {
-    const id = getUserIdFromToken();
-    setUserId(id);
-    console.log(id)
+    getUserIdFromToken();
   }, []);
+
+
+
+
+  const fetchOccupiedDates = async () => {
+    try {
+      const response = await fetch(`https://ramoja-tours.up.railway.app/api/reservations/tours/${tourId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch occupied dates');
+      }
+      const data = await response.json();
+      const dates = data.map(reservation => reservation.date); // Extract dates
+      setOccupiedDates(dates);
+    } catch (err) {
+      console.error('Error fetching occupied dates:', err);
+    }
+  };
 
   // Manejar el envío del formulario
   const handleSubmit = async (e) => {
@@ -52,8 +120,9 @@ const ReservationForm = ({ tourId, tourName, description, basePrice = 100 }) => 
     setError("");
     setSuccess("");
 
-    if (!selectedDate || !difficulty || !schedule) {
+    if (!selectedDate || !userId || !tourId || !totalCost) {
       setError("Por favor, completa todos los campos obligatorios.");
+      console.log(selectedDate, userId, tourId, diet, totalCost)
       return;
     }
 
@@ -64,20 +133,23 @@ const ReservationForm = ({ tourId, tourName, description, basePrice = 100 }) => 
       includeLunch,
       includeEquipment,
       date: selectedDate,
-      difficulty,
-      schedule,
       totalCost,
     };
 
     try {
+      const token = sessionStorage.getItem("token");
       const response = await fetch(`${BASE_URL}/api/reservations`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` 
+        },
         body: JSON.stringify(reservationData),
       });
 
       if (response.ok) {
         setSuccess("Reserva realizada con éxito.");
+        //BORRAR FORMULARIO PARA EVITAR DOBLE ENVIO
       } else {
         const error = await response.json();
         setError(error.message || "Error al realizar la reserva.");
@@ -87,124 +159,114 @@ const ReservationForm = ({ tourId, tourName, description, basePrice = 100 }) => 
     }
   };
 
+  const openModal = async () => {
+    await fetchOccupiedDates(); // Fetch occupied dates before opening the modal
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <div>
-      <div className="tour-detail">
-        {/* Imagen del Tour */}
-        <div className="tour-detail-image">
-          <img src={tourImage} alt={tourName || "Tour"} />
+    <div className="reservation-main">
+      {loading && <p>Loading...</p>}
+      
+
+      {tour &&
+        <div className="reservation-detail">
+          {/* Imagen del Tour */}
+          <div className="reservation-detail-image">
+            <img src={currentImage} alt={"reservation-image"} />
+          </div>
+
+          {/* Detalles del Tour y Formulario */}
+          <div className="reservation-detail-info">
+            <h1>Reserva para {getCategoryLabel(tour.categoryId)} en {getDestinationLabel(tour.destination)}</h1>
+            <h2>Detalles de la reserva</h2>
+            <ResumeCard product={tour} />
+            <form onSubmit={handleSubmit} className="reservation-options">
+
+              <div className="date-container">
+                <div>
+                  <span><strong>Fecha Salida:</strong> {selectedDate}</span>
+                </div>
+                <div className="calendar" onClick={openModal}>
+                  <span > 📅Seleccionar fecha</span>
+                </div>
+              </div>
+
+              <div className="lunch-checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={includeLunch}
+                    onChange={(e) => setIncludeLunch(e.target.checked)}
+                  />
+                  Incluir Almuerzo (+25.0)
+                </label>
+              </div>
+              <div className="diet-option">
+                <label htmlFor="diet">Alimentación:</label>
+                <select
+                  id="diet"
+                  value={diet}
+                  onChange={(e) => setDiet(e.target.value)}
+                >
+                  <option value="NORMAL">Proteína animal y vegetales</option>
+                  <option value="VEGETARIAN">Vegetariano</option>
+                  <option value="VEGAN">Vegano</option>
+                  <option value="GLUTEN_FREE">Sin Gluten</option>
+                </select>
+              </div>
+
+
+              <div className="equipment-checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={includeEquipment}
+                    onChange={(e) => setIncludeEquipment(e.target.checked)}
+                  />
+                  Alquilar Equipo (+40.0)
+                </label>
+              </div>
+
+              <div className="total-summary">
+                <strong>Costo Total:</strong> ${totalCost.toFixed(2)}
+              </div>
+
+              <button type="submit" className="reserve-button">
+                Reservar
+              </button>
+            </form>
+
+            {error && <div className="error-message">{error}</div>}
+            {success && <div className="success-message">{success}</div>}
+          </div>
+          <Modal
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            style={customModalStyles}
+            contentLabel="Availability Calendar"
+            ariaHideApp={false}
+          >
+            <AvailabilityCalendar
+              day={tour.day}
+              title="Seleccione una fecha"
+              availableDates={tour.availableDates || []}
+              occupiedDates={occupiedDates}
+              onDateSelected={(date) => {
+                console.log("Selected Date:", date);
+                setSelectedDate(date);
+                closeModal();
+              }}
+            />
+            <p onClick={closeModal} className="modal-close-button">Cerrar</p>
+          </Modal>
         </div>
 
-        {/* Detalles del Tour y Formulario */}
-        <div className="tour-detail-info">
-          <h1>{tourName || "Tour de Escalada"}</h1>
-          <p>{description || "Vive una experiencia inolvidable en este tour único."}</p>
-
-          <form onSubmit={handleSubmit} className="tour-options">
-            <div className="form-group">
-              <label htmlFor="date">Fecha del Tour:</label>
-              <input
-                type="date"
-                id="date"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="schedule">Horario:</label>
-              <select
-                id="schedule"
-                value={schedule}
-                onChange={(e) => setSchedule(e.target.value)}
-                required
-              >
-                <option value="">Selecciona un horario</option>
-                <option value="tarde">Tarde</option>
-                <option value="noche">Noche</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="difficulty">Dificultad:</label>
-              <select
-                id="difficulty"
-                value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value)}
-                required
-              >
-                <option value="">Selecciona una dificultad</option>
-                <option value="principiante">Principiante</option>
-                <option value="intermedio">Intermedio</option>
-                <option value="avanzado">Avanzado</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="diet">Alimentación:</label>
-              <select
-                id="diet"
-                value={diet}
-                onChange={(e) => setDiet(e.target.value)}
-              >
-                <option value="NORMAL">Proteína animal y vegetales</option>
-                <option value="VEGETARIAN">Vegetariano</option>
-                <option value="VEGAN">Vegano</option>
-                <option value="GLUTEN_FREE">Sin Gluten</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={includeLunch}
-                  onChange={(e) => setIncludeLunch(e.target.checked)}
-                />
-                Incluir Almuerzo (+20.0)
-              </label>
-            </div>
-
-            <div className="form-group">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={includeEquipment}
-                  onChange={(e) => setIncludeEquipment(e.target.checked)}
-                />
-                Alquilar Equipo (+30.0)
-              </label>
-            </div>
-
-            <div className="form-summary">
-              <strong>Costo Total:</strong> ${totalCost.toFixed(2)}
-            </div>
-
-            <button type="submit" className="reserve-button">
-              Reservar
-            </button>
-          </form>
-
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
-        </div>
-      </div>
+      }
     </div>
   );
-};
-
-ReservationForm.propTypes = {
-  tourId: PropTypes.number.isRequired,
-  tourName: PropTypes.string,
-  description: PropTypes.string,
-  basePrice: PropTypes.number,
-};
-
-ReservationForm.defaultProps = {
-  tourName: "Tour de Escalada",
-  description: "Vive una experiencia inolvidable en este tour único.",
-  basePrice: 100,
 };
 
 export default ReservationForm;
