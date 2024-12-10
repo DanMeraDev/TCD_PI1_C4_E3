@@ -194,6 +194,28 @@
   overflow: hidden; /* Evita el desplazamiento si es necesario */
 }
 
+.Modal__Overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
+
+.Modal__Content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%; /* Puedes ajustar el tamaño máximo */
+  max-height: 90%; /* Puedes ajustar la altura máxima */
+  overflow-y: auto; /* Asegura que el contenido se puede desplazar si es muy largo */
+}
+
+
 /* Modal Content */
 .ReactModal__Content {
   background-color: #fff;

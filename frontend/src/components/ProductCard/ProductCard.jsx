@@ -107,35 +107,41 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Modal for Sharing */}
-      <Modal isOpen={isModalOpen} onRequestClose={handleCloseShareModal} contentLabel="Compartir">
-        <h3>Compartir este producto</h3>
+      <Modal
+  isOpen={isModalOpen}
+  onRequestClose={handleCloseShareModal}
+  contentLabel="Compartir"
+  className="Modal__Content"   // Añadir esta clase para personalizar el contenido
+  overlayClassName="Modal__Overlay" // Añadir esta clase para personalizar el overlay
+>
+  <h3>Compartir este producto</h3>
 
-        {/* Mostrar imagen del producto */}
-        <div className="modal-image">
-          <img 
-            src={product.imageUrlList[0]} 
-            alt={product.destination} 
-            className="modal-product-image"
-          />
-        </div>
+  <div className="modal-image">
+    <img 
+      src={product.imageUrlList[0]} 
+      alt={product.destination} 
+      className="modal-product-image"
+    />
+  </div>
 
-        <p>Añade un mensaje personalizado:</p>
-        <textarea
-          value={customMessage}
-          onChange={(e) => setCustomMessage(e.target.value)} // Update the message when the user changes it
-          placeholder="Agrega tu mensaje personalizado..."
-        />
-        <div className="social-options">
-          {socialOptions.map((option) => (
-            <a key={option.name} href={option.url} target="_blank" rel="noopener noreferrer" className="social-link">
-               {option.name}
-            </a>
-          ))}
-        </div>
-        <button onClick={handleCloseShareModal} className="btn-close">
-          Cerrar
-        </button>
-      </Modal>
+  <p>Añade un mensaje personalizado:</p>
+  <textarea
+    value={customMessage}
+    onChange={(e) => setCustomMessage(e.target.value)}
+    placeholder="Agrega tu mensaje personalizado..."
+  />
+  <div className="social-options">
+    {socialOptions.map((option) => (
+      <a key={option.name} href={option.url} target="_blank" rel="noopener noreferrer" className="social-link">
+        {option.name}
+      </a>
+    ))}
+  </div>
+  <button onClick={handleCloseShareModal} className="btn-close">
+    Cerrar
+  </button>
+</Modal>
+
     </div>
   );
 };
