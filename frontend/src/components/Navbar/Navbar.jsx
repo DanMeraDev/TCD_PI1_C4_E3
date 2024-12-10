@@ -98,7 +98,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-content">
         <div className="logo-container" onClick={()=>navigate("/home")}>
-          <img src="/src/assets/Img/Logo_nav.png" alt="nav-logo" className="logo-image" />
+          <img src="/src/assets/Logo_nav.png" alt="nav-logo" className="logo-image" />
         </div>
         <ul className="link-container">
           {isLoggedIn ? (
