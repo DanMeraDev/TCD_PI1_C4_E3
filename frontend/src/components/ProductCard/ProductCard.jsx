@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Modal from "react-modal"; // Instala react-modal: npm install react-modal
@@ -130,7 +128,7 @@ const ProductCard = ({ product }) => {
         <div className="social-options">
           {socialOptions.map((option) => (
             <a key={option.name} href={option.url} target="_blank" rel="noopener noreferrer" className="social-link">
-              {option.name}
+               {option.name}
             </a>
           ))}
         </div>
