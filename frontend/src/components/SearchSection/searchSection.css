@@ -14,8 +14,8 @@
 }
 
 
-.searchTitle {
-  color:  #ebdfc500; /* Color secundario */
+.titulo {
+  color:  black; /* Color secundario */
   font-size: 28px; /* Tamaño ajustado */
   font-weight: bold;
   margin: 0;
@@ -58,11 +58,34 @@
   box-shadow: 0 0 5px rgba(195, 110, 57, 0.5);
 }
 
-.result-section{
-  display: flex;
-  align-items: center;
+.result-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Hasta 3 columnas como máximo */
+  max-width: 1200px; /* Asegura que no supere el ancho de 3 columnas */
+  gap: 20px; /* Espacio entre las cards */
+  padding: 20px; /* Espacio interno alrededor del grid */
+  margin: 0 auto; /* Centra el grid horizontalmente */
   justify-content: center;
-  padding: 20px 20px 0px;
+  justify-items: center; /* Centrar las columnas horizontalmente */
+}
+
+.clear-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ff4d4d; /* Rojo llamativo */
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative; /* Para ajustar la posición */
+  margin: 20px auto; /* Centrar horizontalmente */
+  display: block; /* Permite el centrado */
+}
+
+.clear-button:hover {
+  background-color: #ff1a1a; /* Cambiar el color al pasar el mouse */
 }
 
 
