@@ -1,5 +1,6 @@
 .card-container-product {
   width: 80%;
+  max-width: 600px; /* Limitar el ancho máximo en pantallas grandes */
   height: 350px;
   display: flex;
   flex-direction: row;
@@ -9,12 +10,13 @@
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 20px;
 }
 
 .card-container-product:hover {
   transform: translateY(-10px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .image-section {
@@ -97,12 +99,20 @@
 }
 
 .card-buttons {
-  height: 40px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  gap:10px;
+  gap: 10px;
+}
 
+.button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .secondary {
@@ -119,6 +129,139 @@
   width: 25px; /* adjust size */
   height: 25px; /* adjust size */
   margin-right: 8px; /* space between icon and text */
+}
+
+/* Estilo del botón "Reservar" */
+.card-buttons .btn-primarySection.primary {
+  background-color: #ff6600;
+  color: white;
+}
+
+.card-buttons .btn-primarySection.primary:hover {
+  background-color: #e65c00;
+}
+
+/* Estilo del botón "Saber más" */
+.card-buttons .btn-primarySection.secondary {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.card-buttons .btn-primarySection.secondary:hover {
+  background-color: #eaeaea;
+}
+
+/* Estilo del botón "Compartir" */
+.card-buttons .btn-primarySection.secondary:last-child {
+  background-color: #fcd792;
+  color: #333;
+}
+
+.card-buttons .btn-primarySection.secondary:last-child:hover {
+  background-color: #eaeaea;
+}
+
+/* Para pantallas más grandes */
+@media (min-width: 768px) {
+  .card-buttons button {
+    width: auto; /* En pantallas más grandes los botones pueden tener su tamaño natural */
+  }
+}
+
+/* Modal Overlay */
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+  position: fixed; /* Fijo para que se superponga sobre el contenido */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  align-items: center; /* Centrado vertical */
+  z-index: 1000;
+}
+
+/* Modal Content */
+.ReactModal__Content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%; /* 90% del ancho de la pantalla */
+  max-width: 500px; /* Ancho máximo */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  position: relative; /* Necesario para asegurar que se ubique correctamente */
+  transform: none; /* Eliminamos la transformación anterior */
+}
+
+.ReactModal__Content h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+.ReactModal__Content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.social-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social-link {
+  text-decoration: none;
+  background-color: #fcd792;
+  color: rgb(46, 46, 46);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.social-link:hover {
+  background-color: #3f3d3b;
+  color: #ddd;
+}
+
+.btn-close {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.btn-close:hover {
+  background-color: #eaeaea;
+}
+
+.modal-image {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-product-image {
+  max-width: 50%; /* Limita el tamaño de la imagen */
+  max-height: 50%; /* Ajusta la altura máxima */
+  object-fit: cover; /* Mantiene la proporción y cubre el contenedor */
+  border-radius: 8px;
 }
 
 @media (min-width: 768px) {
