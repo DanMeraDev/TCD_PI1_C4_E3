@@ -102,13 +102,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap:10px;
-
-}
-
-.btn-primarySection {
-  padding: 8px 12px; /* Botones más pequeños */
-  font-size: 14px; /* Texto más compacto */
+  gap: 10px;
 }
 
 .secondary {
@@ -116,22 +110,29 @@
   max-width: 300px;
   background-color: #f5f5f5;
   color: #333;
-
-  justify-content: flex-start; /* Alinea los botones a la izquierda */
   gap: 5px; /* Espaciado entre botones */
   margin-top: 5px; /* Margen superior reducido */
+  display: flex; /* los íconos y textos se alineen correctamente */
+  align-items: center; /* Centra verticalmente el contenido */
+  overflow: hidden; /* Evita que el texto salga del botón */
+  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
 }
 
 .btn-primarySection {
-  width: 100px;
-  padding: 8px; 
-  font-size: 16px; 
+  display: flex; /* Activa el modelo de caja flexible */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: auto; /* Permite ajustar el ancho dinámicamente */
+  min-width: 80px; /* Tamaño mínimo del botón */
+  padding: 8px 12px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño del texto */
   border: none;
-  border-radius: 4px; /* Bordes ligeramente redondeados */
+  border-radius: 4px; /* Bordes redondeados */
   cursor: pointer;
-  text-align: center;
-  box-sizing: border-box; /* Incluye padding y borde en el tamaño total */
+  text-align: center; /* Alineación horizontal (como respaldo) */
+  box-sizing: border-box; /* Incluye padding y bordes */
   transition: background-color 0.3s ease; /* Transición suave para hover */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
 }
 
 .secondary:hover {
@@ -139,16 +140,16 @@
 }
 
 .category-icon {
-  width: 25px; /* adjust size */
-  height: 25px; /* adjust size */
-  margin-right: 8px; /* space between icon and text */
+  width: 25px; /* Ajusta el tamaño */
+  height: 25px; /* Ajusta el tamaño */
+  margin-right: 8px; /* Espacio entre el ícono y el texto */
 }
 
 /* Estilo del botón "Reservar" */
 .card-buttons .btn-primarySection.primary {
   background-color: #C36E29;
   color: white;
-  width: 80px;
+  padding: 8px 12px; /* Espaciado interno adicional */
 }
 
 .card-buttons .btn-primarySection.primary:hover {
@@ -159,6 +160,7 @@
 .card-buttons .btn-primarySection.secondary {
   background-color: #f5f5f5;
   color: #333;
+
 }
 
 .card-buttons .btn-primarySection.secondary:hover {
@@ -169,19 +171,17 @@
 .card-buttons .btn-primarySection.secondary:last-child {
   background-color: #fcd792;
   color: #333;
-  width: 80px;
+  width: auto; /* Ajusta el ancho dinámicamente */
+
 }
 
 .card-buttons .btn-primarySection.secondary:last-child:hover {
   background-color: #eaeaea;
 }
 
-/* Para pantallas más grandes */
-@media (min-width: 768px) {
-  .card-buttons button {
-    width: auto; 
-  }
-}
+
+
+
 
 /* Modal Overlay */
 .ReactModal__Overlay {
@@ -337,6 +337,8 @@
   .card-container-product {
     flex-direction: column; /* Apila las secciones de la tarjeta verticalmente */
     height: auto; /* Permite que la altura sea dinámica */
+    width: 100%; /* Asegura que no se desborde en pantallas pequeñas */
+    padding: 0 10px;
   }
 
   .image-section {
@@ -360,7 +362,6 @@
   }
 
   .card-buttons {
-    
     flex-direction: column; /* Apila los botones verticalmente */
     align-items: center; /* Los botones ocupan el ancho completo */
     
@@ -390,28 +391,4 @@
     padding: 8px; /* Reducir el padding para pantallas muy pequeñas */
     font-size: 12px; /* Texto más pequeño para los botones */
   }
-}
-
-@media (min-width: 768px) {
-  .card-container-product {
-    width: 60%;
-  }
-}
-
-@media (min-width: 1024px) {
-
-  .card-container-product {
-    width: 520px;
-    margin-bottom: 50px;
-  }
-
-  .description-product {
-    margin: 0;
-    font-size: 14px;
-  }
-
-  .climbing-style {
-    font-size: 14px;
-  }
-
 }
