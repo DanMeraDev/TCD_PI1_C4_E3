@@ -223,4 +223,11 @@
     font-size: 0.85em; /* Ajustar aún más el tamaño en pantallas muy pequeñas */
     padding: 6px 10px;
   }
+  .tour-info-container, .tour-image-container{
+    width: 100%;
+  }
+  .info-upper{
+    flex-direction: column-reverse;
+    align-items:center;
+  }
 }

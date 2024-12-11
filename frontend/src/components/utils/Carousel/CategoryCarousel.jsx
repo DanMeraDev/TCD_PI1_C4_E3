@@ -10,14 +10,6 @@ const CategoryCarousel = () => {
   const carouselRef = useRef(null);
   const navigate = useNavigate();
 
-  // const scrollLeft = () => {
-  //   carouselRef.current.scrollBy({ left: -100, behavior: 'smooth' });
-  // };
-
-  // const scrollRight = () => {
-  //   carouselRef.current.scrollBy({ left: 100, behavior: 'smooth' });
-  // };
-
   const scrollLeft = () => {
     const itemWidth = carouselRef.current.firstElementChild.offsetWidth; // Width of one item
     carouselRef.current.scrollBy({ left: -itemWidth, behavior: 'smooth' });
