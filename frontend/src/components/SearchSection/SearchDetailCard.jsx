@@ -1,5 +1,8 @@
+import { destinos } from "../../utils/constants";
 import "./SearchDetailCard.css";
 import { useNavigate } from "react-router-dom";
+
+const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
 
 const SearchDetailCard = ({
   id, 
@@ -21,7 +24,7 @@ const SearchDetailCard = ({
     >
       <div className="card-detail">
         <div className="card-info">
-          <h3 className="title">{nameTour}</h3>
+          <h3 className="title">{getDestinationLabel(nameTour)}</h3>
           <p className="description">{description}</p>
         </div>
         <img className="card-image" src={urlSrc} alt={nameTour} />

@@ -21,10 +21,10 @@
   padding: 10px 50px;
   margin: 0 px;
   list-style: none;
-  width: 100%;
+  width:100%;
   flex-wrap: nowrap;
-  padding-left: 50px; /* Espacio adicional para ver el primer elemento */
-  padding-right: 50px; /* Espacio adicional para ver el último elemento */
+  padding-left: 50px; 
+  padding-right: 50px; 
   scroll-snap-type: x mandatory;
   min-height: 200px;
 }
@@ -32,7 +32,7 @@
 .categories-list li {
   flex: 0 0 clamp(200px, 26%, 300px);
   color: #ebdfc5; /* Color negro para el texto */
-  padding: 180px 35px;
+  padding: 200px 25px;
   border-radius: 8px;
   font-weight: bolder;
   text-align: center;

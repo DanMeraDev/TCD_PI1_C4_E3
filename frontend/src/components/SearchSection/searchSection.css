@@ -5,29 +5,13 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 15px; /* Espaciado uniforme entre elementos */
-  padding: 15px;
+  padding-top: 150px;
   background-image: url('../../assets/Img/44109efb32961724490d6f03de83b621eb8895fa.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
-
-.titulo {
-  color:  black; /* Color secundario */
-  font-size: 28px; /* Tamaño ajustado */
-  font-weight: bold;
-  margin: 0;
-}
-
-.searcDescription {
-  color: #ebdfc500; /* Color de texto descriptivo */
-  font-size: 16px;
-  margin: 10px;
-  line-height: 1.5; /* Mejor espaciado entre líneas */
-  max-width: 80%; /* Limitar ancho en pantallas grandes */
-}
 
 .searchBar {
   display: flex;
@@ -85,7 +69,7 @@
 }
 
 .clear-button:hover {
-  background-color: #ff1a1a; /* Cambiar el color al pasar el mouse */
+  background-color: #d91818; /* Cambiar el color al pasar el mouse */
 }
 
 

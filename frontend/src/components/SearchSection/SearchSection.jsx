@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import BtnPrimary from '../Buttons/BtnPrimary/BtnPrimary';
 import './searchSection.css';
 import SearchDetailCard from './SearchDetailCard';
+import ProductCard from '../ProductCard/ProductCard';
 
 const SearchSection = () => {
     const apiUrl = "https://ramoja-tours.up.railway.app/api/tours";
@@ -64,12 +65,6 @@ const SearchSection = () => {
     return (
         <div>
             <div className="search-section">
-                <h2 className="titulo">Explora La Mojarra</h2>
-                <p className="searchDescription">
-                    Descubre increíbles tours de escalada. Usa el buscador para encontrar
-                    la aventura que se adapte a tus necesidades.
-                </p>
-
                 <div className="searchBar">
                     <input
                         type="text"
@@ -96,11 +91,13 @@ const SearchSection = () => {
                     {results.length > 0 && (
                         results.map((tour) => (
                             <SearchDetailCard
+                              key={tour.id}
                               id={tour.id} 
                               nameTour={tour.destination}
                               description={tour.description}
                               urlSrc={tour.imageUrlList?.[0]}
                             />
+                            // <ProductCard product={tour} key={tour.id}/>
                           ))
                     )}
                 </div>
