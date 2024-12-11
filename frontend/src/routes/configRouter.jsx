@@ -9,6 +9,7 @@ import AddTour from "../views/AddTour/AddTour";
 import TourInfo from "../components/TourInfo/TourInfo";
 import AddCategory from "../views/AddCategory/AddCategory";
 import Reservation from "../views/Reservation/Reservation";
+import FavoritesPage from "../components/Favorites/FavoritePage";
 
 const configRouter = [
   {
@@ -54,6 +55,10 @@ const configRouter = [
   {
     path: "/reservation/tour/:tourId",
     element: <Reservation/>,
+  },
+  {
+    path: "/favorites",
+    element: <FavoritesPage/>
   },
   { 
     path: "*",
