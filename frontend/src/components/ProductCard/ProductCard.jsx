@@ -5,6 +5,9 @@ import Modal from "react-modal"; // Instala react-modal: npm install react-modal
 import "./ProductCard.css";
 import { destinos, dias, climbingStyles, categoria } from "../../utils/constants";
 import { decodeToken, isTokenExpired } from "../../utils/functions/jwt";
+import axiosInstance from "../../utils/axios/axiosConfig";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 
 // Utility functions to find the corresponding label
 const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
@@ -17,6 +20,42 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState(""); // Default empty message
+  const userId = sessionStorage.getItem("sub");
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [loadingFavorite, setLoadingFavorite] = useState(true);
+  useEffect(() => {
+    if (isLoggedIn) {
+      axiosInstance
+        .get(`/api/favorites/check/${userId}/${product.id}`)
+        .then((response) => {
+          if (typeof response.data === "boolean") {
+            setIsFavorite(response.data);
+          } else {
+            console.error("Respuesta inesperada del servidor:", response.data);
+          }
+        })
+        .catch((error) => console.error("Error al verificar favorito:", error))
+        .finally(() => setLoadingFavorite(false));
+    } else {
+      setLoadingFavorite(false);
+    }
+  }, [isLoggedIn, userId, product.id]);
+
+  const handleFavorite = () => {
+    if (!isLoggedIn) return navigate("/login");
+
+    const toggleFavorite = isFavorite ? axiosInstance.delete : axiosInstance.post;
+    const url = `/api/favorites/${userId}/${product.id}`;
+
+    setIsFavorite(!isFavorite);
+    toggleFavorite(url)
+      .catch((error) => {
+        console.error(`Error al ${isFavorite ? "eliminar" : "agregar"} favorito:`, error);
+        setIsFavorite(isFavorite); 
+        alert(`No se pudo ${isFavorite ? "eliminar de" : "agregar a"} favoritos. Inténtalo más tarde.`);
+      });
+  };
 
   const handleReserve = () => {
     
@@ -70,6 +109,19 @@ const ProductCard = ({ product }) => {
           alt={product.destination}
           className="tour-image"
         />
+        <button
+          className="favorite-button"
+          onClick={handleFavorite}
+          disabled={loadingFavorite}
+        >
+          {loadingFavorite ? (
+            <span className="loading-spinner">...</span>
+          ) : isFavorite ? (
+            <FaHeart className="filled-heart" />
+          ) : (
+            <FaRegHeart className="empty-heart" />
+          )}
+        </button>
         <span className="image-count">{product.imageUrlList.length} Fotos</span>
       </div>
 

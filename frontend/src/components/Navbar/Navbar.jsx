@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOutAlt, faImage, faCogs, faCog, faCamera, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignOutAlt, faHeart, faCog, faCamera, faGear } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -63,6 +63,10 @@ const Navbar = () => {
 
   const handleChangePhotoClick = () => {
     console.log('Funcionalidad para cambiar la foto.');
+  };
+  
+  const handleFavoriteClick = () => {
+    navigate('/favorites');
   };
 
   const handleSettingsClick = () => {
@@ -128,6 +132,9 @@ const Navbar = () => {
                   <div className="dropdown-menu" ref={menuRef}>
                     <button onClick={handleChangePhotoClick} className="menu-item">
                       <FontAwesomeIcon icon={faCamera} /> Cambiar Foto
+                    </button>
+                    <button onClick={handleFavoriteClick} className="menu-item">
+                      <FontAwesomeIcon icon={faHeart} /> Ver Favoritos
                     </button>
                     <hr />
                     <button onClick={handleSettingsClick} className="menu-item">

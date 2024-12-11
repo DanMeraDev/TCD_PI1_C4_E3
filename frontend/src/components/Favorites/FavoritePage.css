@@ -1,0 +1,39 @@
+.favorites-page {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+}
+
+.favorites-page h1 {
+  color: #444444;
+  font-size: 32px;
+}
+
+.favorites-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px; 
+  justify-items: center; 
+}
+
+@media (min-width: 768px) {
+  .favorites-page {
+    padding: 40px;
+  }
+
+  .favorites-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px; 
+  }
+
+}
+
+@media (min-width: 1024px) {
+  .favorites-list {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 40px; 
+  }
+}
