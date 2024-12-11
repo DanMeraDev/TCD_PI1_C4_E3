@@ -13,6 +13,16 @@ const Footer = () => {
       </div>
 
       <div className="redes">
+      <p className='whatsapp'>
+          <a 
+            href="https://www.whatsapp.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="WhatsApp"
+          >
+            <i className="fi fi-brands-whatsapp"></i>
+          </a>
+        </p>
         <p className='instagram'>
           <a 
             href="https://www.instagram.com" 
@@ -31,16 +41,6 @@ const Footer = () => {
             aria-label="Facebook"
           >
             <i className="fi fi-brands-facebook"></i>
-          </a>
-        </p>
-        <p className='whatsapp'>
-          <a 
-            href="https://www.whatsapp.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="WhatsApp"
-          >
-            <i className="fi fi-brands-whatsapp"></i>
           </a>
         </p>
       </div>

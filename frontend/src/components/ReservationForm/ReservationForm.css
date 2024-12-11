@@ -20,7 +20,12 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
+.greeting-data{
+  font-size: 1em;
+  font-weight: 500;
+  color: #653420;
+  margin-bottom: 10px;
+}
 .reservation-detail-image {
   width: 50%;
 }
