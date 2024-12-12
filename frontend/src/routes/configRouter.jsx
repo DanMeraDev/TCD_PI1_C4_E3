@@ -11,7 +11,8 @@ import AddCategory from "../views/AddCategory/AddCategory";
 import Reservation from "../views/Reservation/Reservation";
 import FavoritesPage from "../components/Favorites/FavoritePage";
 import ReservationSection from "../components/ReservationSection/ReservationSection"
-
+import ProfilePage from "../components/Profile/ProfilePage/ProfilePage";
+import { element } from "prop-types";
 const configRouter = [
   {
     path: "/",
@@ -64,6 +65,10 @@ const configRouter = [
   {
     path: "/reservations",
     element: <ReservationSection/>
+  },
+  {
+    path:"/profile",
+    element: <ProfilePage/>
   },
   { 
     path: "*",
