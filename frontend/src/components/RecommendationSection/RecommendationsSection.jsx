@@ -64,7 +64,7 @@ const RecommendationsSection = () => {
             adrenalina.
           </p>
         </div>
-        <BtnPrimary onClick={handleTours} className="btn-primarySection">
+        <BtnPrimary onClick={handleTours} className="btn-ver">
           Ver Tours
         </BtnPrimary>
       </div>
