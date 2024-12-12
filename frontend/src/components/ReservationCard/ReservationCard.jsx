@@ -46,7 +46,7 @@ const ReservationCard = ({ id, date, diet, totalCost, onRepeat, tourId, includeE
       ) : (
         <h3 className="reservation-title">Cargando detalles...</h3>
       )}
-      <p className="reservation-date"><strong>Fecha del tour:</strong> {new Date(date).toLocaleDateString()}</p>
+      <p className="reservation-date"><strong>Fecha del tour:</strong> {date}</p>
       <p className="reservation-diet"><strong>Dieta:</strong> {diet}</p>
       <p className="reservation-cost"><strong>Costo total:</strong> ${totalCost}</p>
       <div className="reservation-icons">
