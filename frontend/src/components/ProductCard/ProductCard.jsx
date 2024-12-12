@@ -143,7 +143,7 @@ const ProductCard = ({ product }) => {
           <p className="description-product">{product.description}</p>
           {product.climbingStyle && (
             <p className="card-data">
-              Estilo de escalada: <strong>{getClimbingStyleLabel(product.climbingStyle)}</strong>
+              <strong>{getClimbingStyleLabel(product.climbingStyle)}</strong>
             </p>
           )}
           <p className="card-data">
