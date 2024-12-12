@@ -32,8 +32,8 @@ function TourInfo() {
       transform: 'translate(-50%, -50%)',
       padding: '20px',
       borderRadius: '10px',
-      maxWidth: '350px',
-      width: '50%',
+      maxWidth: '400px',
+      width: '60%',
     }
   };
 
