@@ -310,10 +310,10 @@
 .favorite-button {
   position: absolute;
   top: 10px;
-  right: 75%;
+  left: 0px; /* Keep it within the card bounds */
   background-color: rgba(0, 0, 0, 0);
-  border-color: rgba(0, 0, 0, 0);
-  border-radius: 5px;
+  border: none;
+  border-radius: 50%;
   font-size: 30px;
   color: #e74c3c;
   cursor: pointer;
@@ -344,7 +344,7 @@
 
   .content-section {
     width: 100%; /* Contenido ocupa el 100% */
-    padding: 10px;
+    padding: 15px;
     height: auto;
   }
 
@@ -368,6 +368,10 @@
     font-size: 14px; /* Texto más compacto */
     margin-top: -80px;
    
+  }
+
+  .btn-load-more{
+    margin: auto;
   }
 }
 

@@ -10,6 +10,7 @@ import TourInfo from "../components/TourInfo/TourInfo";
 import AddCategory from "../views/AddCategory/AddCategory";
 import Reservation from "../views/Reservation/Reservation";
 import FavoritesPage from "../components/Favorites/FavoritePage";
+import ReservationSection from "../components/ReservationSection/ReservationSection"
 
 const configRouter = [
   {
@@ -59,6 +60,10 @@ const configRouter = [
   {
     path: "/favorites",
     element: <FavoritesPage/>
+  },
+  {
+    path: "/reservations",
+    element: <ReservationSection/>
   },
   { 
     path: "*",

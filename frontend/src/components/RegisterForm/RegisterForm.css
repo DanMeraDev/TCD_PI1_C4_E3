@@ -107,3 +107,25 @@
   font-weight: bold;
   margin-bottom: 1rem;
 }
+
+@media (max-width: 480px) {
+
+  .register-form-container, .columna1-registro, .columna2-registro{
+    width: 100%;
+  }
+  .register-form-container{
+    flex-direction: column;
+    align-items:center;
+    margin: 10px;
+  }
+
+  .register-form{
+    width: auto;
+    align-items: center;
+    min-width: 300px;
+  }
+
+  .columna1-registro img{
+    width: 100%;  
+  }
+}

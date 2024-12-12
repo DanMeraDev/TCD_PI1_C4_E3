@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOutAlt, faHeart, faCog, faCamera, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignOutAlt, faHeart, faCog, faCamera, faGear, faHistory } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -69,9 +69,13 @@ const Navbar = () => {
     navigate('/favorites');
   };
 
+  const handleReservationClick = () => {
+    navigate("/reservations")
+  }
+  
   const handleSettingsClick = () => {
     console.log("Settings")
-  }
+  };
 
   const handleLoginClick = () => {
     navigate('/login');
@@ -134,7 +138,10 @@ const Navbar = () => {
                       <FontAwesomeIcon icon={faCamera} /> Cambiar Foto
                     </button>
                     <button onClick={handleFavoriteClick} className="menu-item">
-                      <FontAwesomeIcon icon={faHeart} /> Ver Favoritos
+                      <FontAwesomeIcon icon={faHeart} /> Favoritos
+                    </button>
+                    <button onClick={handleReservationClick} className='menu-item'>
+                      <FontAwesomeIcon icon={faHistory} /> Historial de Reservas
                     </button>
                     <hr />
                     <button onClick={handleSettingsClick} className="menu-item">
