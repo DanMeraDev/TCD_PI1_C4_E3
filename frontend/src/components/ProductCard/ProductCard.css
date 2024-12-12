@@ -7,11 +7,11 @@
   justify-content: space-between;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
-  overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.5s ease-in-out, box-shadow 0.3s ease;
   margin-bottom: 20px;
+  overflow: hidden; 
 }
 
 .card-container-product:hover {
@@ -83,7 +83,7 @@
 
 .description-product {
   font-size: 14px;
-  height: 150px;
+  
   color: #777;
   text-align: left;
   padding-left: 5px;
@@ -179,11 +179,7 @@
   background-color: #eaeaea;
 }
 
-
-
-
-
-/* Modal Overlay */
+* Modal Overlay */
 .ReactModal__Overlay {
   background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
   position: fixed;
@@ -332,13 +328,13 @@
   transform: scale(1.1);
 }
 
-/* Ajuste general para pantallas pequeñas */
 @media (max-width: 768px) {
   .card-container-product {
+    display: flex;
     flex-direction: column; /* Apila las secciones de la tarjeta verticalmente */
-    height: auto; /* Permite que la altura sea dinámica */
-    width: 100%; /* Asegura que no se desborde en pantallas pequeñas */
-    padding: 0 10px;
+    height: 480px !important;
+    width: 80%;
+    
   }
 
   .image-section {
@@ -349,6 +345,7 @@
   .content-section {
     width: 100%; /* Contenido ocupa el 100% */
     padding: 10px;
+    height: auto;
   }
 
   .info-section {
@@ -357,38 +354,43 @@
   }
 
   .description-product {
-    font-size: 14px;
+    font-size: 10px !important;
     margin-bottom: 10px; /* Espaciado entre la descripción y los botones */
   }
 
   .card-buttons {
-    flex-direction: column; /* Apila los botones verticalmente */
+    display: flex !important;
+    flex-direction: column !important; /* Apila los botones verticalmente */
     align-items: center; /* Los botones ocupan el ancho completo */
-    
   }
 
   .btn-primarySection {
     font-size: 14px; /* Texto más compacto */
-    padding: 10px; /* Espaciado adicional para usabilidad */
+    margin-top: -80px;
+   
   }
 }
 
-/* Ajuste para pantallas muy pequeñas */
-@media (max-width: 480px) {
-  .card-container-product {
-    width: 90%; /* Asegura que no se desborde horizontalmente */
-  }
 
-  .tour-image {
-    height: 150px; /* Imagen más pequeña en dispositivos pequeños */
+@media (min-width: 768px) {
+  .card-container-product {
+    width: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .card-container-product {
+    width: 520px;
+    margin-bottom: 50px;
   }
 
   .description-product {
-    font-size: 13px; /* Texto más pequeño */
+    margin: 0;
+    font-size: 14px;
   }
 
-  .btn-primarySection {
-    padding: 8px; /* Reducir el padding para pantallas muy pequeñas */
-    font-size: 12px; /* Texto más pequeño para los botones */
+  .climbing-style {
+    font-size: 14px;
   }
 }
