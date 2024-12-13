@@ -35,7 +35,7 @@ public class MailServiceImpl implements IMailService {
                 user.getName(),
                 user.getName(),
                 user.getEmail(),
-                "VERCEL_FRONT_HOST/auth/login"
+                "https://ramoja-tours.vercel.app/login"
         );
         sendSimpleEmail(user.getEmail(), subject, body);
     }
@@ -45,12 +45,17 @@ public class MailServiceImpl implements IMailService {
 
         String subject = "Confirmación de Reserva en Ramoja Tours";
         String body = String.format(
-                "Hola %s,\n\nTu reserva para el tour %s en %s (nivel %s) en la fecha %s ha sido confirmada.\n\nGracias por escoger La Ramoja Tours!\n\nSaludos y buenos pegues!,\nEquipo La Ramoja",
+                "Hola %s,\n\nTu reserva para el tour %s en %s (nivel %s) en la fecha %s ha sido confirmada.\n\nAlimentación: %s\nDieta: %s\nAlquiler de equipo: %s\nCosto Total: $%.2f\n\nGracias por escoger La Ramoja Tours!\n\nSaludos y buenos pegues!,\nEquipo La Ramoja",
                 reservation.getUser().getName(),
                 reservation.getTour().getCategory().getName(),
                 reservation.getTour().getDestination(),
-                reservation.getTour().getLevel(),
-                reservation.getDate()
+                reservation.getTour().getLevel()==null?"PRINCIPIANTE":reservation.getTour().getLevel(),
+                reservation.getDate(),
+                reservation.getIncludeLunch()?"INCLUIDA":"NO INCLUIDA",
+                reservation.getDiet()==null?"NO INCLUIDA":reservation.getDiet(),
+                reservation.getIncludeEquipment()?"INCLUIDO":"NO INCLUIDO",
+                reservation.getTotalCost()
+
         );
         sendSimpleEmail(reservation.getUser().getEmail(), subject, body);
     }
