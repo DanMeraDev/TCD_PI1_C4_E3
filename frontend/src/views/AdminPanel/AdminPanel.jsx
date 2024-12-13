@@ -4,7 +4,7 @@ import Header from '../../components/AdminPanel/Header/Header'
 import Table from '../../components/AdminPanel/Table/Table'
 import { decodeToken, isTokenExpired, isUserAdmin } from '../../utils/functions/jwt'
 import { useNavigate } from 'react-router-dom'
-
+import "./AdminPanel.css"
 
 
 const AdminPanel = () => {
@@ -12,6 +12,8 @@ const AdminPanel = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [title, setTitle] = useState("Tours");
+  const [isWideScreen, setIsWideScreen] = useState(true);
+
   const navigate = useNavigate();
 
   const BASE_URL = "https://ramoja-tours.up.railway.app"
@@ -189,15 +191,40 @@ const AdminPanel = () => {
     fetchData();
   }, [selectedSection]);
 
-  return (
-    <div className='admin-panel'>
-      <Sidebar onSectionChange={setSelectedSection} />
-      <div className="content">
-        <Header title={title} onSearch={handleSearch} selectedSection={selectedSection}/>
-        <Table data={filteredData} onDelete={handleDelete} onEdit={handleEdit}/>
+  useEffect(() => {
+    // Check screen width on mount and window resize
+    const checkScreenWidth = () => setIsWideScreen(window.innerWidth > 768);
+    checkScreenWidth(); // Initial check
+    window.addEventListener('resize', checkScreenWidth);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenWidth);
+    };
+  }, []);
+
+    // Handle navigation for the back button
+    const handleNavigateBack = () => {
+      navigate(-1);
+    };
+
+  if (!isWideScreen) {
+    return (
+      <div className="mobile-warning">
+        <p>El panel de administración no está disponible para dispositivos móviles, inicia sesión en un computador.</p>
+        <button onClick={handleNavigateBack}>Regresar</button>
       </div>
-    </div>
-  )
+    );
+  } else {
+    return (
+      <div className='admin-panel'>
+        <Sidebar onSectionChange={setSelectedSection} />
+        <div className="content">
+          <Header title={title} onSearch={handleSearch} selectedSection={selectedSection}/>
+          <Table data={filteredData} onDelete={handleDelete} onEdit={handleEdit}/>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default AdminPanel

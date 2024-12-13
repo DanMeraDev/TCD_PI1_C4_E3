@@ -121,9 +121,54 @@
   margin-right: 8px; /* space between icon and text */
 }
 
+@media (max-width: 768px) {
+  .card-container-product {
+    height: auto;
+    width: 100%;
+  }
+
+  .image-section {
+    width: 100%; /* Imagen ocupa el 100% del ancho */
+    height: auto; /* Ajusta la altura de la imagen */
+  }
+
+  .content-section {
+    width: 100%; /* Contenido ocupa el 100% */
+    padding: 15px;
+    height: auto;
+  }
+
+  .info-section {
+    height: auto; /* Permite que el contenido crezca dinámicamente */
+    margin-bottom: 10px; /* Espacio entre el contenido y los botones */
+  }
+
+  .description-product {
+    font-size: 10px !important;
+    margin-bottom: 10px; /* Espaciado entre la descripción y los botones */
+  }
+
+  .card-buttons {
+    display: flex !important;
+    flex-direction: column !important; /* Apila los botones verticalmente */
+    align-items: center; /* Los botones ocupan el ancho completo */
+  }
+
+  .btn-primarySection {
+    font-size: 14px; /* Texto más compacto */
+    margin-top: -80px;
+   
+  }
+
+  .btn-load-more{
+    margin: auto;
+  }
+}
+
+
 @media (min-width: 768px) {
   .card-container-product {
-    width: 60%;
+    width: 90%;
   }
 }
 
@@ -142,7 +187,4 @@
   .climbing-style {
     font-size: 14px;
   }
-
-
-
 }
