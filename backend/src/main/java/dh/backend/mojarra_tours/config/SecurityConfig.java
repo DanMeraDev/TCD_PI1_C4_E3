@@ -28,8 +28,10 @@ public class SecurityConfig {
                 // Rutas públicas
                 .requestMatchers("/auth/**", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
+                // Rutas accesibles para usuarios autenticados (solo lectura)
                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/reservations/**","/api/favorites/**").authenticated()
+                .requestMatchers(HttpMethod.POST,"/api/reservations/**", "/api/favorites/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/api/reservations/**", "/api/favorites/**").authenticated()
 
                 // Rutas restringidas solo para administradores
                 .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
