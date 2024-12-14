@@ -10,6 +10,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState('');
   const [initials, setInitials] = useState('UK');
+  const [userImage, setUserImage] = useState(null); 
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null); 
   const buttonRef = useRef(null); 
@@ -62,7 +63,7 @@ const Navbar = () => {
   };
 
   const handleChangePhotoClick = () => {
-    console.log('Funcionalidad para cambiar la foto.');
+    navigate("/profile");
   };
   
   const handleFavoriteClick = () => {
@@ -85,6 +86,17 @@ const Navbar = () => {
     navigate('/register');
   };
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUserImage(reader.result); // Actualiza la imagen del usuario con la nueva URL
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -103,39 +115,44 @@ const Navbar = () => {
     };
   }, []);
 
+
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <div className="logo-container" onClick={()=>navigate("/")}>
+        <div className="logo-container" onClick={() => navigate("/")}>
           <img src="/assets/Logo_nav.png" alt="nav-logo" className="logo-image" />
         </div>
         <ul className="link-container">
           {isLoggedIn ? (
             <>
-              {isAdmin &&  
-                     <li>
-                     <button className="nav-button" onClick={()=>navigate("/admin")}> 
-                       <FontAwesomeIcon icon={faGear}  /> Dashboard
-                     </button>
-                     </li>  
+              {isAdmin &&
+                <li>
+                  <button className="nav-button" onClick={() => navigate("/admin")}>
+                    <FontAwesomeIcon icon={faGear} /> Dashboard
+                  </button>
+                </li>
               }
               <li>
-                <button className="nav-button"> 
+                <button className="nav-button">
                   <FontAwesomeIcon icon={faUser} /> {userName}
                 </button>
-                </li>
+              </li>
               <li>
                 <button
                   className="user-circle"
-                  ref={buttonRef} // Asocia el botón a la referencia
+                  ref={buttonRef}
                   onClick={toggleMenu}
                 >
-                  {initials}
+                  {userImage ? (
+                    <img src={userImage} alt="user" className="user-image" />
+                  ) : (
+                    initials
+                  )}
                 </button>
                 {showMenu && (
                   <div className="dropdown-menu" ref={menuRef}>
                     <button onClick={handleChangePhotoClick} className="menu-item">
-                      <FontAwesomeIcon icon={faCamera} /> Cambiar Foto
+                      <FontAwesomeIcon icon={faUser} /> Ver Perfil
                     </button>
                     <button onClick={handleFavoriteClick} className="menu-item">
                       <FontAwesomeIcon icon={faHeart} /> Favoritos
@@ -144,11 +161,15 @@ const Navbar = () => {
                       <FontAwesomeIcon icon={faHistory} /> Historial de Reservas
                     </button>
                     <hr />
+                    <label className="menu-item">
+                      <FontAwesomeIcon icon={faCamera} /> Cambiar Foto
+                      <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+                    </label>
                     <button onClick={handleSettingsClick} className="menu-item">
                       <FontAwesomeIcon icon={faCog} /> Ajustes
                     </button>
                     <button onClick={handleLogOutClick} className="menu-item">
-                      <FontAwesomeIcon icon={faSignOutAlt}/> Cerrar Sesión
+                      <FontAwesomeIcon icon={faSignOutAlt} /> Cerrar Sesión
                     </button>
                   </div>
                 )}

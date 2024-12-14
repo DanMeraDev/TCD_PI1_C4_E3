@@ -30,8 +30,10 @@ public class User {
     private Level level;
     @Column(name="is_admin")
     private Boolean isAdmin =false;
+    @Column(name="image_url")
+    private String imageUrl;
 
-    public User(Long id, String name, String email, String phone, Grade grade, Level level, Boolean isAdmin) {
+    public User(Long id, String name, String email, String phone, Grade grade, Level level, Boolean isAdmin, String imageUrl) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -39,6 +41,7 @@ public class User {
         this.grade = grade;
         this.level = level;
         this.isAdmin = isAdmin;
+        this.imageUrl = imageUrl;
     }
 
 

@@ -30,6 +30,7 @@ public class SecurityConfig {
 
                 // Rutas accesibles para usuarios autenticados (solo lectura)
                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .requestMatchers("/api/reservations/**","/api/favorites/**","/api/user/{userId}/profile-image").authenticated()
 
                 // Rutas restringidas solo para administradores
                 .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
