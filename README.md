@@ -68,7 +68,7 @@ El proyecto **La Ramoja** está desarrollado con las siguientes tecnologías:
 
 A continuación, una vista previa de la plataforma **La Ramoja**:
 
-![Vista previa de La Ramoja](assets/LaRamoja.png)
+![Vista previa de La Ramoja](frontend/src/assets/LaRamoja.png)
 
 ---
 ## 👥 Integrantes
