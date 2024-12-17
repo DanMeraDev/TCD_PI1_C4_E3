@@ -10,9 +10,11 @@ import TourInfo from "../components/TourInfo/TourInfo";
 import AddCategory from "../views/AddCategory/AddCategory";
 import Reservation from "../views/Reservation/Reservation";
 import FavoritesPage from "../components/Favorites/FavoritePage";
-import ReservationSection from "../components/ReservationSection/ReservationSection"
+import ReservationSection from "../components/ReservationSection/ReservationSection";
 import ProfileAdd from "../views/Profile/Profile";
-import { element } from "prop-types";
+import ProtectedRoute from "../routes/ProtectedRoute";
+import AdminRoute from "../routes/AdminRoute";
+
 const configRouter = [
   {
     path: "/",
@@ -36,45 +38,72 @@ const configRouter = [
   },
   {
     path: "/register",
-    element: <Register/>,
+    element: <Register />,
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/admin",
-    element: <AdminPanel />,
+    element: (
+      <AdminRoute>
+        <AdminPanel />
+      </AdminRoute>
+    ),
   },
   {
     path: "/admin/addTour",
-    element: <AddTour />,
+    element: (
+      <AdminRoute>
+        <AddTour />
+      </AdminRoute>
+    ),
   },
   {
     path: "/admin/addCategory",
-    element: <AddCategory />,
+    element: (
+      <AdminRoute>
+        <AddCategory />
+      </AdminRoute>
+    ),
   },
   {
     path: "/reservation/tour/:tourId",
-    element: <Reservation/>,
+    element: (
+      <ProtectedRoute>
+        <Reservation />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/favorites",
-    element: <FavoritesPage/>
+    element: (
+      <ProtectedRoute>
+        <FavoritesPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/reservations",
-    element: <ReservationSection/>
+    element: (
+      <ProtectedRoute>
+        <ReservationSection />
+      </ProtectedRoute>
+    ),
   },
   {
-    path:"/profile",
-    element: <ProfileAdd/>
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <ProfileAdd />
+      </ProtectedRoute>
+    ),
   },
-  { 
+  {
     path: "*",
-    element: <NotFound />
+    element: <NotFound />,
   },
-
 ];
 
 export default configRouter;
