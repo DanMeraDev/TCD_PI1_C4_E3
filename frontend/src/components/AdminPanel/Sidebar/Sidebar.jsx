@@ -6,24 +6,27 @@ import "./Sidebar.css";
 import { useNavigate } from 'react-router-dom';
 
 
-const Sidebar = () => {
+// eslint-disable-next-line react/prop-types
+const Sidebar = ({ onSectionChange }) => {
   const navigate = useNavigate(); 
-
+  const {name, email} = JSON.parse(sessionStorage.getItem('user'));
+ 
   const handleLogoutClick = () => {
     
-    //sessionStorage.removeItem("isLoggedIn");
-    //sessionStorage.removeItem("isAdmin");
-
-    
-    navigate('/home');
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("isAdmin");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("sub");
+    sessionStorage.removeItem("token")
+    navigate('/');
   };
 
   return (
     <aside className="sidebar">
       <LogoHeader />
-      <UserProfile name="Andres" email="andres@gmail.com" />
-      <NavLinks />
-      <Footer onLogoutClick={handleLogoutClick} /> 
+      <UserProfile name={name} email={email} />
+      <NavLinks onSectionChange={onSectionChange}/>
+      <Footer onLogoutClick={handleLogoutClick} onGoBackHome={()=> navigate('/')}/> 
     </aside>
   );
 };

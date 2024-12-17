@@ -37,7 +37,7 @@
     margin-right: 10px;
   }
   
-  .user-info {
+  .user-info-container {
     display: flex;
     flex-direction: column;
   }

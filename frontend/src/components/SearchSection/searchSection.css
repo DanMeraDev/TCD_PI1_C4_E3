@@ -1,44 +1,102 @@
 /* Search Section */
 .search-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 35vh;
-    background-image: url('../../assets/Img/44109efb32961724490d6f03de83b621eb8895fa.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    flex-direction: row;
-    gap: 30px
-  }
+  display: flex;
+  flex-direction: column; /* Cambiado a columna para alinear verticalmente */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 150px;
+  background-image: url('../../assets/Img/44109efb32961724490d6f03de83b621eb8895fa.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
   
+}
+
+.search-input {
+  width: 60%; /* Ancho ajustado para que sea más responsivo */
+  height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  border: 1px solid #282828;
+  background-color: #282828;
+  color: #ebdfc5;
+  border-radius: 10px;
+  box-sizing: border-box; /* Para evitar problemas con el padding */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #c36e39;
+  box-shadow: 0 0 5px rgba(195, 110, 57, 0.5);
+}
+
+.result-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Hasta 3 columnas como máximo */
+  max-width: 1200px; /* Asegura que no supere el ancho de 3 columnas */
+  gap: 20px; /* Espacio entre las cards */
+  padding: 20px; /* Espacio interno alrededor del grid */
+  margin: 0 auto; /* Centra el grid horizontalmente */
+  justify-content: center;
+  justify-items: center; /* Centrar las columnas horizontalmente */
+}
+
+.clear-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ff4d4d; /* Rojo llamativo */
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative; /* Para ajustar la posición */
+  margin: 20px auto; /* Centrar horizontalmente */
+  display: block; /* Permite el centrado */
+}
+
+.clear-button:hover {
+  background-color: #d91818; /* Cambiar el color al pasar el mouse */
+}
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .search-section {
+      height: 30vh; /* Reducir altura en pantallas pequeñas */
+      gap: 10px; /* Ajustar espaciado */
+      height: auto;
+      padding: 10px 0px;
+  }
+
   .title {
-    color: #c36e39; /* Color secundario */
-    font-size: 24px;
-    margin: 0;
+      font-size: 24px; /* Reducir tamaño del título */
   }
-  
+
+  .description {
+      font-size: 14px; /* Reducir tamaño del texto descriptivo */
+  }
+
   .search-input {
-    width: 50%;
-    height: 45px;
-    padding: 0 5px;
-    margin: 5px;
-    font-size: 16px;
-    border: 1px solid #282828;
-    background-color: #282828;
-    color: #ebdfc5;
-    border-radius: 10px;
-
+      width: 80%; /* Más ancho en pantallas pequeñas */
+      height: 35px; /* Altura ajustada */
   }
 
-  @media (max-width: 768px) {
-   .search-section {
-    height: 25vh;
-   }
-
-   .search-input {
-    width: 50%;
-    height: 40px;
-   }
+  .searchBar {
+    display: flex;
+    flex-direction: column;
   }
+}

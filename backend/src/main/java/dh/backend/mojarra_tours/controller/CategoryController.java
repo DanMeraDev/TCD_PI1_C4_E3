@@ -11,11 +11,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @AllArgsConstructor
@@ -125,5 +129,28 @@ public class CategoryController {
             return ResponseEntity.ok(categoryDto);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDto> updateCategory(
+            @PathVariable("id") Long id,
+            @RequestParam(value="category") String categoryString,
+            @RequestParam(value="image", required = false) MultipartFile image){
+
+        LOGGER.info("PUT REQUEST CATEGORY WITH ID " + id);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            CategoryDto categoryDto = objectMapper.readValue(categoryString, CategoryDto.class);
+            // If there's an image, set it in the DTO
+            if (image != null && !image.isEmpty()) {
+                categoryDto.setImage(image);
+            }
+            CategoryDto savedCategory = iCategoryService.editCategory(id, categoryDto);
+            LOGGER.info("PUT REQUEST CATEGORY UPDATED");
+            return ResponseEntity.status(HttpStatus.OK).body(savedCategory);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }

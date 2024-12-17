@@ -1,63 +1,400 @@
-.product-card {
-  background-color: #e9aa78;
+.card-container-product {
+  width: 80%;
+  max-width: 600px; /* Limitar el ancho máximo en pantallas grandes */
+  height: 350px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid #e5e5e5;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 14px;
-  text-align: center;
-  height: 340px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s ease-in-out, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+  overflow: hidden; 
+}
+
+.card-container-product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.image-section {
+  position: relative;
+  width: 45%;
+  height: 100%;
+}
+
+.tour-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px 0 0 8px;
+  object-fit: cover;
+}
+
+.image-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.content-section {
+  width: 55%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #c36e29;
+  padding: 10px;
 }
 
-.product-image {
+.info-section {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
+  height: 250px;
 }
 
-.product-title {
+.header-product {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.destination-title {
   font-size: 16px;
-  margin: 12px 0 8px;
-  color: #653420;
+  font-weight: bold;
+  color: #333;
+  padding-left: 10px;
+  text-align:left;
 }
 
-.product-description {
+.level-tag {
+  font-size: 10px;
+  color: #555;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.description-product {
   font-size: 14px;
-  margin: 8px 0;
-  color: #282828;
-  flex-grow: 1;
+  
+  color: #777;
+  text-align: left;
+  padding-left: 5px;
 }
 
-.button-container {
+.card-data {
+  height: 20px;
+  font-size: 14px;
+  color: #777;
+  text-align: left;
+  margin: 0;
+  padding-left: 5px;
+}
+
+.card-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.secondary {
+  width: 100%;
+  max-width: 300px;
+  background-color: #f5f5f5;
+  color: #333;
+  gap: 5px; /* Espaciado entre botones */
+  margin-top: 5px; /* Margen superior reducido */
+  display: flex; /* los íconos y textos se alineen correctamente */
+  align-items: center; /* Centra verticalmente el contenido */
+  overflow: hidden; /* Evita que el texto salga del botón */
+  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+}
+
+.btn-primarySection {
+  display: flex; /* Activa el modelo de caja flexible */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: auto; /* Permite ajustar el ancho dinámicamente */
+  min-width: 80px; /* Tamaño mínimo del botón */
+  padding: 8px 12px; /* Espaciado interno */
+  font-size: 14px; /* Tamaño del texto */
+  border: none;
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer;
+  text-align: center; /* Alineación horizontal (como respaldo) */
+  box-sizing: border-box; /* Incluye padding y bordes */
+  transition: background-color 0.3s ease; /* Transición suave para hover */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+.secondary:hover {
+  background-color: #eaeaea;
+}
+
+.category-icon {
+  width: 25px; /* Ajusta el tamaño */
+  height: 25px; /* Ajusta el tamaño */
+  margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+
+/* Estilo del botón "Reservar" */
+.card-buttons .btn-primarySection.primary {
+  background-color: #C36E29;
+  color: white;
+  padding: 8px 12px; /* Espaciado interno adicional */
+}
+
+.card-buttons .btn-primarySection.primary:hover {
+  background-color: #eea161;
+}
+
+/* Estilo del botón "Saber más" */
+.card-buttons .btn-primarySection.secondary {
+  background-color: #f5f5f5;
+  color: #333;
+
+}
+
+.card-buttons .btn-primarySection.secondary:hover {
+  background-color: #eaeaea;
+}
+
+/* Estilo del botón "Compartir" */
+.card-buttons .btn-primarySection.secondary:last-child {
+  background-color: #fcd792;
+  color: #333;
+  width: auto; /* Ajusta el ancho dinámicamente */
+
+}
+
+.card-buttons .btn-primarySection.secondary:last-child:hover {
+  background-color: #eaeaea;
+}
+
+* Modal Overlay */
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+  position: fixed;
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  align-items: center; /* Centrado vertical */
+  z-index: 1000;
+  overflow: hidden; /* Evita el desplazamiento si es necesario */
+}
+
+.Modal__Overlay {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
 }
 
-.button {
-  width: 100px;
+.Modal__Content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%; /* Puedes ajustar el tamaño máximo */
+  max-height: 90%; /* Puedes ajustar la altura máxima */
+  overflow-y: auto; /* Asegura que el contenido se puede desplazar si es muy largo */
+}
+
+
+/* Modal Content */
+.ReactModal__Content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  position: relative; /* Asegura que se ubique correctamente en el overlay */
+  transform: translate(0, 0); 
+  animation: fadeIn 0.3s ease-in-out; 
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ReactModal__Content h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+.ReactModal__Content textarea {
+  width: 100%;
   padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
   font-size: 14px;
+  resize: vertical;
+  min-height: 60px;
+}
+
+.social-options {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.social-link {
+  text-decoration: none;
+  background-color: #fcd792;
+  color: rgb(46, 46, 46);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.social-link:hover {
+  background-color: #3f3d3b;
+  color: #ddd;
+}
+
+.btn-close {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 15px;
 }
 
-.more-info {
-  background-color: #c36e29; /* Color del botón "Saber más" */
-  color: white;
+.btn-close:hover {
+  background-color: #eaeaea;
 }
 
-.reserve {
-  background-color: #653420; /* Color del botón "Reservar" */
-  color: white;
+.modal-image {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
-.button:hover {
-  opacity: 0.9; /* Efecto al pasar el mouse */
+.modal-product-image {
+  max-width: 50%; /* Limita el tamaño de la imagen */
+  max-height: 50%; /* Ajusta la altura máxima */
+  object-fit: cover; /* Mantiene la proporción y cubre el contenedor */
+  border-radius: 8px;
+}
+
+.favorite-button {
+  position: absolute;
+  top: 10px;
+  left: 0px; /* Keep it within the card bounds */
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #e74c3c;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.favorite-button svg {
+  transition: transform 0.3s ease;
+}
+
+.favorite-button:hover svg {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .card-container-product {
+    display: flex;
+    flex-direction: column; /* Apila las secciones de la tarjeta verticalmente */
+    height: 480px !important;
+    width: 80%;
+    
+  }
+
+  .image-section {
+    width: 100%; /* Imagen ocupa el 100% del ancho */
+    height: 200px; /* Ajusta la altura de la imagen */
+  }
+
+  .content-section {
+    width: 100%; /* Contenido ocupa el 100% */
+    padding: 15px;
+    height: auto;
+  }
+
+  .info-section {
+    height: auto; /* Permite que el contenido crezca dinámicamente */
+    margin-bottom: 10px; /* Espacio entre el contenido y los botones */
+  }
+
+  .description-product {
+    font-size: 10px !important;
+    margin-bottom: 10px; /* Espaciado entre la descripción y los botones */
+  }
+
+  .card-buttons {
+    display: flex !important;
+    flex-direction: column !important; /* Apila los botones verticalmente */
+    align-items: center; /* Los botones ocupan el ancho completo */
+  }
+
+  .btn-primarySection {
+    font-size: 14px; /* Texto más compacto */
+    margin-top: -80px;
+   
+  }
+
+  .btn-load-more{
+    margin: auto;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .card-container-product {
+    width: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .card-container-product {
+    width: 520px;
+    margin-bottom: 50px;
+  }
+
+  .description-product {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .climbing-style {
+    font-size: 14px;
+  }
 }
