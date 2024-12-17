@@ -60,6 +60,7 @@
     width: 35px;
     height: 35px;
     border-radius: 50%;
+    overflow: hidden;
     background-color: #c36e39;
     color: white;
     font-size: 18px;
@@ -75,6 +76,11 @@
   
   .user-circle:hover {
     transform: scale(1.1);
+  }
+  .user-image {
+    width: 150%; /* La imagen ocupa todo el contenedor */
+    height: 120%; /* Ajusta la altura automáticamente */
+    object-fit: cover; 
   }
 
 /* Media queries para hacerlo responsive */
