@@ -10,6 +10,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState('');
   const [initials, setInitials] = useState('UK');
+  const [userImage, setUserImage] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null); 
   const buttonRef = useRef(null); 
@@ -38,6 +39,7 @@ const Navbar = () => {
           const data = await response.json();
           setUserName(data.name);
           setInitials(getInitials(data.name));
+          setUserImage(data.imageUrl);
           sessionStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email, YDS: data.grade }));
         } catch (error) {
           console.error('Error fetching user details:', error);
@@ -62,7 +64,7 @@ const Navbar = () => {
   };
 
   const handleChangePhotoClick = () => {
-    console.log('Funcionalidad para cambiar la foto.');
+    navigate("/profile");
   };
   
   const handleFavoriteClick = () => {
@@ -130,12 +132,16 @@ const Navbar = () => {
                   ref={buttonRef} // Asocia el botón a la referencia
                   onClick={toggleMenu}
                 >
-                  {initials}
+                  {userImage ? (
+                    <img src={userImage} alt="user-profile" className="user-image" />
+                  ) : (
+                    <span>{initials}</span>
+                  )}
                 </button>
                 {showMenu && (
                   <div className="dropdown-menu" ref={menuRef}>
                     <button onClick={handleChangePhotoClick} className="menu-item">
-                      <FontAwesomeIcon icon={faCamera} /> Cambiar Foto
+                      <FontAwesomeIcon icon={faUser} /> Ver Perfil
                     </button>
                     <button onClick={handleFavoriteClick} className="menu-item">
                       <FontAwesomeIcon icon={faHeart} /> Favoritos

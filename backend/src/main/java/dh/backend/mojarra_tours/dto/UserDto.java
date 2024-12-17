@@ -17,5 +17,6 @@ public class UserDto {
     private Grade grade;
     private Level level;
     private Boolean isAdmin;
+    private String imageUrl;
 }
 

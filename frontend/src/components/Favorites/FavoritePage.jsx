@@ -20,7 +20,7 @@ const FavoritesPage = () => {
                     );
 
                     Promise.all(fetchTours)
-                        .then(toursResponse => {
+                        .then(toursResponse => { 
                             const tourData = toursResponse.map(res => res.data);
                             setFavorites(tourData);
                         })
@@ -39,7 +39,7 @@ const FavoritesPage = () => {
     return (
         <>
             <Navbar />
-            <div className="favorites-page">
+            <div className="favorites-section">
                 <h1>FAVORITOS</h1>
                 <div className="favorites-list">
                     {favorites.length > 0 ? (

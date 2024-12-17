@@ -6,23 +6,30 @@ import dh.backend.mojarra_tours.exception.ResourceNotFoundException;
 import dh.backend.mojarra_tours.mapper.UserMapper;
 import dh.backend.mojarra_tours.repository.UserRepository;
 import dh.backend.mojarra_tours.service.IUserService;
+import dh.backend.mojarra_tours.service.ImageStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static dh.backend.mojarra_tours.mapper.UserMapper.mapToDto;
 
 @Service
 public class UserServiceImpl implements IUserService {
     private static Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
     @Autowired
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final ImageStorageService imageStorageService;
+
+    public UserServiceImpl(UserRepository userRepository, ImageStorageService imageStorageService) {
+        this.userRepository = userRepository;
+        this.imageStorageService = imageStorageService;
+    }
 
     @Override
     public UserDto createUser(User user) {
@@ -60,4 +67,23 @@ public class UserServiceImpl implements IUserService {
             userRepository.deleteById(id);
         }
     }
+    @Override
+    public UserDto updateProfileImage(Long userId, MultipartFile imageFile) throws IOException {
+        // Buscar el usuario por ID
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException("User not found!"));
+
+        // Subir la imagen y obtener la URL
+        String imageUrl = imageStorageService.saveImage(imageFile, "user_images", userId.toString());
+
+        // Actualizar la URL de la imagen de perfil en el usuario
+        user.setImageUrl(imageUrl);
+
+        // Guardar el usuario actualizado en la base de datos
+        User updatedUser = userRepository.save(user);
+
+        // Retornar el DTO del usuario actualizado
+        return UserMapper.mapToDto(updatedUser);
+    }
+
 }

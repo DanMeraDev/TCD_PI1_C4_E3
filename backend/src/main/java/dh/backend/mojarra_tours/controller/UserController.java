@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
+
     private static Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping
@@ -182,4 +185,11 @@ public class UserController {
         }
         return ResponseEntity.badRequest().body("User not found");
     }
+    // Endpoint para actualizar la imagen de perfil de un usuario
+    @PutMapping("/{userId}/profile-image")
+    public UserDto updateProfileImage(@PathVariable Long userId, @RequestParam("image") MultipartFile imageFile) throws IOException {
+        return userService.updateProfileImage(userId, imageFile);
+    }
+
+
 }

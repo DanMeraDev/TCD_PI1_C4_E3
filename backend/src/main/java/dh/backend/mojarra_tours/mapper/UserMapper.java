@@ -15,7 +15,8 @@ public class UserMapper {
                 user.getPhone(),
                 user.getGrade(),
                 user.getLevel(),
-                user.getIsAdmin()
+                user.getIsAdmin(),
+                user.getImageUrl()
         );
     }
 
@@ -27,7 +28,8 @@ public class UserMapper {
                 userDto.getPhone(),
                 userDto.getGrade(),
                 null,
-                userDto.getIsAdmin()
+                userDto.getIsAdmin(),
+                userDto.getImageUrl()
         );
 
         user.setLevel(user.getGrade().getLevel());
