@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 import { getAllTours } from "../../utils/axios/getAllTours";
 import getRandomElements from "../../utils/functions/getRandomElements";
 import { decodeToken, isTokenExpired } from "../../utils/functions/jwt";
+import { categoria, destinos } from "../../utils/constants";
+
+
+  // Utility functions to find the corresponding label
+  const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
+  const getCategoryLabel = (value) => categoria.find((c) => c.value === value)?.label || value;
 
 const RecommendationsSection = () => {
   const [tours, setTours] = useState([]);
@@ -87,7 +93,7 @@ const RecommendationsSection = () => {
             <RecommendationDetailCard
               key={tour.id}
               tourId={tour.id}
-              nameTour={tour.destination}
+              nameTour={getDestinationLabel(tour.destination)}
               description={tour.description}
               urlSrc={tour.imageUrlList?.[0]}
               onReservation={handleReservation}

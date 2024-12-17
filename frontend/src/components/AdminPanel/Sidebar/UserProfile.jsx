@@ -7,7 +7,7 @@ const UserProfile = ({ name, email }) => {
         alt="User Avatar"
         className="user-avatar"
       />
-      <div className="user-info">
+      <div className="user-info-container">
         <p className="user-name">{name}</p>
         <p className="user-email">{email}</p>
       </div>

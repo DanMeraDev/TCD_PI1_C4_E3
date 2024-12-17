@@ -44,4 +44,6 @@ export const niveles = [
     { value: 2, label: "Senderismo", imageSrc: "/assets/icono-Senderismo.svg" },
     { value: 3, label: "Slack Line", imageSrc: "/assets/icono-slack.svg" },
     { value: 4, label: "Turismo", imageSrc: "/assets/icono-turismo.svg" },
+    { value: 5, label: "Gastronomía", imageSrc: "/assets/icono-turismo.svg" },
+    { value: 6, label: "Gastronomía", imageSrc: "/assets/icono-turismo.svg" }
   ];

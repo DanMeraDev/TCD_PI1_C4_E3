@@ -56,6 +56,7 @@ const Navbar = () => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('sub');
     sessionStorage.removeItem("token")
+    navigate("/");
     location.reload();
   };
 
@@ -122,7 +123,7 @@ const Navbar = () => {
                      </li>  
               }
               <li>
-                <button className="nav-button"> 
+                <button className="nav-button" onClick={()=>navigate("/profile")}> 
                   <FontAwesomeIcon icon={faUser} /> {userName}
                 </button>
                 </li>

@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import './ReservationCard.css';
+import { destinos, categoria } from '../../utils/constants';
 
 const ReservationCard = ({ id, date, diet, totalCost, onRepeat, tourId, includeEquipment, includeLunch }) => {
   const [tourDetails, setTourDetails] = useState(null);
+
+  // Utility functions to find the corresponding label
+  const getDestinationLabel = (value) => destinos.find((d) => d.value === value)?.label || value;
+  const getCategoryLabel = (value) => categoria.find((c) => c.value === value)?.label || value;
 
   useEffect(() => {
     const fetchTourDetails = async () => {
@@ -40,7 +45,7 @@ const ReservationCard = ({ id, date, diet, totalCost, onRepeat, tourId, includeE
             src={tourDetails.imageUrlList[0]}
             alt={`Imagen del tour ${tourDetails.destination}`}
           />
-          <h3 className="reservation-title">{tourDetails.destination}</h3>
+          <h3 className="reservation-title">{getCategoryLabel(tourDetails.categoryId)} en {getDestinationLabel(tourDetails.destination)}</h3>
           <p className="reservation-description">{tourDetails.description}</p>
         </>
       ) : (
@@ -53,7 +58,7 @@ const ReservationCard = ({ id, date, diet, totalCost, onRepeat, tourId, includeE
         {includeEquipment && <span className="icon">🎒 Equipo incluido</span>}
         {includeLunch && <span className="icon">🍽️ Almuerzo incluido</span>}
       </div>
-      <button className="reservation-button" onClick={() => onRepeat(id)}>
+      <button className="reservation-button" onClick={() => onRepeat(tourId)}>
         Reservar de nuevo
       </button>
     </div>

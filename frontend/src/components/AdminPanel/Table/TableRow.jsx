@@ -15,11 +15,11 @@ const TableRow = ({ item, headers, onDelete, onEdit }) => {
                     );
                 }
 
-                if (header === "includeLunch" || header === "includeEquipment" ) {
+                if (header === "includeLunch" || header === "includeEquipment") {
                     // Special styling for "ADMIN"
                     return (
                         <td key={index}>
-                            <span className="option-label">{fieldContent?"✔":"-"}</span>
+                            <span className="option-label">{fieldContent ? "✔" : "-"}</span>
                         </td>
                     );
                 }
@@ -43,7 +43,26 @@ const TableRow = ({ item, headers, onDelete, onEdit }) => {
                     );
                 }
 
-                return <td key={index}>{fieldContent || '-'}</td>;
+                if (header === "imgUrl" || header === "imageUrl") {
+                    return (
+                        <td key={index}>
+                        {fieldContent ? (
+                            <a
+                                href={fieldContent}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="image-link"
+                            >
+                                img
+                            </a>
+                        ) : (
+                            '-'
+                        )}
+                    </td>
+                    )
+            }
+
+            return <td key={index}>{fieldContent || '-'}</td>;
             })}
             {/* <td>
                 <span className={`status ${item.status?.toLowerCase() || "activo"}`}>
