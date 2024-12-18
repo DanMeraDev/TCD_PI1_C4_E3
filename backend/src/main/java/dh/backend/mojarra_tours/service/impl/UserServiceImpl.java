@@ -1,6 +1,7 @@
 package dh.backend.mojarra_tours.service.impl;
 
 import dh.backend.mojarra_tours.dto.UserDto;
+import dh.backend.mojarra_tours.entity.Tour;
 import dh.backend.mojarra_tours.entity.User;
 import dh.backend.mojarra_tours.exception.ResourceNotFoundException;
 import dh.backend.mojarra_tours.mapper.UserMapper;
@@ -54,10 +55,28 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void updateUser(UserDto userDto) {
-        Optional<User> optionalUser = userRepository.findById(userDto.getId());
-        if (optionalUser.isPresent()) {
-            userRepository.save(UserMapper.mapToUser(userDto));
+        User currentUser = userRepository.findById(userDto.getId())
+                .orElseThrow(()->
+                        new ResourceNotFoundException("No user found with the given id: "+ userDto.getId()));
+        if(userDto.getName()!=null){
+            currentUser.setName(userDto.getName());
+
         }
+        if(userDto.getEmail()!=null){
+            currentUser.setEmail(userDto.getEmail());
+        }
+        if(userDto.getGrade()!=null){
+            currentUser.setGrade(userDto.getGrade());
+            currentUser.setLevel(currentUser.getGrade().getLevel());
+        }
+        if(userDto.getIsAdmin()!=null){
+            currentUser.setIsAdmin(userDto.getIsAdmin());
+        }
+        if(userDto.getPhone()!=null){
+            currentUser.setPhone(userDto.getPhone());
+        }
+        User updatedUser = userRepository.save(currentUser);
+        LOGGER.info("USER UPDATED" + updatedUser);
     }
 
     @Override

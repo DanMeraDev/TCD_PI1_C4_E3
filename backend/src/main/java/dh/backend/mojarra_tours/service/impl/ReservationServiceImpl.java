@@ -65,7 +65,6 @@ public class ReservationServiceImpl implements IReservationService {
         List<Reservation> reservations = reservationRepository.findByTourId(tourId);
         if (reservations.isEmpty()) {
             LOGGER.warn("No reservations found for Tour with id " + tourId);
-            throw new ResourceNotFoundException("No reservations found for Tour with id: " + tourId);
         }
         List<ReservationDto> reservationDtoResponse = new ArrayList<>();
         for (Reservation reservation: reservations) {
