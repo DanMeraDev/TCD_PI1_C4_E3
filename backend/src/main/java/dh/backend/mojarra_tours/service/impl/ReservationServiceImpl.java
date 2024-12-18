@@ -79,7 +79,6 @@ public class ReservationServiceImpl implements IReservationService {
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
         if (reservations.isEmpty()) {
             LOGGER.warn("No reservations found from User with id " + userId);
-            throw new ResourceNotFoundException("No reservations found from User with id: " + userId);
         }
         List<ReservationDto> reservationDtoResponse = new ArrayList<>();
         for (Reservation reservation: reservations) {
